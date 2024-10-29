@@ -713,15 +713,14 @@ On the other hand, if the aim of the study is to look at spatial structures at v
 The calculation time for $M$ is around 6 seconds for a set of 100,000 points on a laptop (Intel i7-1360P 2.20 GHz processor), and requires 25 MB of RAM.
 Calculating a confidence interval from 1,000 simulations therefore takes less than two hours.
 
-For a set of five million points, the expected calculation time is \$6 times 50\^{1.8} = \$6860 seconds, nearly two hours.
+For a set of five million points, the expected calculation time is $6 \times 50^{1.8} = 6860$ seconds, nearly two hours.
 1000 simulations would then take around three months.
 The calculation of distances is parallelized: a calculation server would drastically increase performance, but at the cost of a complexity of implementation that limits its use.
 
-If we limit ourselves to the computing power of a personal computer, exact calculation is fully justified for data of the order of \$10\^5 points: a few hours are enough to calculate confidence intervals.
+If we limit ourselves to the computing power of a personal computer, exact calculation is fully justified for data of the order of $10^5$ points: a few hours are enough to calculate confidence intervals.
 
 Beyond that, approximating the location reduces the size of the set of points to the number of locations selected.
 The price to pay is the absence of information at the scale of elementary geographical units (the grid cells in this case).
 Depending on the issues addressed, this limitation may or may not be acceptable: the overall description of the spatial structure is not significantly degraded, but the study of externalities, which is particularly interesting at short distances, is very limited.
 
 `r if (!knitr::is_latex_output()) '# References {-}'`
-
