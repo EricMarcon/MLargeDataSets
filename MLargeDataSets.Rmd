@@ -46,6 +46,7 @@ csquotes: true
 output:
   bookdown::word_document2:
      reference_docx: "images/template.docx"
+     number_sections: false
   bookdown::pdf_book:
     template: latex/stylish_article.tex
     citation_package: natbib
