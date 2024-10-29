@@ -22,26 +22,30 @@ abstract: >
   Then, as suggested by @Tidu2023, we also consider the possibility of approximating the geographical positions of the entities analysed.
   The extent of the deterioration in the estimate of *M* that this approach creates can thus be estimated, as can the gains in computation time made possible by the spatial approximation of locations. 
   The complete R code is given for the reproducibility of the results.
+# First Page Header
+journalinfo: "Preprint"
+# Date format: '%Y %B %d' for distill
 date: "`r format(Sys.time(), '%Y %B %d')`"
 archive: "`r format(Sys.time(), '%d %B %Y')`"
+keywordlabel: Keywords
+corrauthorlabel: Corresponding author
 url: https://EricMarcon.github.io/MLargeDataSets/
 github-repo: EricMarcon/MLargeDataSets
+# Language
 lang: en-US
+# Bibliography
 bibliography: references.bib
 biblio-style: chicago
-pdftoc: false
+# LaTeX
 toc-depth: 3
+fontsize: 10pt
 urlcolor: blue
+# Do not modify
 always_allow_html: yes
-preamble: >
-  \usepackage[letterpaper]{geometry}
-  \usepackage{setspace}
-  \doublespacing
-  \usepackage{lineno}
-  \linenumbers
+csquotes: true
 output:
   bookdown::pdf_book:
-    template: latex/template.tex
+    template: latex/stylish_article.tex
     citation_package: natbib
     latex_engine: xelatex
     keep_tex: no
