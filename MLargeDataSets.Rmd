@@ -44,6 +44,8 @@ urlcolor: blue
 always_allow_html: yes
 csquotes: true
 output:
+  bookdown::word_document2:
+     reference_docx: "images/template.docx"
   bookdown::pdf_book:
     template: latex/stylish_article.tex
     citation_package: natbib
