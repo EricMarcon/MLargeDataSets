@@ -726,3 +726,6 @@ If we limit ourselves to the computing power of a personal computer, exact calcu
 Beyond that, approximating the location reduces the size of the set of points to the number of locations selected.
 The price to pay is the absence of information at the scale of elementary geographical units (the grid cells in this case).
 Depending on the issues addressed, this limitation may or may not be acceptable: the overall description of the spatial structure is not significantly degraded, but the study of externalities, which is particularly interesting at short distances, is very limited.
+
+`r if (!knitr::is_latex_output()) '# References {-}'`
+
