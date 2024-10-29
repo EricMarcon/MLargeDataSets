@@ -460,7 +460,7 @@ summary(M_time_lm)
 ```
 
 It increases less quickly than the square of the number of points.
-It can be estimated very precisely ($R^2=$ `r format(summary(M_time_lm)$r.squared, digits=2)`) by the relation $t = t_0 (n / n_o)^p$ where $t$ is the estimated time for $n$ points knowing the time $t_0$ (e.g.:`r format(as.numeric(M_time[5, 2]), digits=3)`seconds) for $n_0$ points (e.g.:`r as.integer(M_time[5, 1])`) and $p$ the power relation (`r format(M_time_lm$coefficients[2], digits=3)`).
+It can be estimated very precisely ($R^2=$ `r format(summary(M_time_lm)$r.squared, digits=2)`) by the relation $t = t_0 (n / n_o)^p$ where $t$ is the estimated time for $n$ points knowing the time $t_0$ (e.g.: `r format(as.numeric(M_time[5, 2]), digits=3)`seconds) for $n_0$ points (e.g.: `r as.integer(M_time[5, 1])`) and $p$ the power relation (`r format(M_time_lm$coefficients[2], digits=3)`).
 
 Using a distance matrix may seem an efficient way of saving computation time, but in reality calculating distances is extremely fast and the whole process from a matrix is ultimately more time-consuming (array \@ref(tab:MmbTab)).
 
