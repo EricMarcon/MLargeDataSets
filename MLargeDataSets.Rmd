@@ -91,7 +91,7 @@ InstallPackages(Packages)
 knitr::opts_chunk$set(
   cache =   TRUE,     # Cache chunk results
   include = FALSE,    # Show/Hide chunks
-  echo =    TRUE,     # Show/Hide code
+  echo =    FALSE,    # Show/Hide code
   warning = FALSE,    # Show/Hide warnings
   message = FALSE,    # Show/Hide messages
   # Figure alignment and size
@@ -217,7 +217,6 @@ par_scale <-  0.1
 ```{r}
 #| label: XMaternFig
 #| include: true
-#| echo: false
 #| fig.cap: "(ref:XMatern)"
 X_matern <- function(
     points_nb,
@@ -325,7 +324,6 @@ Each cell now contains only one point of each type, whose weight is the sum of t
 ```{r}
 #| label: GroupedFig
 #| include: true
-#| echo: false
 #| fig.cap: "(ref:Grouped)"
 X |> group_points_to_plot() |> autoplot(alpha = 0.5)
 ```
@@ -368,7 +366,6 @@ The result is shown in figure \@ref(fig:MFig).
 ```{r}
 #| label: MFig
 #| include: true
-#| echo: false
 #| fig.cap: "(ref:M)"
 X %>% 
   MEnvelope(r = r, ReferenceType = "Case", Global = TRUE) %>% 
@@ -417,7 +414,6 @@ X_sizes <- c(1000, 5000, 10000, 50000, 100000)
 ```{r}
 #| label: TestTimeFig
 #| include: true
-#| echo: false
 #| fig.cap: "(ref:TestTime)"
 library("microbenchmark")
 test_time <- function(points_nb) {
@@ -469,7 +465,6 @@ Using a distance matrix may seem an efficient way of saving computation time, bu
 
 ```{r}
 #| label: MmbCode
-#| eval: true
 library("microbenchmark")
 mb <- microbenchmark(
   Mhat(X, r = r, ReferenceType = "Case", NeighborType = "Control"),
@@ -482,7 +477,7 @@ mb <- microbenchmark(
 
 ```{r}
 #| label: MmbTab
-#| echo: false
+#| include: true
 mb |> summary() |> as.data.frame() |>
   select(expr, median) |> 
   mutate(
@@ -507,7 +502,6 @@ The memory used is evaluated for the same data sizes (figure \@ref(fig:TestMemFi
 ```{r}
 #| label: TestMemFig
 #| include: true
-#| echo: false
 #| fig.cap: "(ref:TestMem)"
 # RAM
 library("profmem")
@@ -549,8 +543,6 @@ Secondly, the case of an unstructured set of points is considered.
 
 ```{r}
 #| label: XMaternList
-#| include: true
-#| echo: false
 # Simulate X
 X_matern_list <- replicate(
   simulations_n, 
@@ -570,7 +562,6 @@ To evaluate the effect of the position approximation, the exact calculation and 
 
 ```{r}
 #| label: MMaternTimeCode
-#| eval: true
 library("pbapply")
 # Compute M
 M_matern_original <- pbsapply(X_matern_list, FUN = X_to_M)
@@ -584,7 +575,6 @@ The mean values of the estimates of *M* are presented in figure \@ref(fig:Mappro
 ```{r}
 #| label: MapproxMaternFig
 #| include: true
-#| echo: false
 #| fig.cap: "(ref:MapproxMatern)"
 tibble(
   r,
@@ -611,7 +601,6 @@ The correlation between the $M$ values estimated by each method is calculated at
 ```{r}
 #| label: CorMaternFig
 #| include: true
-#| echo: false
 #| fig.cap: "(ref:CorMatern)"
 # Correlation
 M_cor <- function(r_value, M_original, M_grouped) {
@@ -665,7 +654,6 @@ The exact calculation and the calculation on the grid points are carried out on 
 
 ```{r}
 #| label: MCSRTimeCode
-#| eval: true
 # Compute M
 system.time(M_csr_original <- pbsapply(X_csr_list, FUN = X_to_M))
 system.time(M_csr_grouped <- sapply(X_csr_grouped_list, FUN = X_to_M))
@@ -678,7 +666,6 @@ The average values are shown in figure \@ref(fig:MapproxCSRFig).
 ```{r}
 #| label: MapproxCSRFig
 #| include: true
-#| echo: false
 #| fig.cap: "(ref:MapproxCSR)"
 tibble(
   r,
@@ -700,7 +687,6 @@ tibble(
 ```{r}
 #| label: CorCSRFig
 #| include: true
-#| echo: false
 #| fig.cap: "(ref:CorCSR)"
 # Correlation
 sapply(
@@ -718,7 +704,7 @@ sapply(
 ```
 
 The mean value of $M$ is equal to 1 at all distances by construction: Cases and Controls are distributed completely randomly.
-The approximations are relatively small in value (a few percent) but as the real value of $M$ varies little around 1, the correlations are much weaker (figure @ref(fig:CorCSRFig)) in the absence of spatial structure.
+The approximations are relatively small in value (a few percent) but as the real value of $M$ varies little around 1, the correlations are much weaker (figure \@ref(fig:CorCSRFig)) in the absence of spatial structure.
 
 # Conclusion
 
