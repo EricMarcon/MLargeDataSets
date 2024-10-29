@@ -22,7 +22,6 @@ abstract: >
   Then, as suggested by @Tidu2023, we also consider the possibility of approximating the geographical positions of the entities analysed.
   The extent of the deterioration in the estimate of *M* that this approach creates can thus be estimated, as can the gains in computation time made possible by the spatial approximation of locations. 
   The complete R code is given for the reproducibility of the results.
-# First Page Header
 journalinfo: "Preprint"
 # Date format: '%Y %B %d' for distill
 date: "`r format(Sys.time(), '%Y %B %d')`"
@@ -31,31 +30,27 @@ keywordlabel: Keywords
 corrauthorlabel: Corresponding author
 url: https://EricMarcon.github.io/MLargeDataSets/
 github-repo: EricMarcon/MLargeDataSets
-# Language
 lang: en-US
-# Bibliography
 bibliography: references.bib
 biblio-style: chicago
-# LaTeX
 toc-depth: 3
 fontsize: 10pt
 urlcolor: blue
-# Do not modify
 always_allow_html: yes
 csquotes: true
 output:
-  bookdown::word_document2:
-     reference_docx: "images/template.docx"
-     number_sections: false
+  rmdformats::downcute:
+    use_bookdown: yes
+    lightbox: yes
+    toc_depth: 3
   bookdown::pdf_book:
     template: latex/stylish_article.tex
     citation_package: natbib
     latex_engine: xelatex
     keep_tex: no
-  rmdformats::downcute:
-    use_bookdown: yes
-    lightbox: yes
-    toc_depth: 3
+  bookdown::word_document2:
+     reference_docx: "images/template.docx"
+     number_sections: false
 ---
 
 ```{r DoNotModify, include=FALSE}
@@ -487,7 +482,7 @@ mb |> summary() |> as.data.frame() |>
     .before = expr,
     .keep = "none" 
   ) |>
-  knitr::kable(
+  kableExtra::kbl(
     caption = "(ref:Mmb)",
     longtable = FALSE, 
     booktabs = TRUE
