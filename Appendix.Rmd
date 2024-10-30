@@ -1,5 +1,8 @@
 ---
-title: "On the Computation of Large Spatial Datasets With the M function - Appendix"
+title: |
+   | **Appendix**
+   |
+   | On the Computation of Large Spatial Datasets With the&nbsp;M&nbsp;function
 author:
   - name: "Eric Marcon"
     authsuperscript: "1*"
@@ -37,15 +40,15 @@ always_allow_html: yes
 preamble: >
   \usepackage[letterpaper]{geometry}
 output:
+  rmdformats::downcute:
+    use_bookdown: yes
+    lightbox: yes
+    toc_depth: 3
   bookdown::pdf_book:
     template: latex/template.tex
     citation_package: natbib
     latex_engine: xelatex
     keep_tex: no
-  rmdformats::downcute:
-    use_bookdown: yes
-    lightbox: yes
-    toc_depth: 3
 ---
 
 ```{r DoNotModify, include=FALSE}
@@ -106,7 +109,6 @@ knitr::opts_chunk$set(dev.args=list(bg="transparent"))
 set.seed(973)
 ```
 
-
 The code used in the article "On the Computation of Large Spatial Datasets With *M*" is detailed here.
 
 # Data simulation
@@ -122,9 +124,9 @@ set.seed(973)
 
 A set of points is drawn at random with the following parameters:
 
-- the number of points,
-- the proportion of controls,
-- the shape and scale of the gamma distribution.
+-   the number of points,
+-   the proportion of controls,
+-   the shape and scale of the gamma distribution.
 
 ```{r}
 #| label: ParamsCSRCode
@@ -173,7 +175,6 @@ X <- X_csr(par_points_nb)
 autoplot(X[X$marks$PointType == "Case"])
 ```
 
-
 The size distribution is shown in the histogram below:
 
 ```{r}
@@ -190,8 +191,8 @@ hist(
 The `X_matern()` function is used to draw a semiset of points whose Cases are concentrated by a @Matern1960 process.
 The parameters are
 
-- $\kappa$: the expected number of clusters,
-- `scale`: their radius.
+-   $\kappa$: the expected number of clusters,
+-   `scale`: their radius.
 
 ```{r}
 #| label: ParamsMaternCode
@@ -248,7 +249,6 @@ X <- X_matern(par_points_nb)
 autoplot(X) + 
   scale_size(range = c(0, 3))
 ```
-
 
 ### Space grid
 
@@ -312,7 +312,6 @@ The figure is obtained using the following code:
 X |> group_points_to_plot() |> autoplot(alpha = 0.5)
 ```
 
-
 # Calculation of *M*
 
 The distances at which the *M* function is calculated are chosen from `r`.
@@ -328,7 +327,7 @@ In the *dbmss* package, the function applies to a set of points, object of class
 
 We start with an array (data.frame) containing the columns `x`, `y`, `PointType` and `PointWeight`.
 
-The spatial co-ordinates of the points are given by the `x` and `y` columns. 
+The spatial co-ordinates of the points are given by the `x` and `y` columns.
 
 ```{r}
 #| label: DtableMCode
@@ -397,8 +396,6 @@ d_matrix %>%
   MEnvelope(r = r, ReferenceType = "Case", Global = TRUE) %>% 
   autoplot()
 ```
-
-
 
 # Performance of M
 
@@ -471,7 +468,6 @@ M_time_lm <- lm(logTime ~ logSize, data = M_time_log)
 summary(M_time_lm)
 ```
 
-
 The *microbenchmark* package proposed by @Mersmann2023 is used to compare the computation time of the function between a set of points and a matrix of distances.
 
 The calculation of distances is extremely fast in the `Mhat()` function: the matrix saves time, but the complete processing from a matrix is ultimately longer.
@@ -486,7 +482,6 @@ mb <- microbenchmark(
   times = 4L
 )
 ```
-
 
 ## Memory
 
@@ -520,7 +515,6 @@ The memory required (in MB) increases linearly with the number of points.
 lm(RAM ~ Size, data = M_ram) |> summary()
 ```
 
-
 # Effects of approximating the position of the points
 
 The number of test repetitions is set by `simulations_n`.
@@ -529,7 +523,6 @@ The number of test repetitions is set by `simulations_n`.
 #| label: ParamsSimsCode
 simulations_n <- 100
 ```
-
 
 ## Case of an aggregated distribution (Matérn)
 
@@ -667,7 +660,6 @@ As *M* is a cumulative function, it stabilises as distance increases.
 The average relative error (to the exact value of $M$), due to the approximation of the position of the points, is shown in black, with its standard deviation normalised by the exact value of $M$.
 It is small, less than 10%, even at short distances.
 
-
 ## Case of a completely random distribution (CSR)
 
 `X_csr_list` contains `simulations_n` draws from the set of points.
@@ -766,10 +758,8 @@ sapply(
     geom_errorbar(aes(x = r, ymin = -`M CV`, ymax = `M CV`), col = "red")
 ```
 
-
 The figure above is constructed in the same way as for aggregated point sets.
 In the absence of spatial structure, the value of *M* varies much less.
 
 In the presence of a spatial structure, the estimation error is large at short distances.
 It becomes negligible beyond the grid cell.
-

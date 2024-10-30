@@ -1,5 +1,6 @@
 ---
-title: "On the Computation of Large Spatial Datasets With the M Function"
+title: |
+       | On the Computation of Large Spatial Datasets With the&nbsp;M&nbsp;function
 author:
   - name: "Eric Marcon"
     authsuperscript: "1*"
@@ -18,7 +19,7 @@ abstract: >
   They also express reservations about the computation times required.
   Our methodological work seeks to specify the processing of large spatialized data sets with *M* using R software.
   Two avenues are being explored to determine the computational performance of *M*.
-  Firstly, a precise evaluation of the computational time and memory requirements for geo-localised data is carried out using the dbmss package in R by means of performance tests. 
+  Firstly, a precise evaluation of the computational time and memory requirements for geo-localised data is carried out using the *dbmss* package in R by means of performance tests. 
   Then, as suggested by @Tidu2023, we also consider the possibility of approximating the geographical positions of the entities analysed.
   The extent of the deterioration in the estimate of *M* that this approach creates can thus be estimated, as can the gains in computation time made possible by the spatial approximation of locations. 
   The complete R code is given for the reproducibility of the results.
@@ -120,14 +121,14 @@ Empirical studies at very fine geographical levels have thus been proposed in re
 Particular attention has been paid to detecting the spatial structures (attraction, repulsion, independence) of individual spatialised data using analyses that are no longer based on zoned data but on geolocalised data.
 This type of approach has the advantage of preserving the exact positions of the entities analysed and therefore does not erase individual specificities.
 Various studies have shown how important it is to use this type of methodology in a wide variety of fields, including geography [@Sweeney1998; @Deurloo2008; @Kukuliac2017], economics [@Arbia1989; @Marcon2003a], ecology [@Cressie1993; @Lentz2011], biology [@Dray2021], and so on.
-In a recent article, @Tidu2023 highlights the interest of a particular statistical measure, the *M* function proposed by @Marcon2010.
+In a recent article proposed in this review, @Tidu2023 highlight the interest of a particular statistical measure, the *M* function proposed by @Marcon2010.
 This measure, which we will refer to as *M* in the remainder of the article, makes it possible to highlight spatial structures within a spatialised distribution (attraction, repulsion, independence) from a study based on the distances separating the entities analysed.
 However, while this measure preserves all the richness of individual geolocated data, it requires a longer calculation time than other distance-based measures, since it is both a cumulative and relative measure (see @Marcon2012c for a literature review on the advantages and limitations of a dozen existing distance-based measures).
 @Tidu2023 propose to limit *M* calculation times by introducing a voluntary positioning error for the entities analysed.
 For example, in their study, industrial establishments in Sardinia (Italy) are no longer located at their exact postal address but at the centroid of their municipality.
 This repositioning reduces calculation times, as the number of possible distances between establishments is in fact limited to the distances separating the centroids of the municipalities.
 This approach is similar to that of @Scholl2013 who proposed, for the $K_d$ function [@Duranton2005] which characterises spatial structures using another method, to approximate the distances between pairs of entities by grouping them into classes.
-The method of @Scholl2013, implemented in the *dbmss* package [@Marcon2014] for R [@R] provides a considerable gain in computational performance with little loss of accuracy.
+The method of @Scholl2013, implemented in the *dbmss* package [@dbmss] for R [@R] provides a considerable gain in computational performance with little loss of accuracy.
 
 In our paper, we propose to test the effectiveness of @Tidu2023's method.
 First, we show the advantages of using the *dbmss* package to estimate the *M* function on datasets with an order of magnitude of 100,000 points or less, and we show that the computation times become excessive beyond that, on a personal computer.
@@ -135,9 +136,9 @@ We then study the effect of the geographical approximation of the locations of t
 This methodological work, based on a deliberately limited number of entity locations, enables us to quantify the extent of the deterioration in information that this approach creates.
 These performance tests provide a precise answer to the computational advantages and limitations of the *M* function as a function of the size of the datasets.
 
-The plan of the article is as follows.
+The layout of the article is as follows.
 The first section generates the necessary data.
-Large point sets (of the order of several tens of thousands of points) that are either completely random or (geographically) concentrated are drawn.
+Large point sets (of the order of several tens of thousands of points) that are either completely random or geographically concentrated are drawn.
 The second section details the use of the *dbmss* package to calculate the *M* function and its confidence interval from a table giving the position and characteristics of the points or a matrix of distances between them.
 The third section measures the performance of *dbmss* as a function of the size of the set of points, in terms of computing time and memory requirements.
 Finally, the last section tests the approximation which consists of grouping them together at the centre of the cells of a grid, following the approach of @Tidu2023 which positions them at the centre of the administrative units in which they are located.
@@ -161,9 +162,9 @@ par_size_gamma_shape <- 0.95
 par_size_gamma_scale  <- 10
 ```
 
-A set of points is drawn by a Poisson process (whose expectation of the number of points is `r par_points_nb`) in a square window of side 1.
+A set of points is drawn by a Poisson process (whose expectation of the number of points is `r format(as.numeric(par_points_nb), scientific=FALSE, big.mark=",")`) in a square window of side 1.
 Each point is assigned a qualitative mark: 'Case' or 'Control'.
-The majority of points are 'Controls' and a proportion (`r par_case_ratio * 100`%) are 'Cases', whose spatial structure is studied.
+`r (1 - par_case_ratio)* 100`% of points are 'Controls' and `r par_case_ratio * 100`% are 'Cases', whose spatial structure is studied.
 The weight of the points is drawn from a gamma distribution with free shape and scale parameters.
 
 ```{r}
@@ -198,8 +199,7 @@ X <- X_csr(par_points_nb)
 autoplot(X[X$marks$PointType == "Case"])
 ```
 
-In this example, the drawing of points is completely random (*complete spatial randomness*: CSR), i.e. there is no simulation of the attraction or dispersion of points which could generate spatial concentrations of points (aggregates) or, on the contrary, spatial regularities (dispersions).
-
+In this example, the drawing of points is completely random (*complete spatial randomness*: CSR), i.e. there is no simulation of attraction or dispersion of points which could generate spatial concentrations of points (aggregates) or, on the contrary, spatial regularities (dispersions).
 Sets of aggregated points can be drawn in a @Matern1960 process.
 
 ```{r}
@@ -266,7 +266,7 @@ The controls are distributed completely randomly.
 ## Gridding the space
 
 Let's consider the simulation of the Cases obtained by the Matérn process and cut the window into a grid.
-An east mesh of the space previously considered is obtained, which simulates the usual approximation of the position of the points of an administrative unit to the position of its centre.
+It simulates the usual approximation of the position of the points of an administrative unit to the position of its centre.
 
 ```{r}
 #| label: ParamsPartitionsCode
@@ -316,8 +316,8 @@ group_points_to_plot <- function(X, partitions = par_partitions) {
 
 The refocused position is shown on the map in figure \@ref(fig:GroupedFig).
 Each cell now contains only one point of each type, whose weight is the sum of the weights of the individual points.
-
-(ref:Grouped) Repositioning of points in an arbitrary grid. The absence of Cas in a cell is easily detected (single-colour blue dot), as is the strong presence of Cas in a cell (two-colour dot, but predominantly red).
+(ref:Grouped) Repositioning of points in an arbitrary grid.
+The absence of Cases in a cell is easily detected (single-colour blue dot), as is the strong presence of Cases in a cell (two-colour dot, but predominantly red).
 
 ```{r}
 #| label: GroupedFig
@@ -355,11 +355,10 @@ The theoretical reference value for *M* is 1, as this function relates the propo
 The aggregation of Cases will be highlighted by values of *M* greater than 1 (the relative presence of Cases is greater locally than over the whole window) and the dispersion of Cases by values less than 1.
 We observe (figure \@ref(fig:MFig)) that *M* detects an agglomeration of Cases, which is in agreement with the simulation of this type of point (the controls having a completely random location on the window).
 The advantage of a function based on distances is clearly visible: it allows us to detect exactly at which distance(s) the attraction phenomena occur and are the most important (for functions whose values can be compared at different radii, such as *M*).
-
 In addition to estimating the *M* function, the `Menvelope()` function can be used to calculate its global confidence interval [@Duranton2005] under the null hypothesis of random point location.
-The result is shown in figure \@ref(fig:MFig).
-
-(ref:M) Value of *M* as a function of distance from the reference point. The confidence interval, simulated at 95%, appears in grey and is centred on the value 1.
+The result is shown in figure&nbsp;\@ref(fig:MFig).
+(ref:M) Value of *M* as a function of distance from the reference point.
+The confidence interval, simulated at 95%, appears in grey and is centred on the value 1.
 
 ```{r}
 #| label: MFig
@@ -378,7 +377,6 @@ d_matrix <- as.Dtable(points_df)
 ```
 
 Matrices can be used to process non-Euclidean distances (transport time, road distance, etc.) which cannot be represented by a set of points.
-
 The `Mhat()` and `MEnvelope()` functions are the same, and provide the same results whatever the form of the data used here (point set or distance matrix).
 
 # Computational performance
@@ -399,7 +397,6 @@ X_to_M <- function(X) {
 
 Calculating the distances between all pairs of points is necessary to estimate *M*.
 The calculation time is therefore expected to increase as the square of the number of points.
-
 The calculation time required for the exact calculation is evaluated for a range of numbers of points (figure \@ref(fig:TestTimeFig)).
 
 ```{r}
@@ -457,9 +454,8 @@ summary(M_time_lm)
 ```
 
 It increases less quickly than the square of the number of points.
-It can be estimated very precisely ($R^2=$ `r format(summary(M_time_lm)$r.squared, digits=2)`) by the relation $t = t_0 (n / n_o)^p$ where $t$ is the estimated time for $n$ points knowing the time $t_0$ (e.g.: `r format(as.numeric(M_time[5, 2]), digits=3)`seconds) for $n_0$ points (e.g.: `r as.integer(M_time[5, 1])`) and $p$ the power relation (`r format(M_time_lm$coefficients[2], digits=3)`).
-
-Using a distance matrix may seem an efficient way of saving computation time, but in reality calculating distances is extremely fast and the whole process from a matrix is ultimately more time-consuming (Table \@ref(tab:MmbTab)).
+It can be estimated very precisely ($R^2=$ `r format(summary(M_time_lm)$r.squared, digits=2)`) by the relation $t = t_0 (n / n_o)^p$ where $t$ is the estimated time for $n$ points knowing the time $t_0$ (e.g.: `r format(as.numeric(M_time[5, 2]), digits=3)` seconds) for $n_0$ points (e.g.: `r format(as.numeric(M_time[5, 1]), scientific=FALSE, big.mark=",")`) and $p$ the power relation (`r format(M_time_lm$coefficients[2], digits=1)`).
+Using a distance matrix may seem an efficient way of saving computation time, but in reality calculating distances is extremely fast and the whole process from a matrix is ultimately more time-consuming.
 
 ```{r}
 #| label: MmbCode
@@ -471,11 +467,8 @@ mb <- microbenchmark(
 )
 ```
 
-(ref:Mmb) Median execution time, in milliseconds, for estimating the *M* function from a set of `r par_points_nb` points or the corresponding distance matrix.
-
 ```{r}
 #| label: MmbTab
-#| include: true
 mb |> summary() |> as.data.frame() |>
   select(expr, median) |> 
   mutate(
@@ -483,18 +476,16 @@ mb |> summary() |> as.data.frame() |>
     `Time` = round(median),
     .before = expr,
     .keep = "none" 
-  ) |>
-  kableExtra::kbl(
-    caption = "(ref:Mmb)",
-    longtable = FALSE, 
-    booktabs = TRUE
-  )
+  ) -> Mmb
 ```
+
+The median execution time is equal to `r Mmb$Time[1]` milliseconds for estimating the *M* function from a set of `r format(as.numeric(par_points_nb), scientific=FALSE, big.mark=",")` points or `r Mmb$Time[2]` milliseconds for the corresponding distance matrix.
+
+
 
 ## Memory
 
 The memory used is evaluated for the same data sizes (figure \@ref(fig:TestMemFig)).
-
 (ref:TestMem) Memory required (MB) for estimating the *M* function as a function of the size of the set of points.
 
 ```{r}
@@ -520,8 +511,7 @@ M_ram %>%
 
 The memory required increases linearly with the number of points and is never critical for point set sizes that can be processed in reasonable times.
 This puts @Tidu2023's conclusion about the power and computation time required when using *M* on large datasets into perspective.
-
-The memory used by `Dtable` objects to calculate $M$ from a distance matrix is much greater: it is that of a numerical matrix, of the order of 8 bytes times the number of points squared, i.e. 800 MB for 10000 points alone.
+The memory used by `Dtable` objects to calculate $M$ from a distance matrix is much greater: it is that of a numerical matrix, of the order of 8 bytes times the number of points squared, i.e. 800 MB for 10,000 points alone.
 As the calculation time is not reduced by this approach, its use should be reserved for non-Euclidean distances.
 
 # Effects of approximating the position of points
@@ -533,7 +523,6 @@ simulations_n <- 100
 
 Clearly, approximating the position of the points results in a loss of information: in each grid cell, the distance between all the points is set to 0, and the distance between two points in different cells is approximated by the distance between the centroids of the two cells.
 We therefore expect a severe error in the estimation of *M* on a small scale (of the order of magnitude of the size of the cells) and an error that decreases with distance, when the relative size of the cells decreases.
-
 The effect of the location approximation is first tested on a set of aggregated points, similar to the real @Tidu2023 data.
 Secondly, the case of an unstructured set of points is considered.
 
@@ -555,7 +544,7 @@ X_matern_grouped_list <- lapply(
 )
 ```
 
-`r simulations_n` sets of aggregated points (`r par_points_nb` points with `r par_case_ratio * 100`% of Cases) are simulated.
+`r simulations_n` sets of aggregated points (`r format(as.numeric(par_points_nb), scientific=FALSE, big.mark=",")` points with `r par_case_ratio * 100`% of Cases) are simulated.
 To evaluate the effect of the position approximation, the exact calculation and the calculation on the grid points are performed on each set of points.
 
 ```{r}
@@ -567,8 +556,8 @@ M_matern_grouped <- pbsapply(X_matern_grouped_list, FUN = X_to_M)
 ```
 
 The mean values of the estimates of *M* are presented in figure \@ref(fig:MapproxMaternFig).
-
-(ref:MapproxMatern) Average estimate of the *M* function from the exact position of the points compared with the values obtained by grouping the points. Cases form aggregates of radius `r format(par_scale, digits=1)`.
+(ref:MapproxMatern) Average estimate of the *M* function from the exact position of the points compared with the values obtained by grouping the points.
+Cases form aggregates of radius `r format(par_scale, digits=1)`.
 
 ```{r}
 #| label: MapproxMaternFig
@@ -591,10 +580,9 @@ tibble(
 
 The size of the grid cells is equal to `r 1/par_partitions`.
 All neighbours at distances less than this threshold are placed at zero distance: the estimate of the function is constant up to this threshold.
-
 The correlation between the $M$ values estimated by each method is calculated at each distance (figure \@ref(fig:CorMaternFig)).
-
-(ref:CorMatern) Correlation between *M* values estimated from the exact position of the points and by grouping the points. Cases form aggregates of radius `r format(par_scale, digits=1)`.
+(ref:CorMatern) Correlation between *M* values estimated from the exact position of the points and by grouping the points.
+Cases form aggregates of radius `r format(par_scale, digits=1)`.
 
 ```{r}
 #| label: CorMaternFig
@@ -627,7 +615,6 @@ sapply(
 
 The correlation is very close to 1, and the estimated values very similar, as soon as the distance taken into account exceeds the grid cell: the approximation is not a problem if the interactions between the points are studied beyond this distance.
 The information on interactions at short distances, i.e. within each grid cell, is lost, or, more precisely, approximated by its value at the grid scale.
-grid scale.
 
 ## Case of a completely random distribution (CSR)
 
@@ -658,8 +645,8 @@ system.time(M_csr_grouped <- sapply(X_csr_grouped_list, FUN = X_to_M))
 ```
 
 The average values are shown in figure \@ref(fig:MapproxCSRFig).
-
-(ref:MapproxCSR) Average estimate of the *M* function from the exact position of the points compared with the values obtained by grouping the points. Both Cases and Controls are drawn in a Poisson process.
+(ref:MapproxCSR) Average estimate of the *M* function from the exact position of the points compared with the values obtained by grouping the points.
+Both Cases and Controls are drawn in a Poisson process.
 
 ```{r}
 #| label: MapproxCSRFig
@@ -706,22 +693,19 @@ The approximations are relatively small in value (a few percent) but as the real
 
 # Conclusion
 
-To summarise, and based on the cases proposed in this article, it seems that approximation on location can be considered to save computation time, given the strong correlation observed between the values of *M* on exact and approximated data, but keeping a very fine mesh.
-Our result is therefore in line with @Tidu2023's article, which mentions strong correlations on Italian company location data.
-Since the spatial structure of their data is probably an intermediate case between the two cases dealt with in our article (aggregated and random theoretical distributions), the results provided by our two contributions are complementary.
-On the other hand, if the aim of the study is to look at spatial structures at very small distances, then approximating geographical positions is not desirable because it is for these distances that the discrepancies between the *M* results are greatest.
+To summarise, and based on the cases proposed in this article, two conclusions can be drawn.
 
-The calculation time for $M$ is around 6 seconds for a set of 100,000 points on a laptop (Intel i7-1360P 2.20 GHz processor), and requires 25 MB of RAM.
+Firstly, it seems that **approximation on location can be considered to save computation time, given the strong correlation observed between the values of *M* on exact and approximated data, but keeping a very fine grid.** Our result is therefore in line with @Tidu2023's article, which mentions strong correlations on Italian company location data.
+Since the spatial structure of their data is probably an intermediate case between the two cases dealt with in our article (aggregated and random theoretical distributions), the results provided by our two contributions are complementary. If the aim of the study is to look at spatial structures at very small distances, then approximating geographical positions is not desirable, because the discrepancies between the *M* results are greatest for these distances.
+
+Secondly, concerning the computing, the calculation time for $M$ is around 6 seconds for a set of 100,000 points on a laptop (Intel i7-1360P 2.20 GHz processor), and requires 25 MB of RAM.
 Calculating a confidence interval from 1,000 simulations therefore takes less than two hours.
-
-For a set of five million points, the expected calculation time is $6 \times 50^{1.8} = 6860$ seconds, nearly two hours.
-1000 simulations would then take around three months.
+For a set of five million points, the expected calculation time is $6 \times 50^{1.8} = 6,860$ seconds, nearly two hours.
+1,000 simulations would then take around three months.
 The calculation of distances is parallelized: a calculation server would drastically increase performance, but at the cost of a complexity of implementation that limits its use.
-
 If we limit ourselves to the computing power of a personal computer, exact calculation is fully justified for data of the order of $10^5$ points: a few hours are enough to calculate confidence intervals.
-
 Beyond that, approximating the location reduces the size of the set of points to the number of locations selected.
 The price to pay is the absence of information at the scale of elementary geographical units (the grid cells in this case).
-Depending on the issues addressed, this limitation may or may not be acceptable: the overall description of the spatial structure is not significantly degraded, but the study of externalities, which is particularly interesting at short distances, is very limited.
+**Depending on the issues addressed, a choice has to be made because this limitation may or may not be acceptable:** the overall description of the spatial structure is not significantly degraded, but the study of externalities, which is particularly interesting at short distances, is very limited.
 
 `r if (!knitr::is_latex_output()) '# References {-}'`
