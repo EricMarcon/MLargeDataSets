@@ -1,5 +1,5 @@
 ---
-title: "On the Computation of Large Spatial Datasets With M - Appendix"
+title: "On the Computation of Large Spatial Datasets With the M function - Appendix"
 author:
   - name: "Eric Marcon"
     authsuperscript: "1*"
