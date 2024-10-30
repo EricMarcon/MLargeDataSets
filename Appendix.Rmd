@@ -29,6 +29,7 @@ github-repo: EricMarcon/MLargeDataSets
 lang: en-US
 bibliography: references.bib
 biblio-style: chicago
+csl: apa
 pdftoc: false
 toc-depth: 3
 urlcolor: blue

@@ -34,21 +34,22 @@ github-repo: EricMarcon/MLargeDataSets
 lang: en-US
 bibliography: references.bib
 biblio-style: chicago
+csl: apa
 toc-depth: 3
 fontsize: 10pt
 urlcolor: blue
 always_allow_html: yes
 csquotes: true
 output:
+  rmdformats::downcute:
+    use_bookdown: yes
+    lightbox: yes
+    toc_depth: 3
   bookdown::pdf_book:
     template: latex/stylish_article.tex
     citation_package: natbib
     latex_engine: xelatex
     keep_tex: no
-  rmdformats::downcute:
-    use_bookdown: yes
-    lightbox: yes
-    toc_depth: 3
   bookdown::word_document2:
      reference_docx: "images/template.docx"
      number_sections: false
