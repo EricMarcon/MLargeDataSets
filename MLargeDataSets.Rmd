@@ -92,7 +92,7 @@ knitr::opts_chunk$set(
   warning = FALSE,    # Show/Hide warnings
   message = FALSE,    # Show/Hide messages
   # Figure alignment and size
-  fig.align = 'center', out.width = '80%',
+  fig.align = 'center', out.width = '100%',
   # Graphic devices (ragg_png is better than standard png)
   dev = c("ragg_png", "pdf"),
   # Code chunk format
