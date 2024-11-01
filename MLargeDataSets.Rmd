@@ -570,12 +570,13 @@ tibble(
 ) %>% 
   pivot_longer(
     cols = !r,
-    names_to = "M", 
+    names_to = "M",
     values_to = "value"
   ) %>% 
   ggplot(aes(x = r, y = value, color = M)) +
   geom_line() +
-  geom_point()
+  geom_point() +
+  labs(x = "Distance", y = "M")
 ```
 
 The size of the grid cells is equal to `r 1/par_partitions`.
@@ -610,7 +611,8 @@ sapply(
   rename(r = V1, correlation = V2) %>% 
   ggplot(aes(x = r, y = correlation)) +
     geom_point() +
-    geom_line()
+    geom_line() +
+    labs(x = "Distance", y = "Correlation")
 ```
 
 The correlation is very close to 1, and the estimated values very similar, as soon as the distance taken into account exceeds the grid cell: the approximation is not a problem if the interactions between the points are studied beyond this distance.
@@ -651,7 +653,7 @@ Both Cases and Controls are drawn in a Poisson process.
 ```{r}
 #| label: MapproxCSRFig
 #| include: true
-#| fig.cap: "(ref:MapproxCSR)"
+#| fig.cap: "(ref:MapproxCSR)" 
 tibble(
   r,
   Exact = rowMeans(M_csr_original), 
@@ -664,7 +666,8 @@ tibble(
   ) %>% 
   ggplot(aes(x = r, y = value, color = M)) +
   geom_line() +
-  geom_point()
+  geom_point() +
+  labs(x = "Distance", y = "M")
 ```
 
 (ref:CorCSR) Correlation between *M* values estimated from the exact position of the points and by grouping the points. Both Cases and Controls are drawn in a Poisson process.
@@ -685,7 +688,8 @@ sapply(
   rename(r = V1, correlation = V2) %>% 
   ggplot(aes(x = r, y = correlation)) +
     geom_point() +
-    geom_line()
+    geom_line() +
+    labs(x = "Distance", y = "Correlation")
 ```
 
 The mean value of $M$ is equal to 1 at all distances by construction: Cases and Controls are distributed completely randomly.
