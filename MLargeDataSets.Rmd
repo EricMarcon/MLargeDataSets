@@ -14,7 +14,7 @@ affiliation:
 corrauthor:
   email: eric.marcon@agroparistech.fr
 abstract: >
-  Increasing access to large individual and spatial datasets, coupled with the development of computing power, has encouraged the search for suitable statistical tools to best analyse such data. 
+  Increasing access to large individual and spatial datasets, coupled with the development of computing power, has encouraged the search for suitable statistical tools to best analyse such data.
   In a recent article published in this journal, @Tidu2023 highlight the qualities of the *M* function [@Marcon2010], a measure of spatial concentration in continuous space. 
   They also express reservations about the computation times required.
   Our methodological work seeks to specify the processing of large spatialized data sets with *M* using R software.
@@ -42,18 +42,18 @@ urlcolor: blue
 always_allow_html: yes
 csquotes: true
 output:
-  bookdown::word_document2:
-     reference_docx: "images/template.docx"
-     number_sections: false
+  rmdformats::downcute:
+    use_bookdown: yes
+    lightbox: yes
+    toc_depth: 3
   bookdown::pdf_book:
     template: latex/stylish_article.tex
     citation_package: natbib
     latex_engine: xelatex
     keep_tex: no
-  rmdformats::downcute:
-    use_bookdown: yes
-    lightbox: yes
-    toc_depth: 3
+  bookdown::word_document2:
+     reference_docx: "images/template.docx"
+     number_sections: false
 ---
 
 ```{r DoNotModify, include=FALSE}
@@ -120,8 +120,8 @@ Increasing access to large individual and spatial datasets and greater computing
 Empirical studies at very fine geographical levels have thus been proposed in recent years for large datasets.
 Particular attention has been paid to detecting the spatial structures (attraction, repulsion, independence) of individual spatialised data using analyses that are no longer based on zoned data but on geolocalised data.
 This type of approach has the advantage of preserving the exact positions of the entities analysed and therefore does not erase individual specificities.
-Various studies have shown how important it is to use this type of methodology in a wide variety of fields, including geography [@Sweeney1998; @Deurloo2008; @Kukuliac2017], economics [@Arbia1989; @Marcon2003a], ecology [@Cressie1993; @Lentz2011], biology [@Dray2021], and so on.
-In a recent article proposed in this review, @Tidu2023 highlight the interest of a particular statistical measure, the *M* function proposed by @Marcon2010.
+Various studies have shown how important it is to use this type of methodology in many fields, including geography [@Sweeney1998; @Deurloo2008; @Kukuliac2017], economics [@Arbia1989; @Marcon2003a], ecology [@Cressie1993; @Lentz2011], biology [@Dray2021], and so on.
+In a recent article proposed in this journal, @Tidu2023 highlight the interest of a particular statistical measure, the *M* function proposed by @Marcon2010.
 This measure, which we will refer to as *M* in the remainder of the article, makes it possible to highlight spatial structures within a spatialised distribution (attraction, repulsion, independence) from a study based on the distances separating the entities analysed.
 However, while this measure preserves all the richness of individual geolocated data, it requires a longer calculation time than other distance-based measures, since it is both a cumulative and relative measure (see @Marcon2012c for a literature review on the advantages and limitations of a dozen existing distance-based measures).
 @Tidu2023 propose to limit *M* calculation times by introducing a voluntary positioning error for the entities analysed.
@@ -164,7 +164,8 @@ par_size_gamma_scale  <- 10
 
 A set of points is drawn by a Poisson process (whose expectation of the number of points is `r format(as.numeric(par_points_nb), scientific=FALSE, big.mark=",")`) in a square window of side 1.
 Each point is assigned a qualitative mark: 'Case' or 'Control'.
-`r (1 - par_case_ratio)* 100`% of points are 'Controls' and `r par_case_ratio * 100`% are 'Cases', whose spatial structure is studied.
+`r (1 - par_case_ratio)* 100`% of points are 'Controls'.
+`r par_case_ratio * 100`% are 'Cases', whose spatial structure is studied.
 The weight of the points is drawn from a gamma distribution with free shape and scale parameters.
 
 ```{r}
@@ -353,7 +354,7 @@ head(points_df)
 The `Mhat()` function in the *dbmss* package is used to estimate the *M* function.
 The theoretical reference value for *M* is 1, as this function relates the proportion of Cases up to a distance $r$ to that observed over the entire window.
 The aggregation of Cases will be highlighted by values of *M* greater than 1 (the relative presence of Cases is greater locally than over the whole window) and the dispersion of Cases by values less than 1.
-We observe (figure \@ref(fig:MFig)) that *M* detects an agglomeration of Cases, which is in agreement with the simulation of this type of point (the controls having a completely random location on the window).
+We observe (figure \@ref(fig:MFig)) that *M* detects an agglomeration of Cases, which is in line with the simulation of this type of point (the controls having a completely random location on the window).
 The advantage of a function based on distances is clearly visible: it allows us to detect exactly at which distance(s) the attraction phenomena occur and are the most important (for functions whose values can be compared at different radii, such as *M*).
 In addition to estimating the *M* function, the `Menvelope()` function can be used to calculate its global confidence interval [@Duranton2005] under the null hypothesis of random point location.
 The result is shown in figure&nbsp;\@ref(fig:MFig).
@@ -510,7 +511,7 @@ M_ram %>%
 ```
 
 The memory required increases linearly with the number of points and is never critical for point set sizes that can be processed in reasonable times.
-This puts @Tidu2023's conclusion about the power and computation time required when using *M* on large datasets into perspective.
+This highlights @Tidu2023's conclusion about the power and computation time required when using *M* on large datasets.
 The memory used by `Dtable` objects to calculate $M$ from a distance matrix is much greater: it is that of a numerical matrix, of the order of 8 bytes times the number of points squared, i.e. 800 MB for 10,000 points alone.
 As the calculation time is not reduced by this approach, its use should be reserved for non-Euclidean distances.
 
