@@ -23,7 +23,7 @@ abstract: >
   Two avenues are being explored to determine the computational performance of *M*.
   Firstly, a precise evaluation of the computational time and memory requirements for geo-localised data is carried out using the dbmss package in R (@dbmss) by means of performance tests. 
   Then, as suggested by @Tidu2023, we also consider the possibility of approximating the geographical positions of the entities analysed.
-  The extent of the deterioration in the estimate of *M* that this approach creates can thus be estimated, as can the gains in computation time made possible by the spatial approximation of locations. 
+  The extent of the deterioration in the estimate of *M* that this approach creates can thus be estimated and discussed, as can the gains in computation time made possible by the spatial approximation of locations. 
   The complete R code is given for the reproducibility of the results.
 date: "`r format(Sys.time(), '%Y %B %d')`"
 archive: "`r format(Sys.time(), '%d %B %Y')`"
@@ -323,7 +323,7 @@ r <- c((0:9) / 100, (2:10) / 20)
 
 ## Necessary data
 
-In the *dbmss* package, the function applies to a set of points, object of class `wmppp`, or to a matrix of distances, object of class `Dtable`.
+In the *dbmss* package [@dbmss], the function applies to a set of points, object of class `wmppp`, or to a matrix of distances, object of class `Dtable`.
 
 We start with an array (data.frame) containing the columns `x`, `y`, `PointType` and `PointWeight`.
 
@@ -580,7 +580,7 @@ tibble(
   geom_point()
 ```
 
-The correlation between the $M$ values estimated by each method is calculated at each distance.
+The correlation between the $M$ values estimated by each method is calculated at each distance&nbsp;$r$.
 
 ```{r}
 #| label: CorMaternCode
@@ -710,7 +710,7 @@ tibble(
   geom_point()
 ```
 
-The correlation between the $M$ values calculated by each method is calculated at each distance.
+The correlation between the $M$ values calculated by each method is calculated at each distance&nbsp;$r$.
 
 ```{r}
 #| label: CorCSRCode
