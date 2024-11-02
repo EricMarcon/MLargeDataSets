@@ -21,7 +21,7 @@ abstract: >
   They also express reservations about the computation times required.
   Our methodological work seeks to specify the processing of large spatialized data sets with *M* using R software.
   Two avenues are being explored to determine the computational performance of *M*.
-  Firstly, a precise evaluation of the computational time and memory requirements for geo-localised data is carried out using the dbmss package in R by means of performance tests. 
+  Firstly, a precise evaluation of the computational time and memory requirements for geo-localised data is carried out using the dbmss package in R (@dbmss) by means of performance tests. 
   Then, as suggested by @Tidu2023, we also consider the possibility of approximating the geographical positions of the entities analysed.
   The extent of the deterioration in the estimate of *M* that this approach creates can thus be estimated, as can the gains in computation time made possible by the spatial approximation of locations. 
   The complete R code is given for the reproducibility of the results.
@@ -40,15 +40,15 @@ always_allow_html: yes
 preamble: >
   \usepackage[letterpaper]{geometry}
 output:
-  rmdformats::downcute:
-    use_bookdown: yes
-    lightbox: yes
-    toc_depth: 3
   bookdown::pdf_book:
     template: latex/template.tex
     citation_package: natbib
     latex_engine: xelatex
     keep_tex: no
+  rmdformats::downcute:
+    use_bookdown: yes
+    lightbox: yes
+    toc_depth: 3
 ---
 
 ```{r DoNotModify, include=FALSE}
