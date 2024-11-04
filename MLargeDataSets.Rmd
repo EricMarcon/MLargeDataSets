@@ -318,8 +318,7 @@ group_points_to_plot <- function(X, partitions = par_partitions) {
 The refocused position is shown on the map in figure \@ref(fig:GroupedFig).
 Each cell now contains only one point of each type, whose weight is the sum of the weights of the individual points.
 
-(ref:Grouped) Repositioning of points in an arbitrary grid.
-The absence of Cases in a cell is easily detected (single-colour blue dot), as is the strong presence of Cases in a cell (two-colour dot, but predominantly red).
+(ref:Grouped) Repositioning of points in an arbitrary grid. The absence of Cases in a cell is easily detected (single-colour blue dot), as is the strong presence of Cases in a cell (two-colour dot, but predominantly red).
 
 ```{r}
 #| label: GroupedFig
@@ -360,8 +359,7 @@ The advantage of a function based on distances is clearly visible: it allows us 
 In addition to estimating the *M* function, the `Menvelope()` function can be used to calculate its global confidence interval [@Duranton2005] under the null hypothesis of random point location.
 The result is shown in figure&nbsp;\@ref(fig:MFig).
 
-(ref:M) Value of *M* as a function of distance from the reference point.
-The confidence interval, simulated at 95%, appears in grey and is centred on the value 1.
+(ref:M) Value of *M* as a function of distance from the reference point. The confidence interval, simulated at 95%, appears in grey and is centred on the value 1.
 
 ```{r}
 #| label: MFig
@@ -565,8 +563,7 @@ M_matern_grouped <- pbsapply(X_matern_grouped_list, FUN = X_to_M)
 
 The mean values of the estimates of *M* are presented in figure \@ref(fig:MapproxMaternFig).
 
-(ref:MapproxMatern) Average estimate of the *M* function from the exact position of the points compared with the values obtained by grouping the points.
-Cases form aggregates of radius `r format(par_scale, digits=1)`.
+(ref:MapproxMatern) Average estimate of the *M* function from the exact position of the points compared with the values obtained by grouping the points. Cases form aggregates of radius `r format(par_scale, digits=1)`.
 
 ```{r}
 #| label: MapproxMaternFig
@@ -596,8 +593,7 @@ The size of the grid cells is equal to `r 1/par_partitions`.
 All neighbours at distances less than this threshold are placed at zero distance: the estimate of the function is constant up to this threshold.
 The correlation between the $M$ values estimated by each method is calculated at each distance (figure \@ref(fig:CorMaternFig)).
 
-(ref:CorMatern) Correlation between *M* values estimated from the exact position of the points and by grouping the points.
-Cases form aggregates of radius `r format(par_scale, digits=1)`.
+(ref:CorMatern) Correlation between *M* values estimated from the exact position of the points and by grouping the points. Cases form aggregates of radius `r format(par_scale, digits=1)`.
 
 ```{r}
 #| label: CorMaternFig
@@ -662,8 +658,7 @@ system.time(M_csr_grouped <- sapply(X_csr_grouped_list, FUN = X_to_M))
 
 The average values are shown in figure \@ref(fig:MapproxCSRFig).
 
-(ref:MapproxCSR) Average estimate of the *M* function from the exact position of the points compared with the values obtained by grouping the points.
-Both Cases and Controls are drawn in a Poisson process.
+(ref:MapproxCSR) Average estimate of the *M* function from the exact position of the points compared with the values obtained by grouping the points. Both Cases and Controls are drawn in a Poisson process.
 
 ```{r}
 #| label: MapproxCSRFig
