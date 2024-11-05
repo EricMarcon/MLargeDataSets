@@ -40,15 +40,15 @@ always_allow_html: yes
 preamble: >
   \usepackage[letterpaper]{geometry}
 output:
+  rmdformats::downcute:
+    use_bookdown: yes
+    lightbox: yes
+    toc_depth: 3
   bookdown::pdf_book:
     template: latex/template.tex
     citation_package: natbib
     latex_engine: xelatex
     keep_tex: no
-  rmdformats::downcute:
-    use_bookdown: yes
-    lightbox: yes
-    toc_depth: 3
 ---
 
 ```{r DoNotModify, include=FALSE}
@@ -109,6 +109,7 @@ knitr::opts_chunk$set(dev.args=list(bg="transparent"))
 set.seed(973)
 ```
 
+<br />
 The code used in the article "On the Computation of Large Spatial Datasets With *M*" is detailed here.
 
 # Data simulation
@@ -763,3 +764,5 @@ In the absence of spatial structure, the value of *M* varies much less.
 
 In the presence of a spatial structure, the estimation error is large at short distances.
 It becomes negligible beyond the grid cell.
+
+# References
