@@ -726,4 +726,8 @@ Beyond that, approximating the location reduces the size of the set of points to
 The price to pay is the absence of information at the scale of elementary geographical units (the grid cells in this case).
 **Depending on the issues addressed, a choice has to be made because this limitation may or may not be acceptable:** the overall description of the spatial structure is not significantly degraded, but the study of externalities, which is particularly interesting at short distances, is very limited.
 
+# Acknowledgements
+Eric Marcon thanks XXX and Florence Puech gratefully acknowleges financial support from INRAE.
+
+
 `r if (!knitr::is_latex_output()) '# References {-}'`
