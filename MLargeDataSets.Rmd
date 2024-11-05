@@ -114,7 +114,7 @@ knitr::opts_chunk$set(dev.args=list(bg="transparent"))
 set.seed(973)
 ```
 
-# Introduction
+# Introduction {.unnumbered}
 
 Increasing access to large individual and spatial datasets and greater computing power have encouraged the development of statistical analysis tools for processing such data in the best possible way [@Baddeley2016a].
 Empirical studies at very fine geographical levels have thus been proposed in recent years for large datasets.
@@ -141,7 +141,8 @@ The first section generates the necessary data.
 Large point sets (of the order of several tens of thousands of points) that are either completely random or geographically concentrated are drawn.
 The second section details the use of the *dbmss* package to calculate the *M* function and its confidence interval from a table giving the position and characteristics of the points or a matrix of distances between them.
 The third section measures the performance of *dbmss* as a function of the size of the set of points, in terms of computing time and memory requirements.
-Finally, the last section tests the approximation which consists of grouping them together at the centre of the cells of a grid, following the approach of @Tidu2023 which positions them at the centre of the administrative units in which they are located.
+The fourth section tests the approximation which consists of grouping them together at the centre of the cells of a grid, following the approach of @Tidu2023 which positions them at the centre of the administrative units in which they are located.
+In the last section, we conclude and discuss the advantages and the limits of an approximation of the locations on the results as well as on the computing time.
 
 # Data simulation
 
@@ -515,7 +516,7 @@ M_ram %>%
     geom_line()
 ```
 
-The memory required increases linearly with the number of points and is never critical for point set sizes that can be processed in reasonable times.
+**The memory required increases linearly with the number of points and is never critical for point set sizes that can be processed in reasonable times.**
 This highlights @Tidu2023's conclusion about the power and computation time required when using *M* on large datasets.
 The memory used by `Dtable` objects to calculate $M$ from a distance matrix is much greater: it is that of a numerical matrix, of the order of 8 bytes times the number of points squared, i.e. 800 MB for 10,000 points alone.
 As the calculation time is not reduced by this approach, its use should be reserved for non-Euclidean distances.
@@ -527,7 +528,7 @@ As the calculation time is not reduced by this approach, its use should be reser
 simulations_n <- 100
 ```
 
-Clearly, approximating the position of the points results in a loss of information: in each grid cell, the distance between all the points is set to 0, and the distance between two points in different cells is approximated by the distance between the centroids of the two cells.
+Clearly, approximating the position of the points results in a loss of information: in each grid cell, the distance between all the points is set to zero, and the distance between two points in different cells is approximated by the distance between the centroids of the two cells.
 We therefore expect a severe error in the estimation of *M* on a small scale (of the order of magnitude of the size of the cells) and an error that decreases with distance, when the relative size of the cells decreases.
 The effect of the location approximation is first tested on a set of aggregated points, similar to the real @Tidu2023 data.
 Secondly, the case of an unstructured set of points is considered.
@@ -625,7 +626,7 @@ sapply(
     labs(x = "Distance", y = "Correlation")
 ```
 
-The correlation is very close to 1, and the estimated values very similar, as soon as the distance taken into account exceeds the grid cell: the approximation is not a problem if the interactions between the points are studied beyond this distance.
+**The correlation is very close to 1, and the estimated values very similar, as soon as the distance taken into account exceeds the grid cell: the approximation is not a problem if the interactions between the points are studied beyond this distance.**
 The information on interactions at short distances, i.e. within each grid cell, is lost, or, more precisely, approximated by its value at the grid scale.
 
 ## Case of a completely random distribution (CSR)
@@ -709,7 +710,7 @@ sapply(
 The mean value of $M$ is equal to 1 at all distances by construction: Cases and Controls are distributed completely randomly.
 The approximations are relatively small in value (a few percent) but as the real value of $M$ varies little around 1, the correlations are much weaker (figure \@ref(fig:CorCSRFig)) in the absence of spatial structure.
 
-# Conclusion
+# Conclusion and discussion
 
 To summarise, and based on the cases proposed in this article, two conclusions can be drawn.
 
@@ -726,7 +727,7 @@ Beyond that, approximating the location reduces the size of the set of points to
 The price to pay is the absence of information at the scale of elementary geographical units (the grid cells in this case).
 **Depending on the issues addressed, a choice has to be made because this limitation may or may not be acceptable:** the overall description of the spatial structure is not significantly degraded, but the study of externalities, which is particularly interesting at short distances, is very limited.
 
-# Acknowledgements
+# Acknowledgements {.unnumbered}
 Eric Marcon thanks XXX and Florence Puech gratefully acknowleges financial support from INRAE.
 
 
