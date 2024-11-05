@@ -316,7 +316,7 @@ group_points_to_plot <- function(X, partitions = par_partitions) {
 }
 ```
 
-The refocused position is shown on the map in figure \@ref(fig:GroupedFig).
+The approximated position of points is shown on the map in figure \@ref(fig:GroupedFig).
 Each cell now contains only one point of each type, whose weight is the sum of the weights of the individual points.
 
 (ref:Grouped) Repositioning of points in an arbitrary grid. The absence of Cases in a cell is easily detected (single-colour blue dot), as is the strong presence of Cases in a cell (two-colour dot, but predominantly red).
