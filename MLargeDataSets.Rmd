@@ -42,15 +42,15 @@ urlcolor: blue
 always_allow_html: yes
 csquotes: true
 output:
-  rmdformats::downcute:
-    use_bookdown: yes
-    lightbox: yes
-    toc_depth: 3
   bookdown::pdf_book:
     template: latex/stylish_article.tex
     citation_package: natbib
     latex_engine: xelatex
     keep_tex: no
+  rmdformats::downcute:
+    use_bookdown: yes
+    lightbox: yes
+    toc_depth: 3
   bookdown::word_document2:
      reference_docx: "images/template.docx"
      number_sections: false
@@ -123,7 +123,7 @@ This type of approach has the advantage of preserving the exact positions of the
 Various studies have shown how important it is to use this type of methodology in many fields, including geography [@Sweeney1998; @Deurloo2008; @Kukuliac2017], economics [@Arbia1989; @Marcon2003a], ecology [@Cressie1993; @Lentz2011], biology [@Dray2021], and so on.
 In a recent article proposed in this journal, @Tidu2023 highlight the interest of a particular statistical measure, the *M* function proposed by @Marcon2010.
 This measure, which we will refer to as *M* in the remainder of the article, makes it possible to highlight spatial structures within a spatialised distribution (attraction, repulsion, independence) from a study based on the distances separating the entities analysed.
-However, while this measure preserves all the richness of individual geolocated data, it requires a longer calculation time than other distance-based measures, since it is both a cumulative and relative measure (see @Marcon2012c for a literature review on the advantages and limitations of a dozen existing distance-based measures).
+However, while this measure preserves all the richness of individual geolocated data, it requires a longer calculation time than other distance-based measures, since it is both a cumulative and relative measure [see @Marcon2012c for a literature review on the advantages and limitations of a dozen existing distance-based measures].
 @Tidu2023 propose to limit *M* calculation times by introducing a voluntary positioning error for the entities analysed.
 For example, in their study, industrial establishments in Sardinia (Italy) are no longer located at their exact postal address but at the centroid of their municipality.
 This repositioning reduces calculation times, as the number of possible distances between establishments is in fact limited to the distances separating the centroids of the municipalities.
@@ -460,8 +460,7 @@ summary(M_time_lm)
 ```
 
 It increases less quickly than the square of the number of points.
-It can be estimated very precisely ($R^2=$ `r format(summary(M_time_lm)$r.squared, digits=2)`) by the relation $t = t_0 (n / n_o)^p$ where $t$ is the estimated time for $n$ points knowing the time $t_0$ (e.g.: `r format(as.numeric(M_time[5, 2]), digits=3)` seconds) for $n_0$ points (e.g.: `r format(as.numeric(M_time[5, 1]), scientific=FALSE, big.mark=",")`) and $p$ the power relation (`r format(M_time_lm$coefficients[2], digits=1)`).
-Using a distance matrix may seem an efficient way of saving computation time, but in reality calculating distances is extremely fast and the whole process from a matrix is ultimately more time-consuming.
+It can be estimated very precisely ($R^2=$ `r format(summary(M_time_lm)$r.squared, digits=2)`) by the relation $t = t_0 (n / n_o)^p$ where $t$ is the estimated time for $n$ points (e.g.: `r format(as.numeric(M_time[5, 2]), digits=3)` seconds for `r format(as.numeric(M_time[5, 1]), scientific=FALSE, big.mark=",")` points) knowing the time $t_0$  for $n_0$ points and $p$ is the power relation (here: `r format(M_time_lm$coefficients[2], digits=2)`).
 
 ```{r}
 #| label: MmbCode
@@ -485,6 +484,7 @@ mb |> summary() |> as.data.frame() |>
   ) -> Mmb
 ```
 
+Using a distance matrix may seem an efficient way of saving computation time, but in reality calculating distances is extremely fast and the whole process from a matrix is ultimately more time-consuming.
 The median execution time is equal to `r Mmb$Time[1]` milliseconds for estimating the *M* function from a set of `r format(as.numeric(par_points_nb), scientific=FALSE, big.mark=",")` points or `r Mmb$Time[2]` milliseconds for the corresponding distance matrix.
 
 
@@ -518,7 +518,7 @@ M_ram %>%
 
 **The memory required increases linearly with the number of points and is never critical for point set sizes that can be processed in reasonable times.**
 This highlights @Tidu2023's conclusion about the power and computation time required when using *M* on large datasets.
-The memory used by `Dtable` objects to calculate $M$ from a distance matrix is much greater: it is that of a numerical matrix, of the order of 8 bytes times the number of points squared, i.e. 800 MB for 10,000 points alone.
+The memory used by `Dtable` objects to calculate $M$ from a distance matrix is much greater: it is that of a numerical matrix, of the order of 8 bytes times the number of points squared, i.e. 800 MB for 10,000 points only.
 As the calculation time is not reduced by this approach, its use should be reserved for non-Euclidean distances.
 
 # Effects of approximating the position of points
@@ -717,10 +717,10 @@ To summarise, and based on the cases proposed in this article, two conclusions c
 Firstly, it seems that **approximation on location can be considered to save computation time, given the strong correlation observed between the values of *M* on exact and approximated data, but keeping a very fine grid.** Our result is therefore in line with @Tidu2023's article, which mentions strong correlations on Italian company location data.
 Since the spatial structure of their data is probably an intermediate case between the two cases dealt with in our article (aggregated and random theoretical distributions), the results provided by our two contributions are complementary. If the aim of the study is to look at spatial structures at very small distances, then approximating geographical positions is not desirable, because the discrepancies between the *M* results are greatest for these distances.
 
-Secondly, concerning the computing, the calculation time for $M$ is around 6 seconds for a set of 100,000 points on a laptop (Intel i7-1360P 2.20 GHz processor), and requires 25 MB of RAM.
+Secondly, concerning the computing burden, the calculation time for $M$ is around 5 seconds for a set of 100,000 points on a laptop (Intel i7-1360P 2.20 GHz processor), and requires 25 MB of RAM.
 Calculating a confidence interval from 1,000 simulations therefore takes less than two hours.
-For a set of five million points, the expected calculation time is $6 \times 50^{1.8} = 6,860$ seconds, nearly two hours.
-1,000 simulations would then take around three months.
+For a set of five million points, the expected calculation time is $5 \times 50^{1.6} \approx 2,600$ seconds, nearly 3/4 of an hour.
+1,000 simulations would then take around one month.
 The calculation of distances is parallelized: a calculation server would drastically increase performance, but at the cost of a complexity of implementation that limits its use.
 If we limit ourselves to the computing power of a personal computer, exact calculation is fully justified for data of the order of $10^5$ points: a few hours are enough to calculate confidence intervals.
 Beyond that, approximating the location reduces the size of the set of points to the number of locations selected.
@@ -728,7 +728,6 @@ The price to pay is the absence of information at the scale of elementary geogra
 **Depending on the issues addressed, a choice has to be made because this limitation may or may not be acceptable:** the overall description of the spatial structure is not significantly degraded, but the study of externalities, which is particularly interesting at short distances, is very limited.
 
 # Acknowledgements {.unnumbered}
-Eric Marcon thanks XXX and Florence Puech gratefully acknowleges financial support from INRAE.
-
+Eric Marcon benefited from an ‘Investissement d’Avenir’ grant managed by the Agence Nationale de la Recherche (LABEX CEBA, ref. ANR-10-LBX-25) and Florence Puech gratefully acknowledges financial support from INRAE.
 
 `r if (!knitr::is_latex_output()) '# References {-}'`
