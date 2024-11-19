@@ -280,9 +280,9 @@ The calculation time is therefore expected to increase as the square of the numb
 The calculation time required for the exact calculation is evaluated for a range of numbers of points (figure <a href="#fig:TestTimeMemFig">3.1</a>a).</p>
 <p><strong>The calculation time is related to the size of the set of points by a power law.</strong>
 It increases less quickly than the square of the number of points.
-It can be estimated very precisely (<span class="math inline">\(R^2=\)</span> 0.97) by the relation <span class="math inline">\(t=t_0 (n/n_o)^p\)</span> where <span class="math inline">\(t\)</span> is the estimated time for <span class="math inline">\(n\)</span> points (e.g.: 5.17 seconds for 100,000 points) knowing the time <span class="math inline">\(t_0\)</span> for <span class="math inline">\(n_0\)</span> points and <span class="math inline">\(p\)</span> is the power relation (here: 1.6).</p>
+It can be estimated very precisely (<span class="math inline">\(R^2=\)</span> 0.98) by the relation <span class="math inline">\(t=t_0 (n/n_o)^p\)</span> where <span class="math inline">\(t\)</span> is the estimated time for <span class="math inline">\(n\)</span> points (e.g.: 5.42 seconds for 100,000 points) knowing the time <span class="math inline">\(t_0\)</span> for <span class="math inline">\(n_0\)</span> points and <span class="math inline">\(p\)</span> is the power relation (here: 1.7).</p>
 <p>Using a distance matrix may seem an efficient way of saving computation time, but in reality calculating distances is extremely fast and the whole process from a matrix is ultimately more time-consuming.
-The median execution time is equal to 12 milliseconds for estimating the <em>M</em> function from a set of 5,000 points or 17 milliseconds for the corresponding distance matrix.</p>
+The median execution time is equal to 14 milliseconds for estimating the <em>M</em> function from a set of 5,000 points or 23 milliseconds for the corresponding distance matrix.</p>
 </div>
 <div id="memory" class="section level2" number="3.2">
 <h2><span class="header-section-number">3.2</span> Memory</h2>
