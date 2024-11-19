@@ -17,7 +17,7 @@ abstract: >
   Increasing access to large individual and spatial datasets, coupled with the development of computing power, has encouraged the search for suitable statistical tools to best analyse such data.
   In a recent article published in this journal, @Tidu2023 highlight the qualities of the *M* function [@Marcon2010], a measure of spatial concentration in continuous space. 
   They also express reservations about the computation times required.
-  Our methodological work seeks to specify the processing of large spatialized data sets with *M* using R software.
+  Our methodological work seeks to specify the processing of large, spatialized data sets with *M* using R software.
   Two avenues are being explored to determine the computational performance of *M*.
   Firstly, a precise evaluation of the computational time and memory requirements for geolocalised data is carried out using the *dbmss* package in R [@dbmss] by means of performance tests. 
   Then, as suggested by @Tidu2023, we also consider the possibility of approximating the geographical positions of the entities analysed.
@@ -42,15 +42,15 @@ urlcolor: blue
 always_allow_html: yes
 csquotes: true
 output:
+  rmdformats::downcute:
+    use_bookdown: yes
+    lightbox: yes
+    toc_depth: 3
   bookdown::pdf_book:
     template: latex/stylish_article.tex
     citation_package: natbib
     latex_engine: xelatex
     keep_tex: no
-  rmdformats::downcute:
-    use_bookdown: yes
-    lightbox: yes
-    toc_depth: 3
   bookdown::word_document2:
      reference_docx: "images/template.docx"
      number_sections: false
@@ -292,8 +292,8 @@ group_points <- function(X, partitions = par_partitions) {
       y_cell = ceiling(y * partitions) / partitions - 1 / 2 / partitions,
       .keep = "unused"
     ) %>%
-    rename(x = x_cell, y = y_cell) |> 
-    as.wmppp(window = X$window, unitname = X$window$units) |> 
+    rename(x = x_cell, y = y_cell) %>% 
+    as.wmppp(window = X$window, unitname = X$window$units) %>% 
     rjitter()
 }
 # Group points and merge them
@@ -311,7 +311,7 @@ group_points_to_plot <- function(X, partitions = par_partitions) {
     ) %>%
     group_by(PointType, x_cell, y_cell) %>% 
     summarise(n = n(), PointWeight = sum(PointWeight)) %>% 
-    rename(x = x_cell, y = y_cell) |> 
+    rename(x = x_cell, y = y_cell) %>% 
     as.wmppp(window = X$window, unitname = X$window$units)
 }
 ```
@@ -325,7 +325,7 @@ Each cell now contains only one point of each type, whose weight is the sum of t
 #| label: GroupedFig
 #| include: true
 #| fig.cap: "(ref:Grouped)"
-X |> group_points_to_plot() |> autoplot(alpha = 0.5)
+X %>% group_points_to_plot() %>% autoplot(alpha = 0.5)
 ```
 
 The values of the *M* function can now be calculated from the original point set or its approximation after recentring.
@@ -474,8 +474,8 @@ mb <- microbenchmark(
 
 ```{r}
 #| label: MmbTab
-mb |> summary() |> as.data.frame() |>
-  select(expr, median) |> 
+mb %>% summary() %>% as.data.frame() %>%
+  select(expr, median) %>% 
   mutate(
     `Method` = c("Point Pattern", "Distance Matrix"), 
     `Time` = round(median),
@@ -710,7 +710,7 @@ sapply(
 The mean value of $M$ is equal to 1 at all distances by construction: Cases and Controls are distributed completely randomly.
 The approximations are relatively small in value (a few percent) but as the real value of $M$ varies little around 1, the correlations are much weaker (figure \@ref(fig:CorCSRFig)) in the absence of spatial structure.
 
-# Conclusion and discussion
+# Discussion and conclusion
 
 To summarise, and based on the cases proposed in this article, two conclusions can be drawn.
 
@@ -719,8 +719,8 @@ Since the spatial structure of their data is probably an intermediate case betwe
 
 Secondly, concerning the computing burden, the calculation time for $M$ is around 5 seconds for a set of 100,000 points on a laptop (Intel i7-1360P 2.20 GHz processor), and requires 25 MB of RAM.
 Calculating a confidence interval from 1,000 simulations therefore takes less than two hours.
-For a set of five million points, the expected calculation time is $5 \times 50^{1.6} \approx 2,600$ seconds, nearly 3/4 of an hour.
-1,000 simulations would then take around one month.
+For a set of five million points, the expected calculation time is $5 \times 50^{1.7} \approx 3,900$ seconds, around an hour.
+1,000 simulations would then take more than one month.
 The calculation of distances is parallelized: a calculation server would drastically increase performance, but at the cost of a complexity of implementation that limits its use.
 If we limit ourselves to the computing power of a personal computer, exact calculation is fully justified for data of the order of $10^5$ points: a few hours are enough to calculate confidence intervals.
 Beyond that, approximating the location reduces the size of the set of points to the number of locations selected.
@@ -728,6 +728,6 @@ The price to pay is the absence of information at the scale of elementary geogra
 **Depending on the issues addressed, a choice has to be made because this limitation may or may not be acceptable:** the overall description of the spatial structure is not significantly degraded, but the study of externalities, which is particularly interesting at short distances, is very limited.
 
 # Acknowledgements {.unnumbered}
-Eric Marcon benefited from an ‘Investissement d’Avenir’ grant managed by the Agence Nationale de la Recherche (LABEX CEBA, ref. ANR-10-LBX-25) and Florence Puech gratefully acknowledges financial support from INRAE.
+Eric Marcon benefited from an 'Investissement d’Avenir' grant managed by the Agence Nationale de la Recherche (LABEX CEBA, ref. ANR-10-LBX-25) and Florence Puech gratefully acknowledges financial support from INRAE.
 
 `r if (!knitr::is_latex_output()) '# References {-}'`

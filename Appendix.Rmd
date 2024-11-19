@@ -282,8 +282,8 @@ group_points <- function(X, partitions = par_partitions) {
       y_cell = ceiling(y * partitions) / partitions - 1 / 2 / partitions,
       .keep = "unused"
     ) %>%
-    rename(x = x_cell, y = y_cell) |> 
-    as.wmppp(window = X$window, unitname = X$window$units) |> 
+    rename(x = x_cell, y = y_cell)  %>%  
+    as.wmppp(window = X$window, unitname = X$window$units) %>% 
     rjitter()
 }
 # Group points and merge them
@@ -301,7 +301,7 @@ group_points_to_plot <- function(X, partitions = par_partitions) {
     ) %>%
     group_by(PointType, x_cell, y_cell) %>% 
     summarise(n = n(), PointWeight = sum(PointWeight)) %>% 
-    rename(x = x_cell, y = y_cell) |> 
+    rename(x = x_cell, y = y_cell) %>% 
     as.wmppp(window = X$window, unitname = X$window$units)
 }
 ```
@@ -310,7 +310,7 @@ The figure is obtained using the following code:
 
 ```{r}
 #| label: GroupedCode
-X |> group_points_to_plot() |> autoplot(alpha = 0.5)
+X %>% group_points_to_plot() %>% autoplot(alpha = 0.5)
 ```
 
 # Calculation of *M*
@@ -513,7 +513,7 @@ The memory required (in MB) increases linearly with the number of points.
 ```{r}
 #| label: MemModelCode
 # Model
-lm(RAM ~ Size, data = M_ram) |> summary()
+lm(RAM ~ Size, data = M_ram) %>% summary()
 ```
 
 # Effects of approximating the position of the points
