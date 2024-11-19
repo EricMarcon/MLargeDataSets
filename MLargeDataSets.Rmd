@@ -25,9 +25,8 @@ abstract: >
   The complete R code is given for the reproducibility of the results.
 keywords: [Distance-based method, M-function, Performance test, R Package dbmss]
 journalinfo: "Preprint"
-# Date format: '%Y %B %d' for distill
-date: "`r format(Sys.time(), '%Y %B %d')`"
-archive: "`r format(Sys.time(), '%d %B %Y')`"
+date: "`r format(Sys.time(), '%Y %b %d')`"
+archive: "`r format(Sys.time(), '%Y %b %d')`"
 keywordlabel: Keywords
 corrauthorlabel: Corresponding author
 url: https://EricMarcon.github.io/MLargeDataSets/
@@ -42,10 +41,6 @@ urlcolor: blue
 always_allow_html: yes
 csquotes: true
 output:
-  rmdformats::downcute:
-    use_bookdown: yes
-    lightbox: yes
-    toc_depth: 3
   bookdown::pdf_book:
     template: latex/stylish_article.tex
     citation_package: natbib
@@ -54,6 +49,11 @@ output:
   bookdown::word_document2:
      reference_docx: "images/template.docx"
      number_sections: false
+  rmdformats::downcute:
+    use_bookdown: yes
+    lightbox: yes
+    toc_depth: 3
+    self_contained: no
 ---
 
 ```{r DoNotModify, include=FALSE}
@@ -62,7 +62,7 @@ output:
 InstallPackages <- function(Packages) {
   InstallPackage <- function(Package) {
     if (!Package %in% installed.packages()[, 1]) {
-      install.packages(Package, repos="https://cran.rstudio.com/")
+      install.packages(Package, repos = "https://cran.rstudio.com/")
     }
   }
   invisible(sapply(Packages, FUN = InstallPackage))
@@ -82,7 +82,7 @@ knitr::knit_hooks$set(chunk = function(x, options) {
 ```{r Options, include=FALSE}
 ### Customized options for this document
 # Add necessary packages here
-Packages <- c("tidyverse", "spatstat", "dbmss", "pbapply", "plyr", "GoFKernel", "microbenchmark", "profmem")
+Packages <- c("tidyverse", "spatstat", "dbmss", "pbapply", "plyr", "GoFKernel", "microbenchmark", "profmem", "gridExtra")
 # Install them
 InstallPackages(Packages)
 
@@ -98,7 +98,7 @@ knitr::opts_chunk$set(
   # Graphic devices (ragg_png is better than standard png)
   dev = c("ragg_png", "pdf"),
   # Code chunk format
-  tidy = FALSE, tidy.opts = list(blank=FALSE, width.cutoff=50),
+  tidy = FALSE, tidy.opts = list(blank = FALSE, width.cutoff = 50),
   size = "scriptsize", knitr.graphics.auto_pdf = TRUE
   )
 options(width = 50)
@@ -106,9 +106,9 @@ options(width = 50)
 # ggplot style
 library("tidyverse")
 theme_set(theme_bw())
-theme_update(panel.background=element_rect(fill="transparent", colour=NA),
-             plot.background=element_rect(fill="transparent", colour=NA))
-knitr::opts_chunk$set(dev.args=list(bg="transparent"))
+theme_update(panel.background = element_rect(fill = "transparent", colour = NA),
+             plot.background = element_rect(fill = "transparent", colour = NA))
+knitr::opts_chunk$set(dev.args = list(bg = "transparent"))
 
 # Random seed
 set.seed(973)
@@ -212,8 +212,7 @@ par_kappa <- 20
 par_scale <-  0.1
 ```
 
-(ref:XMatern) Drawing of a set of points where the Cases (in red) are aggregated and the Controls (in blue) are distributed completely randomly. The size of the points is proportional to their weight.
-
+(ref:XMatern) Random draw of a set of points where the Cases (in red) are aggregated and the Controls (in blue) are distributed completely randomly. The size of the points is proportional to their weight.
 ```{r}
 #| label: XMaternFig
 #| include: true
@@ -320,7 +319,6 @@ The approximated position of points is shown on the map in figure \@ref(fig:Grou
 Each cell now contains only one point of each type, whose weight is the sum of the weights of the individual points.
 
 (ref:Grouped) Repositioning of points in an arbitrary grid. The absence of Cases in a cell is easily detected (single-colour blue dot), as is the strong presence of Cases in a cell (two-colour dot, but predominantly red).
-
 ```{r}
 #| label: GroupedFig
 #| include: true
@@ -361,7 +359,6 @@ In addition to estimating the *M* function, the `Menvelope()` function can be us
 The result is shown in figure&nbsp;\@ref(fig:MFig).
 
 (ref:M) Value of *M* as a function of distance from the reference point. The confidence interval, simulated at 95%, appears in grey and is centred on the value 1.
-
 ```{r}
 #| label: MFig
 #| include: true
@@ -403,19 +400,15 @@ X_to_M <- function(X) {
 
 Calculating the distances between all pairs of points is necessary to estimate *M*.
 The calculation time is therefore expected to increase as the square of the number of points.
-The calculation time required for the exact calculation is evaluated for a range of numbers of points (figure \@ref(fig:TestTimeFig)).
+The calculation time required for the exact calculation is evaluated for a range of numbers of points (figure \@ref(fig:TestTimeMemFig)a).
 
 ```{r}
 #| label: ParamsXSizeCode
 X_sizes <- c(1000, 5000, 10000, 50000, 100000)
 ```
 
-(ref:TestTime) Calculation time (seconds) of the estimate of the *M* function as a function of the size of the set of points. The bars represent the $\pm 1$ standard deviation interval.
-
 ```{r}
-#| label: TestTimeFig
-#| include: true
-#| fig.cap: "(ref:TestTime)"
+#| label: TestTime
 library("microbenchmark")
 test_time <- function(points_nb) {
   X <- X_csr(points_nb)
@@ -439,15 +432,7 @@ X_sizes %>%
       )
     )
   ) -> M_time
-M_time %>% 
-  ggplot(aes(x = Size, y = Time)) +
-    geom_point() +
-    geom_errorbar(aes(ymin = Time - sd, ymax = Time + sd)) +
-    scale_x_log10() +
-    scale_y_log10()
 ```
-
-The calculation time is related to the size of the set of points by a power law.
 
 ```{r}
 #| label: TimeModelCode
@@ -459,22 +444,20 @@ M_time_lm <- lm(logTime ~ logSize, data = M_time_log)
 summary(M_time_lm)
 ```
 
+**The calculation time is related to the size of the set of points by a power law.**
 It increases less quickly than the square of the number of points.
-It can be estimated very precisely ($R^2=$ `r format(summary(M_time_lm)$r.squared, digits=2)`) by the relation $t = t_0 (n / n_o)^p$ where $t$ is the estimated time for $n$ points (e.g.: `r format(as.numeric(M_time[5, 2]), digits=3)` seconds for `r format(as.numeric(M_time[5, 1]), scientific=FALSE, big.mark=",")` points) knowing the time $t_0$  for $n_0$ points and $p$ is the power relation (here: `r format(M_time_lm$coefficients[2], digits=2)`).
+It can be estimated very precisely ($R^2=$ `r format(summary(M_time_lm)$r.squared, digits=2)`) by the relation $t=t_0 (n/n_o)^p$ where $t$ is the estimated time for $n$ points (e.g.: `r format(as.numeric(M_time[5, 2]), digits=3)` seconds for `r format(as.numeric(M_time[5, 1]), scientific=FALSE, big.mark=",")` points) knowing the time $t_0$  for $n_0$ points and $p$ is the power relation (here: `r format(M_time_lm$coefficients[2], digits=2)`).
 
 ```{r}
 #| label: MmbCode
 library("microbenchmark")
-mb <- microbenchmark(
+microbenchmark(
   Mhat(X, r = r, ReferenceType = "Case", NeighborType = "Control"),
   Mhat(d_matrix, r = r, ReferenceType = "Case", NeighborType = "Control"),
   times = 4L
-)
-```
-
-```{r}
-#| label: MmbTab
-mb %>% summary() %>% as.data.frame() %>%
+) %>% 
+  summary() %>% 
+  as.data.frame() %>%
   select(expr, median) %>% 
   mutate(
     `Method` = c("Point Pattern", "Distance Matrix"), 
@@ -488,17 +471,10 @@ Using a distance matrix may seem an efficient way of saving computation time, bu
 The median execution time is equal to `r Mmb$Time[1]` milliseconds for estimating the *M* function from a set of `r format(as.numeric(par_points_nb), scientific=FALSE, big.mark=",")` points or `r Mmb$Time[2]` milliseconds for the corresponding distance matrix.
 
 
-
 ## Memory
 
-The memory used is evaluated for the same data sizes (figure \@ref(fig:TestMemFig)).
-
-(ref:TestMem) Memory required (MB) for estimating the *M* function as a function of the size of the set of points.
-
 ```{r}
-#| label: TestMemFig
-#| include: true
-#| fig.cap: "(ref:TestMem)"
+#| label: TestMem
 # RAM
 library("profmem")
 test_ram <- function(points_nb) {
@@ -510,16 +486,41 @@ test_ram <- function(points_nb) {
 sapply(X_sizes, FUN = test_ram) %>% 
   tibble(Size = X_sizes, RAM = . / 2^20) ->
   M_ram
+```
+
+(ref:TestMemTime) Calculation time (a) in seconds and memory required (b) in MB to estimate the *M* function as a function of the size of the set of points. The bars represent the $\pm 1$ standard deviation interval.
+```{r}
+#| label: TestTimeMemFig
+#| include: true
+#| fig.asp: 0.5
+#| fig.cap: "(ref:TestMemTime)"
+#| fig.env: "figure*"
+#| out.extra: ""
+
+library("gridExtra")
+M_time %>% 
+  ggplot(aes(x = Size, y = Time)) +
+    geom_point() +
+    geom_errorbar(aes(ymin = Time - sd, ymax = Time + sd)) +
+    scale_x_log10() +
+    scale_y_log10() + 
+    labs(tag = "a") ->
+  TestTimeMemFiga
 M_ram %>% 
   ggplot(aes(x = Size, y = RAM)) +
     geom_point() +
-    geom_line()
+    geom_line() + 
+    labs(tag = "b") ->
+  TestTimeMemFigb
+grid.arrange(TestTimeMemFiga, TestTimeMemFigb, ncol = 2)
 ```
 
+The memory used is evaluated for the same data sizes (figure \@ref(fig:TestTimeMemFig)b).
 **The memory required increases linearly with the number of points and is never critical for point set sizes that can be processed in reasonable times.**
 This highlights @Tidu2023's conclusion about the power and computation time required when using *M* on large datasets.
 The memory used by `Dtable` objects to calculate $M$ from a distance matrix is much greater: it is that of a numerical matrix, of the order of 8 bytes times the number of points squared, i.e. 800 MB for 10,000 points only.
 As the calculation time is not reduced by this approach, its use should be reserved for non-Euclidean distances.
+
 
 # Effects of approximating the position of points
 
@@ -562,14 +563,15 @@ M_matern_original <- pbsapply(X_matern_list, FUN = X_to_M)
 M_matern_grouped <- pbsapply(X_matern_grouped_list, FUN = X_to_M)
 ```
 
-The mean values of the estimates of *M* are presented in figure \@ref(fig:MapproxMaternFig).
-
-(ref:MapproxMatern) Average estimate of the *M* function from the exact position of the points compared with the values obtained by grouping the points. Cases form aggregates of radius `r format(par_scale, digits=1)`.
-
+(ref:MapproxMatern) Average estimate of the *M* function from the exact position of the points compared with the values obtained by grouping the points (a) and correlation between them (b). Cases form aggregates of radius `r format(par_scale, digits=1)`.
 ```{r}
 #| label: MapproxMaternFig
 #| include: true
+#| fig.asp: 0.5
 #| fig.cap: "(ref:MapproxMatern)"
+#| fig.env: "figure*"
+#| out.extra: ""
+
 tibble(
   r,
   Exact = rowMeans(M_matern_original), 
@@ -583,23 +585,12 @@ tibble(
   ggplot(aes(x = r, y = value, color = M)) +
   geom_line() +
   geom_point() +
-  labs(x = "Distance", y = "M") +
+  labs(x = "Distance", y = "M", tag = "a") +
     theme(
     legend.position = c(0.85, 0.8),
     legend.background = element_blank()
-  )
-```
-
-The size of the grid cells is equal to `r 1/par_partitions`.
-All neighbours at distances less than this threshold are placed at zero distance: the estimate of the function is constant up to this threshold.
-The correlation between the $M$ values estimated by each method is calculated at each distance (figure \@ref(fig:CorMaternFig)).
-
-(ref:CorMatern) Correlation between *M* values estimated from the exact position of the points and by grouping the points. Cases form aggregates of radius `r format(par_scale, digits=1)`.
-
-```{r}
-#| label: CorMaternFig
-#| include: true
-#| fig.cap: "(ref:CorMatern)"
+  ) -> 
+MapproxMaternFiga
 # Correlation
 M_cor <- function(r_value, M_original, M_grouped) {
   r_index <- which(r == r_value)
@@ -623,8 +614,15 @@ sapply(
   ggplot(aes(x = r, y = correlation)) +
     geom_point() +
     geom_line() +
-    labs(x = "Distance", y = "Correlation")
+    labs(x = "Distance", y = "Correlation", tag = "b") -> 
+  MapproxMaternFigb
+grid.arrange(MapproxMaternFiga, MapproxMaternFigb, ncol = 2)
 ```
+
+The mean values of the estimates of *M* are presented in figure \@ref(fig:MapproxMaternFig)a.
+The size of the grid cells is equal to `r 1/par_partitions`.
+All neighbours at distances less than this threshold are placed at zero distance: the estimate of the function is constant up to this threshold and small-scale aggregation is underestimated.
+The correlation between the *M* values estimated by each method is calculated at each distance (figure \@ref(fig:MapproxMaternFig)b).
 
 **The correlation is very close to 1, and the estimated values very similar, as soon as the distance taken into account exceeds the grid cell: the approximation is not a problem if the interactions between the points are studied beyond this distance.**
 The information on interactions at short distances, i.e. within each grid cell, is lost, or, more precisely, approximated by its value at the grid scale.
@@ -657,14 +655,15 @@ system.time(M_csr_original <- pbsapply(X_csr_list, FUN = X_to_M))
 system.time(M_csr_grouped <- sapply(X_csr_grouped_list, FUN = X_to_M))
 ```
 
-The average values are shown in figure \@ref(fig:MapproxCSRFig).
-
-(ref:MapproxCSR) Average estimate of the *M* function from the exact position of the points compared with the values obtained by grouping the points. Both Cases and Controls are drawn in a Poisson process.
-
+(ref:MapproxCSR) Average estimate of the *M* function from the exact position of the points compared with the values obtained by grouping the points (a) and correlation between them (b). Both Cases and Controls are drawn in a Poisson process.
 ```{r}
 #| label: MapproxCSRFig
 #| include: true
+#| fig.asp: 0.5
 #| fig.cap: "(ref:MapproxCSR)" 
+#| fig.env: "figure*"
+#| out.extra: ""
+
 tibble(
   r,
   Exact = rowMeans(M_csr_original), 
@@ -678,19 +677,12 @@ tibble(
   ggplot(aes(x = r, y = value, color = M)) +
   geom_line() +
   geom_point() +
-  labs(x = "Distance", y = "M") +
+  labs(x = "Distance", y = "M", tag = "a") +
   theme(
     legend.position = c(0.85, 0.2),
     legend.background = element_blank()
-  )
-```
-
-(ref:CorCSR) Correlation between *M* values estimated from the exact position of the points and by grouping the points. Both Cases and Controls are drawn in a Poisson process.
-
-```{r}
-#| label: CorCSRFig
-#| include: true
-#| fig.cap: "(ref:CorCSR)"
+  ) ->
+MapproxCSRFiga
 # Correlation
 sapply(
   r, 
@@ -704,28 +696,33 @@ sapply(
   ggplot(aes(x = r, y = correlation)) +
     geom_point() +
     geom_line() +
-    labs(x = "Distance", y = "Correlation")
+    labs(x = "Distance", y = "Correlation", tag = "b")->
+MapproxCSRFigb
+grid.arrange(MapproxCSRFiga, MapproxCSRFigb, ncol = 2)
 ```
 
-The mean value of $M$ is equal to 1 at all distances by construction: Cases and Controls are distributed completely randomly.
-The approximations are relatively small in value (a few percent) but as the real value of $M$ varies little around 1, the correlations are much weaker (figure \@ref(fig:CorCSRFig)) in the absence of spatial structure.
+The average values are shown in figure \@ref(fig:MapproxCSRFig)a.
+The mean value of *M* is equal to 1 at all distances by construction: Cases and Controls are distributed completely randomly.
+The approximations are relatively small in value (a few percent) but artefactual aggregation is generated at small scale.
+As the real value of *M* varies little around 1, the correlations are much weaker (figure \@ref(fig:MapproxCSRFig)b) in the absence of spatial structure than in the aggregated case.
+
 
 # Discussion and conclusion
 
 To summarise, and based on the cases proposed in this article, two conclusions can be drawn.
 
-Firstly, it seems that **approximation on location can be considered to save computation time, given the strong correlation observed between the values of *M* on exact and approximated data, but keeping a very fine grid.** Our result is therefore in line with @Tidu2023's article, which mentions strong correlations on Italian company location data.
+Firstly, it seems that **approximation on location can be considered to save computation time, given the strong correlation observed between the values of *M* on exact and approximated data, but keeping a very fine grid**. Our result is therefore in line with @Tidu2023's article, which mentions strong correlations on Italian company location data.
 Since the spatial structure of their data is probably an intermediate case between the two cases dealt with in our article (aggregated and random theoretical distributions), the results provided by our two contributions are complementary. If the aim of the study is to look at spatial structures at very small distances, then approximating geographical positions is not desirable, because the discrepancies between the *M* results are greatest for these distances.
 
-Secondly, concerning the computing burden, the calculation time for $M$ is around 5 seconds for a set of 100,000 points on a laptop (Intel i7-1360P 2.20 GHz processor), and requires 25 MB of RAM.
+Secondly, concerning the computing burden, the calculation time for *M* is around 5 seconds for a set of 100,000 points on a laptop (Intel i7-1360P 2.20 GHz processor), and requires 25 MB of RAM.
 Calculating a confidence interval from 1,000 simulations therefore takes less than two hours.
-For a set of five million points, the expected calculation time is $5 \times 50^{1.7} \approx 3,900$ seconds, around an hour.
+For a set of five million points, the power law predicts around an hour of computing time.
 1,000 simulations would then take more than one month.
-The calculation of distances is parallelized: a calculation server would drastically increase performance, but at the cost of a complexity of implementation that limits its use.
+Thanks to parallelization, a calculation server would drastically increase performance, but at the cost of a complexity of implementation that limits its use.
 If we limit ourselves to the computing power of a personal computer, exact calculation is fully justified for data of the order of $10^5$ points: a few hours are enough to calculate confidence intervals.
 Beyond that, approximating the location reduces the size of the set of points to the number of locations selected.
 The price to pay is the absence of information at the scale of elementary geographical units (the grid cells in this case).
-**Depending on the issues addressed, a choice has to be made because this limitation may or may not be acceptable:** the overall description of the spatial structure is not significantly degraded, but the study of externalities, which is particularly interesting at short distances, is very limited.
+**Depending on the issues addressed, a choice has to be made because this limitation may or may not be acceptable**: the overall description of the spatial structure is not significantly degraded, but the study of externalities, which is particularly interesting at short distances, is very limited.
 
 # Acknowledgements {.unnumbered}
 Eric Marcon benefited from an 'Investissement d’Avenir' grant managed by the Agence Nationale de la Recherche (LABEX CEBA, ref. ANR-10-LBX-25) and Florence Puech gratefully acknowledges financial support from INRAE.
