@@ -7,7 +7,7 @@
   Two avenues are being explored to determine the computational performance of *M*.
   Firstly, a precise evaluation of the computational time and memory requirements for geo-localised data is carried out using the dbmss package in R by means of performance tests. 
   Then, as suggested by Tidu et al. (2024), we also consider the possibility of approximating the geographical positions of the entities analysed.
-  The extent of the deterioration in the estimate of *M* that this approach creates can thus be estimated, as can the gains in computation time made possible by the spatial approximation of locations. 
+  The extent of the deterioration in the estimate of *M* that this approach creates are estimated, as the gains in computation time made possible by the spatial approximation of locations. 
   The complete R code is given for the reproducibility of the results.
 
 

@@ -16,14 +16,14 @@ affiliation:
 corrauthor:
   email: eric.marcon@agroparistech.fr
 abstract: >
-  Increasing access to large individual and spatial datasets, coupled with the development of computing power, has encouraged the search for suitable statistical tools to best analyse such data. 
+  Increasing access to large individual and spatial datasets, coupled with the development of computing power, has encouraged the search for suitable statistical tools to best analyse such data.
   In a recent article published in this journal, @Tidu2023 highlight the qualities of the *M* function [@Marcon2010], a measure of spatial concentration in continuous space. 
   They also express reservations about the computation times required.
-  Our methodological work seeks to specify the processing of large spatialized data sets with *M* using R software.
+  Our methodological work seeks to specify the processing of large, spatialized data sets with *M* using R software.
   Two avenues are being explored to determine the computational performance of *M*.
-  Firstly, a precise evaluation of the computational time and memory requirements for geo-localised data is carried out using the dbmss package in R (@dbmss) by means of performance tests. 
+  Firstly, a precise evaluation of the computational time and memory requirements for geolocalised data is carried out using the *dbmss* package in R [@dbmss] by means of performance tests. 
   Then, as suggested by @Tidu2023, we also consider the possibility of approximating the geographical positions of the entities analysed.
-  The extent of the deterioration in the estimate of *M* that this approach creates can thus be estimated and discussed, as can the gains in computation time made possible by the spatial approximation of locations. 
+  The extent of the deterioration in the estimate of *M* that this approach creates are estimated and discussed, as the gains in computation time made possible by the spatial approximation of locations. 
   The complete R code is given for the reproducibility of the results.
 date: "`r format(Sys.time(), '%Y %B %d')`"
 archive: "`r format(Sys.time(), '%d %B %Y')`"
