@@ -15,7 +15,7 @@ corrauthor:
   email: eric.marcon@agroparistech.fr
 abstract: >
   Increasing access to large individual and spatial datasets, coupled with the development of computing power, has encouraged the search for suitable statistical tools to best analyse such data.
-  In a recent article published in this journal, @Tidu2023 highlight the qualities of the *M* function [@Marcon2010], a measure of spatial concentration in continuous space. 
+  In a recent article, @Tidu2023 highlight the qualities of the *M* function [@Marcon2010], a measure of spatial concentration in continuous space. 
   They also express reservations about the computation times required.
   Our methodological work seeks to specify the processing of large, spatialized data sets with *M* using R software.
   Two avenues are being explored to determine the computational performance of *M*.
@@ -41,19 +41,19 @@ urlcolor: blue
 always_allow_html: yes
 csquotes: true
 output:
-  rmdformats::downcute:
-    use_bookdown: yes
-    lightbox: yes
-    toc_depth: 3
-    self_contained: no
-  bookdown::word_document2:
-     reference_docx: "images/template.docx"
-     number_sections: false
   bookdown::pdf_book:
     template: latex/stylish_article.tex
     citation_package: natbib
     latex_engine: xelatex
     keep_tex: no
+  bookdown::word_document2:
+     reference_docx: "images/template.docx"
+     number_sections: false
+  rmdformats::downcute:
+    use_bookdown: yes
+    lightbox: yes
+    toc_depth: 3
+    self_contained: no
 ---
 
 ```{r DoNotModify, include=FALSE}
@@ -124,7 +124,7 @@ Empirical studies at very fine geographical levels have thus been proposed in re
 Particular attention has been paid to detecting the spatial structures (attraction, repulsion, independence) of individual spatialised data using analyses that are no longer based on zoned data but on geolocalised data.
 This type of approach has the advantage of preserving the exact positions of the entities analysed and therefore does not erase individual specificities.
 Various studies have shown how important it is to use this type of methodology in many fields, including geography [@Sweeney1998; @Deurloo2008; @Kukuliac2017], economics [@Arbia1989; @Marcon2003a], ecology [@Cressie1993; @Lentz2011], biology [@Dray2021], and so on.
-In a recent article proposed in this journal, @Tidu2023 highlight the interest of a particular statistical measure, the *M* function proposed by @Marcon2010.
+In a recent article, @Tidu2023 highlight the interest of a particular statistical measure, the *M* function proposed by @Marcon2010.
 This measure, which we will refer to as *M* in the remainder of the article, makes it possible to highlight spatial structures within a spatialised distribution (attraction, repulsion, independence) from a study based on the distances separating the entities analysed.
 However, while this measure preserves all the richness of individual geolocated data, it requires a longer calculation time than other distance-based measures, since it is both a cumulative and relative measure [see @Marcon2012c for a literature review on the advantages and limitations of a dozen existing distance-based measures].
 @Tidu2023 propose to limit *M* calculation times by introducing a voluntary positioning error for the entities analysed.
@@ -727,6 +727,10 @@ If we limit ourselves to the computing power of a personal computer, exact calcu
 Beyond that, approximating the location reduces the size of the set of points to the number of locations selected.
 The price to pay is the absence of information at the scale of elementary geographical units (the grid cells in this case).
 **Depending on the issues addressed, a choice has to be made because this limitation may or may not be acceptable**: the overall description of the spatial structure is not significantly degraded, but the study of externalities, which is particularly interesting at short distances, is very limited.
+
+# Appendix {.unnumbered}
+R code is available at the following address:
+https://ericmarcon.github.io/MLargeDataSets/Appendix.pdf
 
 # Acknowledgements {.unnumbered}
 Eric Marcon benefited from an 'Investissement d’Avenir' grant managed by the Agence Nationale de la Recherche (LABEX CEBA, ref. ANR-10-LBX-25) and Florence Puech gratefully acknowledges financial support from INRAE.
