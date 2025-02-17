@@ -17,7 +17,7 @@ corrauthor:
   email: eric.marcon@agroparistech.fr
 abstract: >
   Increasing access to large individual and spatial datasets, coupled with the development of computing power, has encouraged the search for suitable statistical tools to best analyse such data.
-  In a recent article published in this journal, @Tidu2023 highlight the qualities of the *M* function [@Marcon2010], a measure of spatial concentration in continuous space. 
+  In a recent article, @Tidu2023 highlight the qualities of the *M* function [@Marcon2010], a measure of spatial concentration in continuous space. 
   They also express reservations about the computation times required.
   Our methodological work seeks to specify the processing of large, spatialized data sets with *M* using R software.
   Two avenues are being explored to determine the computational performance of *M*.
@@ -40,15 +40,15 @@ always_allow_html: yes
 preamble: >
   \usepackage[letterpaper]{geometry}
 output:
-  rmdformats::downcute:
-    use_bookdown: yes
-    lightbox: yes
-    toc_depth: 3
   bookdown::pdf_book:
     template: latex/template.tex
     citation_package: natbib
     latex_engine: xelatex
     keep_tex: no
+  rmdformats::downcute:
+    use_bookdown: yes
+    lightbox: yes
+    toc_depth: 3
 ---
 
 ```{r DoNotModify, include=FALSE}
