@@ -3,7 +3,7 @@ title: |
        | On the Computation of Large Spatial Datasets With the&nbsp;M&nbsp;function
 author:
   - name: "Eric Marcon"
-    authsuperscript: 1 
+    authsuperscript: 1*
   - name: "Florence Puech"
     authsuperscript: 2 
 affiliation:
