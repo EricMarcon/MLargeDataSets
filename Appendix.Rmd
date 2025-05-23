@@ -16,15 +16,18 @@ affiliation:
 corrauthor:
   email: eric.marcon@agroparistech.fr
 abstract: >
-  Increasing access to large individual and spatial datasets, coupled with the development of computing power, has encouraged the search for suitable statistical tools to best analyse such data.
-  In a recent article, @Tidu2023 highlight the qualities of the *M* function [@Marcon2010], a measure of spatial concentration in continuous space. 
-  They also express reservations about the computation times required.
-  Our methodological work seeks to specify the processing of large, spatialized data sets with *M* using R software.
+  Increasing access to large individual geolocalised datasets, coupled with the development of computing power, has encouraged the search for suitable spatial statistic tools.
+  In this line, distance-based methods have been largely developed in different scientific fields to detect spatial concentration, dispersion or independence of entities at any distance and without any bias. 
+  In a recent article, @Tidu2023 highlight the qualities of the *M* function [@Marcon2010], a relative distance-based measure.
+  @Tidu2023 also express reservations about *M* for the computation times required.
+  In our article, we propose a methodological work that seeks to specify the processing of large spatialized datasets with the *M* function by using R software.
   Two avenues are being explored to determine the computational performance of *M*.
-  Firstly, a precise evaluation of the computational time and memory requirements for geolocalised data is carried out using the *dbmss* package in R [@dbmss] by means of performance tests. 
-  Then, as suggested by @Tidu2023, we also consider the possibility of approximating the geographical positions of the entities analysed.
-  The extent of the deterioration in the estimate of *M* that this approach creates are estimated and discussed, as the gains in computation time made possible by the spatial approximation of locations. 
-  The complete R code is given for the reproducibility of the results.
+  A precise evaluation of the computational time and memory requirements for geolocalised data is at first carried out using the *dbmss* package in R [@Marcon2014] by means of performance tests. 
+  Then, as suggested by @Tidu2023, approximating the geographical positions of the entities analysed is considered.
+  The extent of the deterioration in the estimate of *M* induced by this approach is estimated and discussed, as the gains in computation time made possible by the spatial approximation of locations.
+  We give evidence that the individual location approximation generates information loss at small distances, implying a trade-off between the smallest distance at which spatial interactions can be detected and computing performance.
+  We recommend designing the analysis of big datasets taking it into account.
+  The R code is given for the reproducibility of our results.
 date: "`r format(Sys.time(), '%Y %B %d')`"
 archive: "`r format(Sys.time(), '%d %B %Y')`"
 url: https://EricMarcon.github.io/MLargeDataSets/
@@ -57,7 +60,7 @@ output:
 InstallPackages <- function(Packages) {
   InstallPackage <- function(Package) {
     if (!Package %in% installed.packages()[, 1]) {
-      install.packages(Package, repos="https://cran.rstudio.com/")
+      install.packages(Package, repos = "https://cran.rstudio.com/")
     }
   }
   invisible(sapply(Packages, FUN = InstallPackage))
@@ -324,7 +327,7 @@ r <- c((0:9) / 100, (2:10) / 20)
 
 ## Necessary data
 
-In the *dbmss* package [@dbmss], the function applies to a set of points, object of class `wmppp`, or to a matrix of distances, object of class `Dtable`.
+In the *dbmss* package [@Marcon2014], the function applies to a set of points, object of class `wmppp`, or to a matrix of distances, object of class `Dtable`.
 
 We start with an array (data.frame) containing the columns `x`, `y`, `PointType` and `PointWeight`.
 
@@ -486,7 +489,7 @@ mb <- microbenchmark(
 
 ## Memory
 
-The memory used is evaluated with the *profmem* package [@Bengtsson2020].
+The memory used is evaluated with the *profmem* package [@Bengtsson2021].
 
 ```{r}
 #| label: TestMemCode

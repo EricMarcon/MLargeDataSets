@@ -164,7 +164,7 @@
            <span class="glyphicon glyphicon-user"></span> Florence Puech
                <br>
       </p>
-         <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2025 mai 23</p>
+         <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2025 May 23</p>
            
 
    
@@ -179,7 +179,7 @@ Empirical studies at very fine geographical levels have thus been proposed in re
 Particular attention has been paid to detect the spatial structures (attraction, repulsion, independence) of individual spatialised data using analyses that are no longer based on zoned data but on geolocalised data.
 This type of approach has the advantage of preserving the exact positions of the entities analysed.
 It has been proven that any distance-based method (by considering space as continuous) circumvents statistical bias associated with to the Modifiable Areal Unit Problem – MAUP <span class="citation">(Arbia, 1989; Openshaw &amp; Taylor, 1979)</span> due to discretising space into separate units.
-Various studies have shown how important it is to use this type of methodology in many fields, including geography <span class="citation">(Deurloo &amp; De Vos, 2008; Sweeney &amp; Feser, 1998; <strong>Kukuliac2017?</strong>)</span>, economics <span class="citation">(Arbia, 1989; Marcon &amp; Puech, 2003)</span>, ecology <span class="citation">(Cressie, 1993; Lentz et al., 2011)</span>, biology <span class="citation">(Dray et al., 2021)</span>, and so on.</p>
+Various studies have shown how important it is to use this type of methodology in many fields, including geography <span class="citation">(Deurloo &amp; De Vos, 2008; Kukuliač &amp; Horák, 2017; Sweeney &amp; Feser, 1998)</span>, economics <span class="citation">(Arbia, 1989; Marcon &amp; Puech, 2003)</span>, ecology <span class="citation">(Cressie, 1993; Lentz et al., 2011)</span>, biology <span class="citation">(Dray et al., 2021)</span>, and so on.</p>
 <p>In a recent article, <span class="citation">Tidu et al. (2024)</span> highlight the interest of a particular statistical measure, the <em>M</em> function proposed by <span class="citation">Marcon &amp; Puech (2010)</span>.
 This measure, which we will refer to as <em>M</em> in the remainder of the article, makes it possible to highlight spatial structures within a spatialised distribution (attraction, repulsion, independence) from a study based on the distances separating the entities analysed.
 However, while this measure preserves all the richness of individual geolocated data, it requires a longer calculation time than other distance-based measures, since it is both a cumulative and relative measure <!--# Eric: je ne suis pas sûr que 'cumulatif' soit pertinent. Le temps de calcul plus long est du à la prise en compte de deux distributions -> 'relatif', mais pas au cumul --> <span class="citation">(see Marcon &amp; Puech, 2017 for a literature review on the advantages and limitations of a dozen existing distance-based measures)</span>.
@@ -223,9 +223,9 @@ Lastly, the <em>M</em> function is a <em>cumulative</em> distance-based method b
 <p>The possibility to detect exactly at which distance(s) the spatial concentration or dispersion appears coupled with the interpretation of the results open the way to describe very precisely the distribution of entities under study.
 Moreover, an easy-computation of <em>M</em> is possible thanks to the <em>dbmss</em> R package <span class="citation">(Marcon et al., 2015)</span>.
 The <em>M</em> function was at first introduced in the field of economics and <span class="citation">Marcon &amp; Puech (2010)</span> proved that <em>M</em> satisfies all of the requirements of <span class="citation">Duranton &amp; Overman (2005)</span> for the evaluation of spatial distribution of industries.
-Since its introduction, various studies have described the spatial locations of industries by using <em>M</em> ; for example, <span class="citation">Jensen &amp; Michel (2011)</span> study the location of shops at a urban level, <span class="citation">(<strong>CollMartinez2019?</strong>)</span> analyse the one of the creative industries at a metropolitan level etc.
-This methodology has also rapidly been applied in other sciences including biology <span class="citation">(<strong>Fernandez2005?</strong>)</span>, geography <span class="citation">(Deurloo &amp; De Vos, 2008)</span>, ecology <span class="citation">(Marcon et al., 2012)</span> or seismology <span class="citation">(Nissi et al., 2013)</span>.
-The <em>M</em> function is now included in general textbooks of spatial statistics as in <span class="citation">Arbia et al. (2021)</span>, but it is less popular than <span class="math inline">\(K_d\)</span>’s function of <span class="citation">Duranton &amp; Overman (2005; see <strong>Chain2019?</strong>)</span>.</p>
+Since its introduction, various studies have described the spatial locations of industries by using <em>M</em> ; for example, <span class="citation">Jensen &amp; Michel (2011)</span> study the location of shops at a urban level, <span class="citation">Coll-Martínez et al. (2019)</span> analyse the one of the creative industries at a metropolitan level etc.
+This methodology has also rapidly been applied in other sciences including biology <span class="citation">(Fernandez-Gonzalez et al., 2005)</span>, geography <span class="citation">(Deurloo &amp; De Vos, 2008)</span>, ecology <span class="citation">(Marcon et al., 2012)</span> or seismology <span class="citation">(Nissi et al., 2013)</span>.
+The <em>M</em> function is now included in general textbooks of spatial statistics as in <span class="citation">Arbia et al. (2021)</span>, but it is less popular than <span class="math inline">\(K_d\)</span>’s function of <span class="citation">Duranton &amp; Overman (2005; see Chain et al., 2019)</span>.</p>
 </div>
 <div id="definition" class="section level2" number="1.2">
 <h2><span class="header-section-number">1.2</span> Definition</h2>
@@ -456,6 +456,12 @@ Arbia, G., Espa, G., &amp; Giuliani, D. (2021). <em>Spatial microeconometrics</e
 <div id="ref-Baddeley2016" class="csl-entry">
 Baddeley, A., Rubak, E., &amp; Turner, R. (2016). <em>Spatial point patterns: Methodology and applications with <span>R</span></em>. CRC Press.
 </div>
+<div id="ref-Chain2019" class="csl-entry">
+Chain, C. P., Santos, A. C. D., Castro, L. G. D., &amp; Prado, J. W. D. (2019). Bibliometric analysis of the quantitative methods applied to the measurement of industrial clusters. <em>Journal of Economic Surveys</em>, <em>33</em>(1), 60–84. <a href="https://doi.org/10.1111/joes.12267">https://doi.org/10.1111/joes.12267</a>
+</div>
+<div id="ref-Coll-Martinez2019" class="csl-entry">
+Coll-Martínez, E., Moreno-Monroy, A.-I., &amp; Arauzo-Carod, J.-M. (2019). Agglomeration of creative industries: <span>An</span> intra-metropolitan analysis for <span>Barcelona</span>. <em>Papers in Regional Science</em>, <em>98</em>(1), 409–432. <a href="https://doi.org/10.1111/pirs.12330">https://doi.org/10.1111/pirs.12330</a>
+</div>
 <div id="ref-Cressie1993" class="csl-entry">
 Cressie, N. A. (1993). <em>Statistics for spatial data</em>. John Wiley &amp; Sons.
 </div>
@@ -468,8 +474,14 @@ Dray, N., Mancini, L., Binshtok, U., Cheysson, F., Supatto, W., Mahou, P., Bedu,
 <div id="ref-Duranton2005" class="csl-entry">
 Duranton, G., &amp; Overman, H. G. (2005). Testing for localisation using micro-geographic data. <em>Review of Economic Studies</em>, <em>72</em>(4), 1077–1106. <a href="https://doi.org/10.1111/0034-6527.00362">https://doi.org/10.1111/0034-6527.00362</a>
 </div>
+<div id="ref-Fernandez-Gonzalez2005" class="csl-entry">
+Fernandez-Gonzalez, R., Barcellos-Hoff, M. H., &amp; Ortiz-de-Solorzano, C. (2005). A tool for the quantitative spatial analysis of complex cellular systems. <em>IEEE Transactions on Image Processing</em>, <em>14</em>(9), 1300–1313. <a href="https://doi.org/10.1109/tip.2005.852466">https://doi.org/10.1109/tip.2005.852466</a>
+</div>
 <div id="ref-Jensen2011" class="csl-entry">
 Jensen, P., &amp; Michel, J. (2011). Measuring spatial dispersion: Exact results on the variance of random spatial distributions. <em>The Annals of Regional Science</em>, <em>47</em>(1), 81–110. <a href="https://doi.org/10.1007/s00168-009-0342-3">https://doi.org/10.1007/s00168-009-0342-3</a>
+</div>
+<div id="ref-Kukuliac2017" class="csl-entry">
+Kukuliač, P., &amp; Horák, J. (2017). W function: <span>A</span> new distance-based measure of spatial distribution of economic activities. <em>Geographical Analysis</em>, <em>49</em>(2), 199–214. <a href="https://doi.org/10.1111/gean.12120">https://doi.org/10.1111/gean.12120</a>
 </div>
 <div id="ref-Lentz2011" class="csl-entry">
 Lentz, J. A., Blackburn, J. K., &amp; Curtis, A. J. (2011). Evaluating <span>Patterns</span> of a <span>White-Band Disease</span> (<span>WBD</span>) <span>Outbreak</span> in <span>Acropora</span> palmata <span>Using Spatial Analysis</span>: <span>A Comparison</span> of <span>Transect</span> and <span>Colony Clustering</span>. <em>PLoS ONE</em>, <em>6</em>(7), e21830. <a href="https://doi.org/10.1371/journal.pone.0021830">https://doi.org/10.1371/journal.pone.0021830</a>

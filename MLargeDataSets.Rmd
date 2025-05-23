@@ -175,8 +175,8 @@ Lastly, the *M* function is a *cumulative* distance-based method because the loc
 The possibility to detect exactly at which distance(s) the spatial concentration or dispersion appears coupled with the interpretation of the results open the way to describe very precisely the distribution of entities under study.
 Moreover, an easy-computation of *M* is possible thanks to the *dbmss* R package [@Marcon2014].
 The *M* function was at first introduced in the field of economics and @Marcon2010 proved that *M* satisfies all of the requirements of @Duranton2005 for the evaluation of spatial distribution of industries.
-Since its introduction, various studies have described the spatial locations of industries by using *M* ; for example, @Jensen2011 study the location of shops at a urban level, @CollMartinez2019 analyse the one of the creative industries at a metropolitan level etc.
-This methodology has also rapidly been applied in other sciences including biology [@Fernandez2005], geography [@Deurloo2008], ecology [@Marcon2012] or seismology [@Nissi2013].
+Since its introduction, various studies have described the spatial locations of industries by using *M* ; for example, @Jensen2011 study the location of shops at a urban level, @Coll-Martinez2019 analyse the one of the creative industries at a metropolitan level etc.
+This methodology has also rapidly been applied in other sciences including biology [@Fernandez-Gonzalez2005], geography [@Deurloo2008], ecology [@Marcon2012] or seismology [@Nissi2013].
 The *M* function is now included in general textbooks of spatial statistics as in @Arbia2021, but it is less popular than $K_d$'s function of @Duranton2005 [see @Chain2019].
 
 ## Definition

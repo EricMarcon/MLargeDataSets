@@ -1838,7 +1838,7 @@ On the Computation of Large Spatial Datasets With the M function</div></h1>
            <span class="glyphicon glyphicon-user"></span> Florence Puech
                <br>
       </p>
-         <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2025 mai 23</p>
+         <p class="date"><span class="glyphicon glyphicon-calendar"></span> 2025 May 23</p>
            
 
    
@@ -2037,7 +2037,7 @@ group_points_to_plot &lt;- function(X, partitions = par_partitions) {
 <p></p>
 <div id="necessary-data" class="section level2" number="2.1">
 <h2><span class="header-section-number">2.1</span> Necessary data</h2>
-<p>In the <em>dbmss</em> package <span class="citation">(<strong>dbmss?</strong>)</span>, the function applies to a set of points, object of class <code>wmppp</code>, or to a matrix of distances, object of class <code>Dtable</code>.</p>
+<p>In the <em>dbmss</em> package <span class="citation">(Marcon et al., 2015)</span>, the function applies to a set of points, object of class <code>wmppp</code>, or to a matrix of distances, object of class <code>Dtable</code>.</p>
 <p>We start with an array (data.frame) containing the columns <code>x</code>, <code>y</code>, <code>PointType</code> and <code>PointWeight</code>.</p>
 <p>The spatial co-ordinates of the points are given by the <code>x</code> and <code>y</code> columns.</p>
 <p></p>
@@ -2215,7 +2215,7 @@ mb &lt;- microbenchmark(
 </div>
 <div id="memory" class="section level2" number="3.2">
 <h2><span class="header-section-number">3.2</span> Memory</h2>
-<p>The memory used is evaluated with the <em>profmem</em> package <span class="citation">(<strong>Bengtsson2020?</strong>)</span>.</p>
+<p>The memory used is evaluated with the <em>profmem</em> package <span class="citation">(Bengtsson, 2021)</span>.</p>
 <p></p>
 <pre class="r"><code># RAM
 library(&quot;profmem&quot;)
@@ -2483,11 +2483,17 @@ It becomes negligible beyond the grid cell.</p>
 <div id="references" class="section level1 unnumbered">
 <h1>References</h1>
 <div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0" line-spacing="2">
+<div id="ref-Bengtsson2021" class="csl-entry">
+Bengtsson, H. (2021). A <span>Unifying Framework</span> for <span>Parallel</span> and <span>Distributed Processing</span> in <span>R</span> using <span>Futures</span>. <em>The R Journal</em>, <em>13</em>(2), 208. <a href="https://doi.org/10.32614/RJ-2021-048">https://doi.org/10.32614/RJ-2021-048</a>
+</div>
 <div id="ref-Duranton2005" class="csl-entry">
 Duranton, G., &amp; Overman, H. G. (2005). Testing for localisation using micro-geographic data. <em>Review of Economic Studies</em>, <em>72</em>(4), 1077–1106. <a href="https://doi.org/10.1111/0034-6527.00362">https://doi.org/10.1111/0034-6527.00362</a>
 </div>
 <div id="ref-Marcon2010" class="csl-entry">
 Marcon, E., &amp; Puech, F. (2010). Measures of the geographic concentration of industries: <span>Improving</span> distance-based methods. <em>Journal of Economic Geography</em>, <em>10</em>(5), 745–762. <a href="https://doi.org/10.1093/jeg/lbp056">https://doi.org/10.1093/jeg/lbp056</a>
+</div>
+<div id="ref-Marcon2014" class="csl-entry">
+Marcon, E., Traissac, S., Puech, F., &amp; Lang, G. (2015). Tools to characterize point patterns: <span class="nocase">dbmss</span> for <span>R</span>. <em>Journal of Statistical Software</em>, <em>67</em>(3), 1–15. <a href="https://doi.org/10.18637/jss.v067.c03">https://doi.org/10.18637/jss.v067.c03</a>
 </div>
 <div id="ref-Matern1960" class="csl-entry">
 Matérn, B. (1960). Spatial variation. <em>Meddelanden Fr<span>å</span>n Statens Skogsforskningsinstitut</em>, <em>49</em>(5), 1–144.
