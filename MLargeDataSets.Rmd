@@ -23,8 +23,8 @@ abstract: >
   A precise evaluation of the computational time and memory requirements for geolocalised data is at first carried out using the *dbmss* package in R [@Marcon2014] by means of performance tests. 
   Then, as suggested by @Tidu2023, approximating the geographical positions of the entities analysed is considered.
   The extent of the deterioration in the estimate of *M* induced by this approach is estimated and discussed, as the gains in computation time made possible by the spatial approximation of locations.
-  We give evidence that the individual location approximation generates information loss at small distances, implying a tradeoff between the smallest distance at which spatial interactions can be detected and computing performance.
-  We recommend designing the analysis of big dasets taking it into account.
+  We give evidence that the individual location approximation generates information loss at small distances, implying a trade-off between the smallest distance at which spatial interactions can be detected and computing performance.
+  We recommend designing the analysis of big datasets taking it into account.
   The R code is given for the reproducibility of our results.
 keywords: [Distance-based method, M-function, Performance test, R Package dbmss]
 journalinfo: "Preprint"
