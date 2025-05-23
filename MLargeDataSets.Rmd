@@ -20,7 +20,7 @@ abstract: >
   @Tidu2023 also express reservations about *M* for the computation times required.
   In our article, we propose a methodological work that seeks to specify the processing of large spatialized datasets with the *M* function by using R software.
   Two avenues are being explored to determine the computational performance of *M*.
-  A precise evaluation of the computational time and memory requirements for geolocalised data is at first carried out using the *dbmss* package in R [@dbmss] by means of performance tests. 
+  A precise evaluation of the computational time and memory requirements for geolocalised data is at first carried out using the *dbmss* package in R [@Marcon2014] by means of performance tests. 
   Then, as suggested by @Tidu2023, approximating the geographical positions of the entities analysed is considered.
   The extent of the deterioration in the estimate of *M* induced by this approach is estimated and discussed, as the gains in computation time made possible by the spatial approximation of locations.
   We give evidence that the individual location approximation generates information loss at small distances, implying a tradeoff between the smallest distance at which spatial interactions can be detected and computing performance.
@@ -122,7 +122,7 @@ set.seed(973)
 
 # Introduction {.unnumbered}
 
-Increasing access to large individual and spatial datasets and greater computing power have encouraged the development of statistical analysis tools for processing such data in the best possible way [@Baddeley2016a].
+Increasing access to large individual and spatial datasets and greater computing power have encouraged the development of statistical analysis tools for processing such data in the best possible way [@Baddeley2016].
 Empirical studies at very fine geographical levels have thus been proposed in recent years for large datasets.
 Particular attention has been paid to detect the spatial structures (attraction, repulsion, independence) of individual spatialised data using analyses that are no longer based on zoned data but on geolocalised data.
 This type of approach has the advantage of preserving the exact positions of the entities analysed.
@@ -136,7 +136,7 @@ However, while this measure preserves all the richness of individual geolocated 
 For example, in their study, industrial establishments in Sardinia (Italy) are no longer located at their exact postal address but at the centroid of their municipality.
 This repositioning reduces calculation times, as the number of possible distances between establishments is in fact limited to the distances separating the centroids of the municipalities.
 This approach is similar to that of @Scholl2013 who proposed, for the $K_d$ function [@Duranton2005] which characterises spatial structures using another method, to approximate the distances between pairs of entities by grouping them into classes.
-The method of @Scholl2013, implemented in the *dbmss* package [@dbmss] for R [@R] provides a considerable gain in computational performance with little loss of accuracy.
+The method of @Scholl2013, implemented in the *dbmss* package [@Marcon2014] for R [@R] provides a considerable gain in computational performance with little loss of accuracy.
 On the other hand, the information loss due to the approximation of the location of objects should imply a loss of accuracy in the estimation of their interactions at the same scale, that must be assessed.
 
 In our paper, we propose to test the effectiveness of @Tidu2023's method and help the researchers to choose the appropriate method to characterise the spatial structure of quite large datasets.
@@ -173,15 +173,15 @@ The term *topographic* distance-based measures is preferred for those which used
 Lastly, the *M* function is a *cumulative* distance-based method because the local environment is defined within a distance *r* and not at a distance *r*.
 
 The possibility to detect exactly at which distance(s) the spatial concentration or dispersion appears coupled with the interpretation of the results open the way to describe very precisely the distribution of entities under study.
-Moreover, an easy-computation of *M* is possible thanks to the *dbmss* R package [@dbmss].
+Moreover, an easy-computation of *M* is possible thanks to the *dbmss* R package [@Marcon2014].
 The *M* function was at first introduced in the field of economics and @Marcon2010 proved that *M* satisfies all of the requirements of @Duranton2005 for the evaluation of spatial distribution of industries.
 Since its introduction, various studies have described the spatial locations of industries by using *M* ; for example, @Jensen2011 study the location of shops at a urban level, @CollMartinez2019 analyse the one of the creative industries at a metropolitan level etc.
-This methodology has also rapidly been applied in other sciences including biology [@Fernandez2005], geography [@Deurloo2008], ecology [@Marcon2012d] or seismology [@Nissi2013].
-The *M* function is now included in general textbooks of spatial statistics as in @Arbia2021, but it is less popular than $K_d$'s function of @Duranton2005 (see @Chain2019).
+This methodology has also rapidly been applied in other sciences including biology [@Fernandez2005], geography [@Deurloo2008], ecology [@Marcon2012] or seismology [@Nissi2013].
+The *M* function is now included in general textbooks of spatial statistics as in @Arbia2021, but it is less popular than $K_d$'s function of @Duranton2005 [see @Chain2019].
 
 ## Definition
 
-The $M$ function is based on the point process theory [@Moller2004; @Baddeley2016a].
+The $M$ function is based on the point process theory [@Moller2004; @Baddeley2016].
 This distance-based method has been developed to analyse interactions among entities in a context of heteregeneous space.
 It means that within this statistical framework, we consider that any entity analysed has not the same probability to locate everywhere on the territory (*first-order intensity property of the point pattern*).
 Then after controlling for space heterogeneity, we are able to identify interactions and thus detect spatial concentration or dispersion (*second-order intensity property of the point pattern*).
@@ -218,7 +218,7 @@ It means that for any given radius *r*:
 The second remark concerns the significance of the results.
 A confidence interval can be generated thanks to Monte Carlo simulations following @Marcon2010.
 A risk level has to be chosen (for example 5%) as well as the number of simulations (the greater the number of simulations, the longer is the duration of the calculation of *M*).
-Third, the package *dbmss* [@dbmss] on the R software [@R] can be used to compute the $M$ function.
+Third, the package *dbmss* [@Marcon2014] on the R software [@R] can be used to compute the $M$ function.
 The Euclidean distance is generally preferred for the calculation of *M* but the *dbmss* package also proposed to used network-distances.
 
 # Data simulation
@@ -435,6 +435,7 @@ The aggregation of Cases will be highlighted by values of *M* greater than 1 (th
 We observe (figure \@ref(fig:MFig)) that *M* detects an agglomeration of Cases, which is in line with the simulation of this type of point (the controls having a completely random location on the window).
 The advantage of a function based on distances is clearly visible: it allows us to detect exactly at which distance(s) the attraction phenomena occur and are the most important (for functions whose values can be compared at different radii, such as *M*).
 In addition to estimating the *M* function, the `Menvelope()` function can be used to calculate its global confidence interval [@Duranton2005] under the null hypothesis of random point location.
+It allows parallezing the necessary simulations.
 The result is shown in figure \@ref(fig:MFig).
 
 (ref:M) Value of *M* as a function of distance from the reference point. The confidence interval, simulated at 95%, appears in grey and is centred on the value 1.
