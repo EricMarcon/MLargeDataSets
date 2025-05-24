@@ -3,9 +3,9 @@ title: |
        | On the Computation of Large Spatial Datasets With the&nbsp;M&nbsp;function
 author:
   - name: "Eric Marcon"
-    authsuperscript: 1*
+    authsuperscript: 1 \orcidlink{0000-0002-5249-321X}
   - name: "Florence Puech"
-    authsuperscript: 2 
+    authsuperscript: 2 \orcidlink{0000-0002-5279-6878}
 affiliation:
   - affsuperscript: 1
     dptuniv: "AgroParisTech, UMR AMAP, CIRAD, CNRS, INRAE, IRD, Univ Montpellier, Montpellier, France."
@@ -44,19 +44,19 @@ urlcolor: blue
 always_allow_html: yes
 csquotes: true
 output:
+  bookdown::pdf_book:
+    template: latex/template.tex
+    citation_package: natbib
+    latex_engine: xelatex
+    keep_tex: no
+  bookdown::word_document2:
+     reference_docx: "images/template.docx"
+     number_sections: false
   rmdformats::downcute:
     use_bookdown: yes
     lightbox: yes
     toc_depth: 3
     self_contained: no
-  bookdown::word_document2:
-     reference_docx: "images/template.docx"
-     number_sections: false
-  bookdown::pdf_book:
-    template: latex/stylish_article.tex
-    citation_package: natbib
-    latex_engine: xelatex
-    keep_tex: no
 ---
 
 ```{r DoNotModify, include=FALSE}
