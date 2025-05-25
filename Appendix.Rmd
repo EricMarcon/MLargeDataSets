@@ -26,8 +26,8 @@ abstract: >
   We give evidence that the individual location approximation generates information loss at small distances, implying a trade-off between the smallest distance at which spatial interactions can be detected and computing performance. 
   We recommend designing the analysis of large datasets taking it into account. 
   The R code used in the article is given for the reproducibility of our results.
-date: "`r format(Sys.time(), '%Y %B %d')`"
-archive: "`r format(Sys.time(), '%d %B %Y')`"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+archive: "`r format(Sys.time(), '%B %d, %Y')`"
 url: https://EricMarcon.github.io/MLargeDataSets/
 github-repo: EricMarcon/MLargeDataSets
 lang: en-US

@@ -26,8 +26,8 @@ abstract: >
   The R code used in the article is given for the reproducibility of our results.
 keywords: [Distance-based method, M-function, Performance test, R Package dbmss]
 journalinfo: "Preprint"
-date: "`r format(Sys.time(), '%Y %b %d')`"
-archive: "`r format(Sys.time(), '%Y %b %d')`"
+date: "`r format(Sys.time(), '%B %d %Y')`"
+archive: "`r format(Sys.time(), '%B %d %Y')`"
 keywordlabel: Keywords
 corrauthorlabel: Corresponding author
 url: https://EricMarcon.github.io/MLargeDataSets/
@@ -819,8 +819,6 @@ Mtime_5E6_min <- exp(
 ) / 60
 # 1000 simulations, in days
 Mtime_5E6_1000_d <- 1000 * Mtime_5E6_min / 60 / 24
-# Package benchmarkme for the characteristics of the runner
-library("benchmarkme")
 ```
 
 **The computation burden of estimating *M* on large datasets may be an issue.**
@@ -829,7 +827,7 @@ Calculating a confidence interval from 1,000 simulations therefore takes less th
 For a set of five million points, the power law predicts around `r round(Mtime_5E6_min)` minutes of computing time.
 1,000 simulations would then take around `r round(Mtime_5E6_1000_d)` days.
 
-[^10]: The results presented here were obtained on a GitHub-hosted runner under Mac OS with a virtual `r get_cpu()$no_of_cores`-core `r get_cpu()$model_name`, similar to a fast laptop computer.
+[^10]: The results presented here were obtained on a GitHub-hosted runner under Mac OS with a virtual `r benchmarkme::get_cpu()$no_of_cores`-core `r benchmarkme::get_cpu()$model_name`, similar to a fast laptop computer.
 
 Thanks to parallelization, a calculation server would drastically increase performance, but at the cost of a complexity of implementation that limits its use.
 If we limit ourselves to the computing power of a personal computer, **exact calculation is fully justified for data of the order of $10^5$ points**: less than an hour is enough to calculate confidence intervals.
