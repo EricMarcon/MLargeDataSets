@@ -54,7 +54,6 @@ output:
     use_bookdown: yes
     lightbox: yes
     toc_depth: 3
-    self_contained: no
 ---
 
 ```{r DoNotModify, include=FALSE}
