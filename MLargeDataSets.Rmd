@@ -832,7 +832,7 @@ For a set of five million points, the power law predicts around `r round(Mtime_5
 [^10]: The results presented here were obtained on a GitHub-hosted runner under Mac OS with a virtual `r get_cpu()$no_of_cores`-core `r get_cpu()$model_name`, similar to a fast laptop computer.
 
 Thanks to parallelization, a calculation server would drastically increase performance, but at the cost of a complexity of implementation that limits its use.
-If we limit ourselves to the computing power of a personal computer, **exact calculation is fully justified for data of the order of $10^5$ points**: a few hours are enough to calculate confidence intervals.
+If we limit ourselves to the computing power of a personal computer, **exact calculation is fully justified for data of the order of $10^5$ points**: less than an hour is enough to calculate confidence intervals.
 Since parallelizing the simulations is offered with no effort by the *dbmss* package, this time can be reduced by a factor depending on the available hardware, say 2 to 6 with modern multicore CPU's.
 Beyond that, approximating the location reduces the size of the set of points to the number of locations selected.
 Again, it may be up to $10^5$ locations to keep computing time acceptable, whatever the size of the original dataset.
