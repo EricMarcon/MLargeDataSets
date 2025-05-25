@@ -13,11 +13,13 @@ affiliation:
     dptuniv: "Université Paris-Saclay, INRAE, AgroParisTech, Paris-Saclay Applied Economics, F-91120 Palaiseau, France."
 corrauthor:
   email: eric.marcon@agroparistech.fr
-abstract: Increasing access to large geo-referenced datasets, coupled with the development of computing power, has encouraged the search for suitable spatial statistic tools. Distance-based methods have been largely developed in many scientific fields to detect spatial concentration, dispersion or independence of entities at any distance and without any bias. In a recent article, @Tidu2023 highlight the qualities of the Marcon and Puech's *M* function (2010), a relative distance-based measure, but also express reservations for the computation times required. In our article, we propose a methodological work that seeks to specify the processing of large spatialised datasets with the *M* function by using R software. We appraise the computational performance of *M* in two ways. At first, a precise evaluation of the computational time and memory requirements for geo-referenced data is carried out using the *dbmss* package in R by means of performance tests. Then, as suggested by Tidu *et al.*, we consider an approximation of the geographical positions of the entities. The extent of the deterioration of *M*'s results is estimated and discussed, as the gains in computation time it provides. We give evidence that the individual location approximation generates information loss at very small distances, implying a trade-off between the smallest distance at which spatial interactions can be detected and computing performance. The R code used in the article is given for the reproducibility of our results.
+
+abstract: >
+ Increasing access to large geo-referenced datasets, coupled with the development of computing power, has encouraged the search for suitable spatial statistic tools. Distance-based methods have been largely developed in many scientific fields to detect spatial concentration, dispersion or independence of entities at any distance and without any bias. In a recent article, @Tidu2023 highlight the qualities of the Marcon and Puech's *M* function (2010), a relative distance-based measure, but also express reservations for the computation times required. In our article, we propose a methodological work that seeks to specify the processing of large spatialised datasets with the *M* function by using R software. We appraise the computational performance of *M* in two ways. At first, a precise evaluation of the computational time and memory requirements for geo-referenced data is carried out using the *dbmss* package in R by means of performance tests. Then, as suggested by Tidu *et al.*, we consider an approximation of the geographical positions of the entities. The extent of the deterioration of *M*'s results is estimated and discussed, as the gains in computation time it provides. We give evidence that the individual location approximation generates information loss at very small distances, implying a trade-off between the smallest distance at which spatial interactions can be detected and computing performance. The R code used in the article is given for the reproducibility of our results.
 keywords: [Distance-based method, M-function, Performance test, R Package dbmss]
 journalinfo: "Preprint"
-date: "`r format(Sys.time(), '%Y %b %d')`"
-archive: "`r format(Sys.time(), '%Y %b %d')`"
+date: "`r format(Sys.time(), '%B %d %Y')`"
+archive: "`r format(Sys.time(), '%B %d %Y')`"
 keywordlabel: Keywords
 corrauthorlabel: Corresponding author
 url: https://EricMarcon.github.io/MLargeDataSets/
@@ -44,7 +46,6 @@ output:
     use_bookdown: yes
     lightbox: yes
     toc_depth: 3
-    self_contained: no
 ---
 
 ```{r DoNotModify, include=FALSE}
@@ -73,7 +74,17 @@ knitr::knit_hooks$set(chunk = function(x, options) {
 ```{r Options, include=FALSE}
 ### Customized options for this document
 # Add necessary packages here
-Packages <- c("tidyverse", "spatstat", "dbmss", "pbapply", "plyr", "GoFKernel", "microbenchmark", "profmem", "gridExtra")
+Packages <- c(
+  "tidyverse", 
+  "spatstat", 
+  "dbmss", 
+  "pbapply", 
+  "plyr", 
+  "microbenchmark", 
+  "profmem", 
+  "gridExtra",
+  "benchmarkme"
+)
 # Install them
 InstallPackages(Packages)
 
@@ -334,7 +345,7 @@ The Controls are distributed completely randomly.
 
 Let's consider the simulation of the Cases obtained by the Matérn process and cut the window into a 20-by-20 squared grid. <!--# Flo: motivation 20x20 -->
 This partition simulates the approximation of the position of the points of an administrative unit to the position of its centre.
-It is important to underline that choice of the optimal level of the grid seems today an open question as @Arbia2021 write (p.109): *'Unfortunately, the choice of the partitioning scheme is usually arbitrary and an optimal criterion to guide this choice is not available.'* 
+It is important to underline that the choice of the optimal level of the grid is still an open question as @Arbia2021 noticed (p.109): *'Unfortunately, the choice of the partitioning scheme is usually arbitrary and an optimal criterion to guide this choice is not available.'* 
 
 ```{r}
 #| label: ParamsPartitionsCode
@@ -785,13 +796,33 @@ To sum up, **within a CSR framework, the approximation of locations appears to b
 
 # Discussion and conclusion
 
+```{r}
+#| label: Mtime
+# Time to compute 100000 points, in seconds
+Mtime_1E5_s <- ceiling(M_time$Time[5])
+# 1000 simulations, in minutes
+Mtime_1E5_1000_min <- 1000 * Mtime_1E5_s / 60
+# 5 million points, in minutes
+Mtime_5E6_min <- exp(
+  predict(
+    M_time_lm, 
+    newdata = data.frame(logSize = log(5E6))
+  )
+) / 60
+# 1000 simulations, in days
+Mtime_5E6_1000_d <- 1000 * Mtime_5E6_min / 60 / 24
+```
+
 **The computation burden of estimating *M* on large datasets may be an issue.**
-The calculation time for *M* is around 5 seconds for a set of 100,000 points on a laptop (Intel i7-1360P 2.20 GHz processor), and requires 25 MB of RAM.
-Calculating a confidence interval from 1,000 simulations therefore takes less than two hours.
-For a set of five million points, the power law predicts around an hour of computing time.
-1,000 simulations would then take more than one month.
+The calculation time for *M* is below `r format(Mtime_1E5_s, digits  = 1)` seconds for a set of 100,000 points on a modern comptuter[^10] and requires 25 MB of RAM.
+Calculating a confidence interval from 1,000 simulations therefore takes less than `r format(Mtime_1E5_1000_min, digits  = 1)` minutes.
+For a set of five million points, the power law predicts around `r round(Mtime_5E6_min)` minutes of computing time.
+1,000 simulations would then take around `r round(Mtime_5E6_1000_d)` days.
+
+[^10]: The results presented here were obtained on a GitHub-hosted runner under Mac OS with a virtual `r benchmarkme::get_cpu()$no_of_cores`-core `r benchmarkme::get_cpu()$model_name`, similar to a fast laptop computer.
+
 Thanks to parallelization, a calculation server would drastically increase performance, but at the cost of a complexity of implementation that limits its use.
-If we limit ourselves to the computing power of a personal computer, **exact calculation is fully justified for data of the order of $10^5$ points**: a few hours are enough to calculate confidence intervals.
+If we limit ourselves to the computing power of a personal computer, **exact calculation is fully justified for data of the order of $10^5$ points**: less than an hour is enough to calculate confidence intervals.
 Since parallelizing the simulations is offered with no effort by the *dbmss* package, this time can be reduced by a factor depending on the available hardware, say 2 to 6 with modern multicore CPU's.
 Beyond that, approximating the location reduces the size of the set of points to the number of locations selected.
 Again, it may be up to $10^5$ locations to keep computing time acceptable, whatever the size of the original dataset.
