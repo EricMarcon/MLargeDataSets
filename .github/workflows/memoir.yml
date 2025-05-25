@@ -1,13 +1,13 @@
 on:
   push:
    branches:
-     - none
+     - master
 
 name: rmarkdown
 
 jobs:
   render:
-    runs-on: macOS-latest
+    runs-on: macos-13
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
