@@ -44,7 +44,7 @@ preamble: >
   \usepackage[letterpaper]{geometry}
 output:
   bookdown::pdf_book:
-    template: latex/template.tex
+    template: latex/template_apd.tex
     citation_package: natbib
     latex_engine: xelatex
     keep_tex: no
