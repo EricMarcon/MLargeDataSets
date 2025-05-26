@@ -1,3 +1,5 @@
+![stability-wip](https://img.shields.io/badge/stability-work_in_progress-lightgrey.svg)
+
 # On the computation of large spatial datasets with M
 
   Increasing access to large individual geolocalised datasets, coupled with the development of computing power, has encouraged the search for suitable spatial statistic tools.
