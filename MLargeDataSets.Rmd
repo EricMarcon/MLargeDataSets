@@ -130,7 +130,7 @@ Various studies have shown how important it is to use this type of methodology i
 
 In a recent article, @Tidu2023 highlight the interest of a particular statistical measure, the *M* function proposed by @Marcon2010.
 This measure, which we will refer to as *M* in the remainder of the article, makes it possible to highlight spatial structures within a spatialised distribution (attraction, repulsion, independence) from a study based on the distances separating the entities analysed.
-However, while this measure preserves all the richness of individual geolocated data, it requires a longer calculation time than other distance-based measures, since it is both a cumulative and relative measure <!--# Eric: je ne suis pas sûr que 'cumulatif' soit pertinent. Le temps de calcul plus long est du à la prise en compte de deux distributions -> 'relatif', mais pas au cumul --> [see @Marcon2012c for a literature review on the advantages and limitations of a dozen existing distance-based measures].
+However, while this measure preserves all the richness of individual geolocated data, it requires a longer calculation time than other distance-based measures, since it is a relative measure [see @Marcon2012c for a literature review on the advantages and limitations of a dozen existing distance-based measures].
 @Tidu2023 propose to limit *M* calculation times by introducing a voluntary positioning error for the entities analysed.
 For example, in their study, industrial establishments in Sardinia (Italy) are no longer located at their exact postal address but at the centroid of their municipality.
 This repositioning reduces calculation times, as the number of possible distances between establishments is in fact limited to the distances separating the centroids of the municipalities.
@@ -343,7 +343,7 @@ The Controls are distributed completely randomly.
 
 ## Gridding the space
 
-Let's consider the simulation of the Cases obtained by the Matérn process and cut the window into a 20-by-20 squared grid. <!--# Flo: motivation 20x20 -->
+Let's consider the simulation of the Cases obtained by the Matérn process and cut the window into a 20-by-20 square grid. <!--# Flo: motivation 20x20 -->
 This partition simulates the approximation of the position of the points of an administrative unit to the position of its centre.
 It is important to underline that the choice of the optimal level of the grid is still an open question as @Arbia2021 noticed (p.109): *'Unfortunately, the choice of the partitioning scheme is usually arbitrary and an optimal criterion to guide this choice is not available.'* 
 
@@ -609,7 +609,7 @@ simulations_n <- 100
 ```
 
 Unambiguously, approximating the position of the points results in a loss of information: in each grid cell, the distance between all the points is set to zero, and the distance between two points in different cells is approximated by the distance between the centroids of the two cells.
-We therefore expect a severe error in the estimation of *M* on a small scale (of the order of magnitude of the size of the cells) and an error that decreases with distance, when the relative size of the cells decreases.
+We therefore suspect a severe error in the estimation of *M* on a small scale (of the order of magnitude of the size of the cells) and an error that decreases with distance, when the relative size of the cells decreases.
 The effect of the location approximation is first tested on a set of aggregated points, similar to the real @Tidu2023 data.
 Secondly, the case of an unstructured set of points is considered.
 
@@ -706,7 +706,8 @@ The correlation between the *M* values estimated by each method is calculated a
 
 Two results can be drawn from the estimated correlation's levels.
 Firstly, the correlation can be quite low under the size of the grid.
-The information on interactions at very short distances, i.e. within each grid cell, is lost, or, more precisely, approximated by its value at the grid scale. As a result, under the size of the grid the approximation of locations is not optimal.
+The information on interactions at very short distances, i.e. within each grid cell, is lost, or, more precisely, approximated by its value at the grid scale.
+As a result, under the size of the grid the approximation of locations is not optimal.
 Secondly, as soon as the distance taken into account exceeds the grid cell, the correlation is very close to 1, and the estimated values are very similar.
 In that case, if the interactions between points are studied beyond the size of the grid, the approximation in the position of the locations may be considered.
 
@@ -828,11 +829,20 @@ Beyond that, approximating the location reduces the size of the set of points to
 Again, it may be up to $10^5$ locations to keep computing time acceptable, whatever the size of the original dataset.
 The choice of the size of the grid [or the administrative scale of the aggregation of points in @Tidu2023] must be done according to the scale of the interactions under study: they can not be characterized correctly at distances below it.
 
-Concerning the error generated in the *M*'s estimates results if the approximation of location is used, our results more or less support @Tidu2023's article, which mentions strong correlations between *M* values computed from exact and approximated Italian company location data.
+Concerning the error measurement generated if the approximation of locations is used, our results support more or less those of @Tidu2023. The latest mention a strong correlation between *M* values computed with the exact and the approximated locations of Italian establishments.
+In our article, a strong correlation is found, but not systematically.
 Since the spatial structure of their data is probably an intermediate case between the two cases dealt with in our article (aggregated and random theoretical distributions), the results provided by our two contributions are complementary.
-The problem with the spatial approximation comes from a quite weak correlation under the size of the grid.
-The loss of information seems not to be acceptable if the interactions are suspected at a distance lower than the size of the grid.
-To conclude, **approximation on location may be considered to save computation time, given the strong correlation observed between the values of *M* on exact and approximated data, but the scale of the grid must be fine enough to be informational at small distances even if a quite important error in the estimates may happened**. As we noticed, the choice of the optimal level of the grid is challenging, which calls for a certain degree of wariness in the use of the approximated locations.
+The problem of the spatial approximation comes from a possible weak correlation under the size of the grid.
+The loss of information can be somewhat important if interactions appear at a distance lower than the size of the grid.
+This situation should be analysed very attentively.
+Our analysis was motivated to discuss @Tidu2023\'s results but a prior study proposed by @Arbia2017 is in the same line.
+They proposed a first evaluation of the consequences of a positional error not for all studied entities, but only for some of them.
+This could be the case of an uncertainty of the geo-localisation for a given number of entities only what the authors called an *'unintentional positional error'*.
+In that situation, these uncertain geo-localised entities are placed at the centroid of the area considered, exactly as in @Tidu2023.
+Arbia *et al.* showed on a real case (Italian manufacturing firms) that the error measurement is less severe as one's can expected.
+Their explanation rests on the definition *M*, a relative measure: one can suspect a compensation effect of positional errors between the local ratio and the global one.
+
+To conclude, **an approximation of the spatial locations may be considered to save computation time, given the strong correlation observed between the values of *M* on exact and approximated data, but the scale of the grid must be fine enough to be informational at small distances even if a quite important error in the estimates may happened**. As we noticed, the choice of the optimal level of the grid is challenging, which calls for a certain degree of wariness in the use of the approximated locations.
 Choosing the approximation scale is a tradeoff between accuracy, i.e. a small distance threshold above which results are accurate, and speed with a coarse grid.
 
 
