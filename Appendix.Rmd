@@ -29,7 +29,7 @@ abstract: >
   We recommend designing the analysis of big datasets taking it into account.
   The R code is given for the reproducibility of our results.
 date: "`r format(Sys.time(), '%Y %B %d')`"
-archive: "`r format(Sys.time(), '%d %B %Y')`"
+archive: "`r format(Sys.time(), '%Y %B %d')`"
 url: https://EricMarcon.github.io/MLargeDataSets/
 github-repo: EricMarcon/MLargeDataSets
 lang: en-US
@@ -73,14 +73,27 @@ InstallPackages(c("bookdown", "formatR", "ragg", "magick", "kableExtra"))
 def.chunk.hook  <- knitr::knit_hooks$get("chunk")
 knitr::knit_hooks$set(chunk = function(x, options) {
   x <- def.chunk.hook(x, options)
-  ifelse(options$size != "normalsize", paste0("\n \\", options$size,"\n\n", x, "\n\n \\normalsize"), x)
+  ifelse(
+    options$size != "normalsize", 
+    paste0("\n \\", options$size,"\n\n", x, "\n\n \\normalsize"), 
+    x
+  )
 })
 ```
 
 ```{r Options, include=FALSE}
 ### Customized options for this document
 # Add necessary packages here
-Packages <- c("tidyverse", "spatstat", "dbmss", "pbapply", "plyr", "GoFKernel", "microbenchmark", "profmem")
+Packages <- c(
+  "tidyverse", 
+  "spatstat", 
+  "dbmss", 
+  "pbapply", 
+  "plyr", 
+  "GoFKernel", 
+  "microbenchmark", 
+  "profmem"
+)
 # Install them
 InstallPackages(Packages)
 
@@ -96,7 +109,7 @@ knitr::opts_chunk$set(
   # Graphic devices (ragg_png is better than standard png)
   dev = c("ragg_png", "pdf"),
   # Code chunk format
-  tidy = FALSE, tidy.opts = list(blank=FALSE, width.cutoff=50),
+  tidy = FALSE, tidy.opts = list(blank = FALSE, width.cutoff = 50),
   size = "scriptsize", knitr.graphics.auto_pdf = TRUE
   )
 options(width = 50)
@@ -104,15 +117,16 @@ options(width = 50)
 # ggplot style
 library("tidyverse")
 theme_set(theme_bw())
-theme_update(panel.background=element_rect(fill="transparent", colour=NA),
-             plot.background=element_rect(fill="transparent", colour=NA))
-knitr::opts_chunk$set(dev.args=list(bg="transparent"))
+theme_update(
+  panel.background = element_rect(fill = "transparent", colour = NA),
+  plot.background = element_rect(fill = "transparent", colour = NA)
+)
+knitr::opts_chunk$set(dev.args = list(bg = "transparent"))
 
 # Random seed
 set.seed(973)
 ```
 
-<br />
 The code used in the article "On the Computation of Large Spatial Datasets With *M*" is detailed here.
 
 # Data simulation
