@@ -1,6 +1,6 @@
 ---
 title: |
-       | On the Computation of Large Spatial Datasets With the&nbsp;M&nbsp;function
+       | On the Computation of Large Spatial Datasets With the M function
 author:
   - name: "Eric Marcon"
     authsuperscript: 1 \orcidlink{0000-0002-5249-321X}
@@ -14,7 +14,7 @@ affiliation:
 corrauthor:
   email: eric.marcon@agroparistech.fr
 abstract: >
- Increasing access to large geo-referenced datasets, coupled with the development of computing power, has encouraged the search for suitable spatial statistic tools. Distance-based methods have been largely developed in many scientific fields to detect spatial concentration, dispersion or independence of entities at any distance and without any bias. In a recent article, @Tidu2023 highlight the qualities of the Marcon and Puech's *M* function (2010), a relative distance-based measure, but also express reservations for the computation times required. In our article, we propose a methodological work that seeks to specify the processing of large spatialised datasets with the *M* function by using R software. We appraise the computational performance of *M* in two ways. At first, a precise evaluation of the computational time and memory requirements for geo-referenced data is carried out using the *dbmss* package in R by means of performance tests. Then, as suggested by Tidu *et al.*, we consider an approximation of the geographical positions of the entities. The extent of the deterioration of *M*'s results is estimated and discussed, as the gains in computation time it provides. We give evidence that the individual location approximation generates information loss at very small distances, implying a trade-off between the smallest distance at which spatial interactions can be detected and computing performance. The R code used in the article is given for the reproducibility of our results.
+ Increasing access to large geo-referenced datasets, coupled with the development of computing power, has encouraged the search for suitable spatial statistic tools. Distance-based methods have been largely developed in many scientific fields to detect spatial concentration, dispersion or independence of entities at any distance and without any bias. In a recent article, @Tidu2023 highlight the qualities of the Marcon and Puech's *M* function, a relative distance-based measure, but also express reservations for the computation times required. In our article, we propose a methodological work that seeks to specify the processing of large spatialised datasets with the *M* function by using R software. We appraise the computational performance of *M* in two ways. At first, a precise evaluation of the computational time and memory requirements for geo-referenced data is carried out using the *dbmss* package in R by means of performance tests. Then, as suggested by Tidu et al., we consider an approximation of the geographical positions of the entities. The extent of the deterioration of *M*'s results is estimated and discussed, as the gains in computation time it provides. We give evidence that the individual location approximation generates information loss at very small distances, implying a trade-off between the smallest distance at which spatial interactions can be detected and computing performance. The R code used in the article is given for the reproducibility of our results.
 keywords: [Distance-based method, M-function, Performance test, R Package dbmss]
 journalinfo: "Preprint"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
@@ -124,14 +124,14 @@ set.seed(973)
 
 Increasing access to large spatial datasets and greater computing power have encouraged the development of statistical analysis tools for processing such data in the best possible way [@Baddeley2016].
 Empirical studies at very detailed geographical levels have thus been proposed in recent years for large datasets.
-Particular attention has been paid to detect the spatial structures (attraction, repulsion, independence) of individual spatialised data using analyses that are no longer based on zoned data but on geolocated data.
+Particular attention has been paid to detect the spatial structures (attraction, repulsion, independence) of individual spatialised data using analyses that are no longer based on zoned data but on geo-located data.
 This type of approach has the advantage of preserving the exact positions of the entities analysed.
 It has been proven that any distance-based method (by considering space as continuous) circumvents statistical bias associated with the Modifiable Areal Unit Problem – MAUP [@Arbia1989; @Openshaw1979] due to discretising space into separate units.
 A great number of studies have shown how important it is to use this type of methodology in social sciences [@Arbia1989; @Sweeney1998; @Marcon2003a; @Sweeney2022] or in exact sciences [@Cressie1993; @Lentz2011; @Dray2021].
 
 In a recent article, @Tidu2023 highlight the interest of a particular statistical measure, the *M* function proposed by @Marcon2010.
 This measure, which we will refer to as *M* in the remainder of the article, makes it possible to highlight spatial structures within a spatialised distribution (attraction, repulsion, independence) from a study based on the distances separating the entities analysed.
-However, while this measure preserves all the richness of individual geolocated data, it requires a longer calculation time than other distance-based measures, since it is a relative measure [see @Marcon2012c for a literature review on the advantages and limitations of a dozen existing distance-based measures].
+However, while this measure preserves all the richness of individual geo-located data, it requires a longer calculation time than other distance-based measures, since it is a relative measure [see @Marcon2012c for a literature review on the advantages and limitations of a dozen existing distance-based measures].
 
 @Tidu2023 propose to limit *M* calculation times by introducing a voluntary positioning error for the entities analysed.
 For example, in their study, industrial establishments in Sardinia (Italy) are no longer located at their exact postal address but at the centroid of their municipality.
@@ -140,7 +140,7 @@ This approach is similar to that of @Scholl2013 who proposed, for the $K_d$ fun
 The method of @Scholl2013, implemented in the *dbmss* package [@Marcon2014] for R [@R] provides a considerable gain in computational performance with little loss of accuracy.
 However, the information loss due to the approximation of the location of objects should imply a loss of accuracy in the estimation of their interactions at the same scale, that must be assessed.
 
-In our paper, we propose to test the effectiveness of @Tidu2023's method and help the researchers to choose the appropriate method to characterise the spatial structure of quite large datasets.
+**In our paper, we propose to test the effectiveness of @Tidu2023's method and help the researchers to choose the appropriate method to characterise the spatial structure of quite large datasets.**
 First, we show the advantages of using the *dbmss* package to estimate *M* on datasets with an order of magnitude of 100,000 points or less, and we show that the computation times become excessive beyond that, on a personal computer.
 We then study the effect of the geographical approximation of the locations of the entities analysed.
 This methodological work, based on a deliberately limited number of entity locations, enables us to quantify the extent of the deterioration in information that this approach creates.
@@ -158,7 +158,7 @@ In the last section, we conclude and discuss the advantages and the limits of an
 
 ## Main idea
 
-@Marcon2010 introduced the *M* function that evaluates the dependence between geolocated points without relying on a specific zoning of space.
+@Marcon2010 introduced the *M* function that evaluates the dependence between geo-located points without relying on a specific zoning of space.
 As any distance-based method, the calculation of *M* is based on distances that separate entities under study (establishment, shops...).
 The idea of *M* is simple: it compares two proportions of neighbours of interest, a local one to a global one.
 The local one is defined as the proportion of neighbours of interest within a distance *r*.
@@ -716,7 +716,7 @@ As a result, under the size of the grid the approximation of locations is not op
 Secondly, as soon as the distance taken into account exceeds the grid cell, the correlation is very close to 1, and the estimated values are very similar.
 In that case, if the interactions between points are studied beyond the size of the grid, the approximation in the position of the locations may be considered.
 
-**In the case of clustered distributions, careful use of location approximation is recommended, particularly for studies that suspect localised interactions at very small distances, such as the existence of information externalities or contagion phenomena.**
+**In the case of clustered distributions, a very careful use of location approximation is recommended, particularly for studies that suspect localised interactions at very small distances, such as the existence of information externalities or contagion phenomena. The approximation may or may not be acceptable depending on the grid size chosen.**
 
 ## Case of a completely random distribution (CSR)
 
@@ -798,7 +798,7 @@ The average values are shown in figure \@ref(fig:MapproxCSRFig)a.
 The mean value of *M* is equal to 1 at all distances by construction: Cases and Controls are distributed completely randomly.
 The approximations are relatively small in value (a few percent) but artefactual aggregation is generated at small scale.
 As the real value of *M* varies little around 1, the correlations are much weaker (figure \@ref(fig:MapproxCSRFig)b) in the absence of spatial structure than in the aggregated case.
-To sum up, **within a CSR framework, the approximation of locations appears to be conceivable.**
+To sum up, **within a CSR framework, the approximation of locations appears to be acceptable.**
 
 # Discussion and conclusion
 
@@ -839,12 +839,13 @@ Since the spatial structure of their data is probably an intermediate case betwe
 The problem with the spatial approximation comes from a possible weak correlation under the size of the grid.
 The loss of information can be somewhat important if interactions appear at a distance lower than the size of the grid.
 This situation should be analysed very attentively.
-Our analysis was motivated to discuss @Tidu2023\'s results but a prior study proposed by @Arbia2017 is in the same line.
-They proposed a first evaluation of the consequences of a positional error not for all studied entities, but only for some of them.
-This could be the case of an uncertainty of the geo-localisation for a given number of entities only what the authors called an *'unintentional positional error'*.
-In that situation, these uncertain geo-localised entities are placed at the centroid of the area considered, exactly as in @Tidu2023.
-Arbia *et al.* showed on a real case (Italian manufacturing firms) that the error measurement is less severe as one's can expected.
-Their explanation rests on the definition *M*, a relative measure: one can suspect a compensation effect of positional errors between the local ratio and the global one.
+Our analysis was motivated to discuss @Tidu2023\'s results but a prior study of @Arbia2017 has also investigated the subject of applying  distance-based methods to spatial datasets that include positional errors.
+They proposed a first evaluation of the consequences of a positional error not *for all* of the studied entities, but only *for some of them*.
+This positional uncertainty for a given number of entities only, is associated to an *'unintentional positional error'*.
+In that situation, these uncertain geo-localised entities are placed at the centroid of the zone considered, exactly as in @Tidu2023.
+Arbia et al. showed on a real case (Italian manufacturing firms) that the error measurement is less severe as one's can expected.
+Their explanation rests on the definition *M*, a relative measure: a compensation effect of positional errors is suspected between the local ratio and the global one.
+
 To conclude, **an approximation of the spatial locations may be considered to save computation time, given the strong correlation observed between the values of *M* on exact and approximated data, but the scale of the grid must be fine enough to be informational at small distances even if a quite important error in the estimates may happened**.
 As we noticed, the choice of the optimal level of the grid is challenging, which calls for a certain degree of wariness in the use of the approximated locations.
 Choosing the approximation scale is a trade-off between accuracy, i.e. a small distance threshold above which results are accurate, and speed with a coarse grid.
