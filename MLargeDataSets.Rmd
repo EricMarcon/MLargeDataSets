@@ -599,7 +599,7 @@ M_ram %>%
     geom_point() +
     geom_line() + 
     labs(tag = "b") +
-    theme(axis.text.x = element_text(size = 10)) ->
+    theme(axis.text.x = element_text(size = 8)) ->
   TestTimeMemFigb
 grid.arrange(TestTimeMemFiga, TestTimeMemFigb, ncol = 2)
 ```
