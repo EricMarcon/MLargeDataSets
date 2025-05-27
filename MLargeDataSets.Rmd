@@ -608,7 +608,7 @@ grid.arrange(TestTimeMemFiga, TestTimeMemFigb, ncol = 2)
 
 The memory used is evaluated for the same data sizes (figure \@ref(fig:TestTimeMemFig)b).
 **The memory required increases linearly with the number of points and is never critical for point set sizes that can be processed in reasonable times.** This highlights @Tidu2023's conclusion about the power and computation time required when using *M* on large datasets.
-The memory used by `Dtable` objects to calculate $M$ from a distance matrix is much greater: it is that of a numerical matrix, of the order of 8 bytes times the number of points squared, i.e. 800 MB for 10,000 points only.
+The memory used by `Dtable` objects to calculate $M$ from a distance matrix is much greater: it is that of a numerical matrix, amounting to 8 bytes multiplied by the square of the number of points, i.e. 800 MB for 10,000 points only.
 Since the calculation time is not reduced by this approach, its use should be reserved for non-Euclidean distances.
 
 # Effects of approximating the position of points
