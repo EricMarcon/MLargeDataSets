@@ -598,7 +598,7 @@ tibble(
   geom_point()
 ```
 
-The correlation between the $M$ values estimated by each method is calculated at each distance&nbsp;$r$.
+The correlation between the $M$ values estimated by each method is calculated at each distance $r$.
 
 ```{r}
 #| label: CorMaternCode
@@ -728,7 +728,7 @@ tibble(
   geom_point()
 ```
 
-The correlation between the $M$ values calculated by each method is calculated at each distance&nbsp;$r$.
+The correlation between the $M$ values calculated by each method is calculated at each distance $r$.
 
 ```{r}
 #| label: CorCSRCode
