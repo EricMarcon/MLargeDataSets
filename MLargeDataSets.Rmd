@@ -594,7 +594,8 @@ M_time %>%
     geom_errorbar(aes(ymin = Time - sd, ymax = Time + sd)) +
     scale_x_log10() +
     scale_y_log10() + 
-    labs(tag = "a") ->
+    labs(tag = "a") +
+    theme(axis.text.x = element_text(size = 8)) ->
   TestTimeMemFiga
 M_ram %>% 
   ggplot(aes(x = Size, y = RAM)) +
@@ -679,7 +680,7 @@ tibble(
     theme(
     legend.position = c(0.75, 0.8),
     legend.background = element_blank(),
-    legend.text = element_text(size = 12)
+    legend.text = element_text(size = 10)
   ) -> 
 MapproxMaternFiga
 # Correlation
@@ -779,7 +780,7 @@ tibble(
   theme(
     legend.position = c(0.75, 0.2),
     legend.background = element_blank(),
-    legend.text = element_text(size = 12)
+    legend.text = element_text(size = 10)
   ) ->
 MapproxCSRFiga
 # Correlation
