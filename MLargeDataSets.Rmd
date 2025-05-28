@@ -136,12 +136,12 @@ However, while this measure preserves all the richness of individual geo-located
 @Tidu2023 propose to limit *M* calculation times by introducing a voluntary positioning error for the entities analysed.
 For example, in their study, industrial establishments in Sardinia (Italy) are no longer located at their exact postal address but at the centroid of their municipality.
 This repositioning reduces calculation times, as the number of possible distances between establishments is in fact limited to the distances separating the centroids of the municipalities.
-This approach is similar to that of @Scholl2013 who proposed, for the $K_d$ function [@Duranton2005] which characterises spatial structures using another method, to approximate the distances between pairs of entities by grouping them into classes.
+This approach is similar to that of @Scholl2013 who proposed, for the $K_d$ function [@Duranton2005], to approximate the distances between pairs of entities by grouping them into classes.
 The method of @Scholl2013, implemented in the *dbmss* package [@Marcon2014] for R [@R] provides a considerable gain in computational performance with little loss of accuracy.
 However, the information loss due to the approximation of the location of objects should imply a loss of accuracy in the estimation of their interactions at the same scale, that must be assessed.
 
 **In our paper, we propose to test the effectiveness of @Tidu2023's method and help the researchers to choose the appropriate method to characterise the spatial structure of quite large datasets.**
-First, we show the advantages of using the *dbmss* package to estimate *M* on datasets with an order of magnitude of 100,000 points or less, and we show that the computation times become excessive beyond that, on a personal computer.
+First, we show the advantages to estimate *M* on datasets with an order of magnitude of 100,000 points or less, and we show that the computation times become excessive beyond that, on a personal computer.
 We then study the effect of the geographical approximation of the locations of the entities analysed.
 This methodological work, based on a deliberately limited number of entity locations, enables us to quantify the extent of the deterioration in information that this approach creates.
 These performance tests provide a precise answer to the computational advantages and limitations of the *M* function as a function of the size of the datasets.
