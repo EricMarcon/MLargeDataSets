@@ -832,6 +832,7 @@ Since parallelising the simulations is offered with no effort by the *dbmss* pac
 Beyond that, approximating the location reduces the size of the set of points to the number of locations selected.
 Again, it may be up to $10^5$ locations to keep computing time acceptable, whatever the size of the original dataset.
 The choice of the size of the grid [or the administrative scale of the aggregation of points in @Tidu2023] must be done according to the scale of the interactions under study: they can not be characterized correctly at distances below it.
+<!--# Flo: Test -->
 
 With regard to the errors generated in *M*'s estimates when the approximation of location is used, our findings somehow support @Tidu2023's article, which mentions strong correlations between *M* values computed from exact and approximated Italian company location data.
 In our article, a strong correlation is found, but not systematically.
