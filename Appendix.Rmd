@@ -591,7 +591,7 @@ tibble(
     names_to = "M", 
     values_to = "value"
   ) %>% 
-  ggplot(aes(x = r, y = value, color = M)) +
+  ggplot(aes(x = r, y = value, color = M, shape = M, linetype  = M)) +
   geom_line() +
   geom_point()
 ```
@@ -721,7 +721,7 @@ tibble(
     names_to = "M", 
     values_to = "value"
   ) %>% 
-  ggplot(aes(x = r, y = value, color = M)) +
+  ggplot(aes(x = r, y = value, color = M, shape = M, linetype  = M)) +
   geom_line() +
   geom_point()
 ```
