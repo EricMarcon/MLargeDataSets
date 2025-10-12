@@ -624,7 +624,7 @@ Both are made of 100,000 points so that groups include 250 points on average.
 ```{r}
 #| label: XList
 # Number of points for comparison simulations
-par_points_comp_nb <- 1E4 #1E5 
+par_points_comp_nb <- 1E5 
 # Simulate Matérn point patterns
 X_matern_list <- replicate(
   simulations_n, 
@@ -658,10 +658,19 @@ To evaluate the effect of the approximation, the exact calculation and the calcu
 #| label: MCompare
 library("pbapply")
 # Compute M
-M_matern_original <- pbsapply(X_matern_list, FUN = X_to_M)
-M_matern_grouped <- pbsapply(X_matern_grouped_list, FUN = X_to_M)
-M_csr_original <- pbsapply(X_csr_list, FUN = X_to_M)
-M_csr_grouped <- pbsapply(X_csr_grouped_list, FUN = X_to_M)
+if (file.exists("data/MCompare.RData")) {
+  # Do not compute if it has been saved before
+  load("data/MCompare.RData")
+} else {
+  M_matern_original <- pbsapply(X_matern_list, FUN = X_to_M)
+  M_matern_grouped <- pbsapply(X_matern_grouped_list, FUN = X_to_M)
+  M_csr_original <- pbsapply(X_csr_list, FUN = X_to_M)
+  M_csr_grouped <- pbsapply(X_csr_grouped_list, FUN = X_to_M)
+  save(
+    M_matern_original, M_matern_grouped, M_csr_original, M_csr_grouped,
+    file = "data/MCompare.RData"
+  )
+}
 ```
 
 (ref:Mapprox) Average estimate of *M* from the exact position of the points compared with the values obtained by grouping the points for CSR (a) and Matérn (b) point patterns.
@@ -712,7 +721,7 @@ All neighbours at distances less than this threshold are placed at zero distance
 When the actual point pattern is not structured, some  artefactual aggregation is generated at small scale. 
 In contrast, the local aggregation of the Matérn pattern is underestimated.
 
-(ref:MCompare) p-values to reject the null hypothesis (H0) of independence of the point locations tested by the *M* function. The color of curves represents CSR or aggregated point patterns. Solid lines give the exact value of *M*, dotted lines the values estimated on grouped point patterns. The horizontal, dotted line corresponds to the  significance threshold, i.e. 97.5%, to reject H0 in a 5% risk-level two-tailed test.
+(ref:MCompare) p-values to reject the null hypothesis (H0) of independence of the point locations tested by the *M* function. The color of curves represents CSR or aggregated point patterns. Solid lines give the exact p-values of *M*, dotted lines the values estimated on grouped point patterns. The horizontal, dotted line corresponds to the  significance threshold, i.e. 97.5%, to reject H0 in a 5% risk-level two-tailed test.
 
 ```{r}
 #| label: MCompareFig
@@ -788,13 +797,22 @@ p_departure <- function(
   )
 }
 
-# Parallelize M simulations
-library("doFuture")
-plan(multisession)
-departure_csr <- p_departure(X_csr_list)
-departure_matern <- p_departure(X_matern_list)
-plan(sequential)
-
+if (file.exists("data/MCompareFig.RData")) {
+  # Do not compute if it has been saved before
+  load("data/MCompareFig.RData")
+} else {
+  # Parallelize M simulations
+  library("doFuture")
+  plan(multisession)
+  departure_csr <- p_departure(X_csr_list)
+  departure_matern <- p_departure(X_matern_list)
+  plan(sequential)
+  save(
+    departure_csr, departure_matern,
+    file = "data/MCompareFig.RData"
+  )
+}
+  
 # Plot the p-values
 departure_csr %>% 
   mutate(Pattern = "CSR", Distance = r[-1]) %>% 
@@ -809,18 +827,18 @@ departure_csr %>%
   labs(color = "Method", y = "p-value")
 ```
 
-The M function is used basically as a test against the independence of point locations. 
+The *M* function is used basically as a test against the independence of point locations. 
 To assess the impact of grouping the points on the result the test, figure \@ref(fig:MCompareFig) shows its average p-value, computed among `r simulations_n` simulations of each point pattern.
-At each distance, the value of M is compared to that obtained with point patterns simulated according to the null hypothesis, that is rejected if the actual value is out of the 95% central quantiles of the simulations.
+At each distance, the value of *M* is compared to that obtained with point patterns simulated according to the null hypothesis, that is rejected if the actual value is out of the 95% central quantiles of the simulations.
 
-@Tidu2023 rather tested the effect of grouping the points by the correlation between exact and approximated M values.
-We did not follow them because the main source of variation of the grouped-point M values is that of the grouping itself: when the number of points per group is small, groups vary a lot between simulations, and the correlation is weak, whilst it increases with the number of points (an illustration is given in the appendix).
+@Tidu2023 rather tested the effect of grouping the points by the correlation between exact and approximated *M* values.
+We did not follow them because the main source of variation of the grouped-point *M* values is that of the grouping itself: when the number of points per group is small, groups vary a lot between simulations, and the correlation is weak, whilst it increases with the size of the data (an illustration is given in the appendix).
 Since a very high correlation does not exclude systematic errors, it is not an appropriate statistic here.
 
 In the case of CSR, the p-value to reject independence is without surprise around 50%, whatever the distance, whether the points are grouped or not.
 In the case of aggregated patterns, the null hypothesis is rejected correctly when the points are grouped.
-At small scale, below the size of the cells, M values are actually that of the size of the cells: the test is correct because the point process we used is aggregated at all scales.
-The point pattern may have been repulsive at small scale, but this information was destroyed by grouping the points: neither M values nor their p-values are reliable below the size of the cells.
+At small scale, below the size of the cells, *M* values are actually that of the size of the cells: the test is correct because the point process we used is aggregated at all scales.
+The point pattern may have been repulsive at small scale, but this information was destroyed by grouping the points: neither *M* values nor their p-values are reliable below the size of the cells.
 
 **If short-distance interactions are suspected, such as information externalities or contagion phenomena, very careful use of location approximation is recommended. The approximation may not be acceptable depending on the grid size chosen, since all information below this size is lost. Above it, the M function if not affected by the approximation.**
 
