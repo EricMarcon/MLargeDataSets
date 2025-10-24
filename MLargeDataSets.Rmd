@@ -159,16 +159,16 @@ In the last section, we conclude and discuss the advantages and the limits of an
 
 @Marcon2010 introduced the *M* function that evaluates the dependence between geo-located points without relying on a specific zoning of space.
 As any distance-based method, the calculation of *M* is based on distances that separate entities under study (establishment, shops...).
-The idea of *M* is simple: it compares two proportions of neighbours of interest, a local one to a global one.
-The local one is defined as the proportion of neighbours of interest within a distance *r*.
+The idea of *M* is simple: it compares two proportions of neighbors of interest, a local one to a global one.
+The local one is defined as the proportion of neighbors of interest within a distance *r*.
 The global one is the same proportion but defined on the whole territory.
 This comparison of ratios allows the detection of:
 
--   spatial concentration (attraction) of entities if the proportion of local neighbours is greater than the one observed on the entire territory,
--   spatial dispersion (repulsion) of entities if the relative proportion of local neighbours is lower than the one observed all over the territory,
--   independence between entities if the local distribution of neighbours does not differ from the global one.
+-   spatial concentration (attraction) of entities if the proportion of local neighbors is greater than the one observed on the entire territory,
+-   spatial dispersion (repulsion) of entities if the relative proportion of local neighbors is lower than the one observed all over the territory,
+-   independence between entities if the local distribution of neighbors does not differ from the global one.
 
-This comparison of proportions of neighbours defines *M* as a *relative* distance-based measure in a strict sense [@Marcon2012c].
+This comparison of proportions of neighbors defines *M* as a *relative* distance-based measure in a strict sense [@Marcon2012c].
 The term *topographic* distance-based measures is preferred for those that use the surface area as a benchmark, as the well-known Ripley's *K* function [@Ripley1976; @Ripley1977].
 The *M* function is also defined as a *cumulative* distance-based method because the local environment is appraised within a distance *r* rather than at a distance *r*.
 The possibility to detect exactly at which distance(s) the spatial concentration or dispersion appears coupled with the interpretation of the results opens the way to describe very precisely the distribution of entities under study.
@@ -483,7 +483,7 @@ X_to_M <- function(X) {
 
 Calculating the distances between all pairs of points is necessary to estimate *M*.
 The calculation time is therefore expected to increase as the square of the number of points.
-The calculation time required for the exact calculation is evaluated for a range of numbers of points (figure \@ref(fig:TestTimeMemFig)a).
+The time required for the exact calculation is evaluated for a range of numbers of points (figure \@ref(fig:TestTimeMemFig)a).
 
 ```{r}
 #| label: ParamsXSizeCode
@@ -495,7 +495,7 @@ X_sizes <- c(1000, 5000, 10000, 50000, 100000)
 library("microbenchmark")
 test_time <- function(points_nb) {
   X <- X_csr(points_nb)
-  microbenchmark(X_to_M(X), times = 4L) %>% 
+  microbenchmark(X_to_M(X), times = 10L) %>% 
     pull("time")
 }
 
@@ -529,7 +529,7 @@ summary(M_time_lm)
 
 **The calculation time is related to the size of the set of points by a power law**.
 It increases less quickly than the square of the number of points.
-It can be estimated very precisely ($R^2=$ `r format(summary(M_time_lm)$r.squared, digits=2)`) by the relation $t=t_0 (n/n_o)^p$ where $t$ is the estimated time for $n$ points (e.g.: `r format(as.numeric(M_time[5, 2]), digits=3)` seconds for `r format(as.numeric(M_time[5, 1]), scientific=FALSE, big.mark=",")` points) knowing the time $t_0$ for $n_0$ points and $p$ is the power relation (here: `r format(M_time_lm$coefficients[2], digits=2)`).
+It can be estimated very precisely ($R^2=$ `r format(summary(M_time_lm)$r.squared, digits=2)`) by the relation $t=t_0 (n/n_o)^p$ where $t$ is the average time for $n$ points (e.g.: `r format(as.numeric(M_time[5, 2]), digits=3)` seconds for `r format(as.numeric(M_time[5, 1]), scientific=FALSE, big.mark=",")` points) knowing the time $t_0$ for $n_0$ points and $p$ is the power relation (here: `r format(M_time_lm$coefficients[2], digits=2)`).
 
 ```{r}
 #| label: MmbCode
@@ -567,7 +567,7 @@ sapply(X_sizes, FUN = test_ram) %>%
   M_ram
 ```
 
-(ref:TestMemTime) Calculation time (a) in seconds and memory required (b) in MB to estimate *M* as a function of the size of the set of points. The bars represent the $\pm 1$ standard deviation interval.
+(ref:TestMemTime) Calculation time (a) in seconds and memory required (b) in MB to estimate *M* as a function of the size of the set of points. The measures were repeated 10 times. The bars represent the $\pm 1$ standard deviation interval.
 
 ```{r}
 #| label: TestTimeMemFig
@@ -619,7 +619,7 @@ We also suspect **the appearance of a bias in the estimation of *M* on a scale 
 ## Test setting
 
 The effect of the location approximation is tested on a set of aggregated points, similar to the real @Tidu2023 data, and on a completely random point pattern.
-Both are made of 100,000 points so that groups include 250 points on average.
+Both are made of 100,000 points so that groups include 250 points (100,000 points divided by 400 groups) on average.
 
 ```{r}
 #| label: XList
@@ -719,7 +719,7 @@ grid.arrange(
 
 The mean values of the estimates of *M* are presented in figure \@ref(fig:MapproxFig).
 The size of the grid cells is equal to `r 1/par_partitions`.
-All neighbours at distances less than this threshold are placed at zero distance.
+All neighbors at distances less than this threshold are placed at zero distance.
 The estimate of the corresponding *M* function (called Grouped *M*) is constant in that case, up to this threshold.
 When the actual point pattern is not structured, some artefactual aggregation is generated at small scale.
 In contrast, the local aggregation of the Matérn pattern is underestimated.
