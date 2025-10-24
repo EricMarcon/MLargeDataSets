@@ -16,16 +16,7 @@ affiliation:
 corrauthor:
   email: eric.marcon@agroparistech.fr
 abstract: >
-  Increasing access to large geo-referenced datasets, coupled with the development of computing power, has encouraged the search for suitable spatial statistic tools. 
-  In this line, distance-based methods have been largely developed in many scientific fields to detect spatial concentration, dispersion or independence of entities at any distance and without bias. 
-  In a recent article, @Tidu2023 highlight the qualities of the *M* function [@Marcon2010], a relative distance-based measure, but they also express reservations for the computation times required. 
-  In our article, we propose a methodological work that seeks to specify the processing of large spatialised datasets with the *M* function by using R software. We appraise the computational performance of *M* into two ways. 
-  At first, a precise evaluation of the computational time and memory requirements for geo-referenced data is carried out using the *dbmss* package in R by means of performance tests. 
-  Then, as suggested by @Tidu2023, we consider an approximation of the geographical positions of the entities. 
-  The extent of the deterioration in the estimate of *M* is estimated and discussed, as are gains in computation time. 
-  We give evidence that the individual location approximation generates information loss at small distances, implying a trade-off between the smallest distance at which spatial interactions can be detected and computing performance. 
-  We recommend designing the analysis of large datasets taking it into account. 
-  The R code used in the article is given for the reproducibility of our results.
+ Increasing access to large geo-referenced datasets, coupled with the development of computing power, has encouraged the search for suitable spatial statistic tools. Distance-based methods have been largely developed in many scientific fields to detect spatial concentration, dispersion or independence of entities at any distance and without any bias. In a recent article, @Tidu2023 highlight the qualities of the Marcon and Puech's *M* function, a relative distance-based measure, but also express reservations for the computation times required. In our article, we propose a methodological work that seeks to specify the processing of large spatialised datasets with the *M* function by using R software. We appraise the computational performance of *M* in two ways. At first, a precise evaluation of the computational time and memory requirements for geo-referenced data is carried out using the *dbmss* package in R by means of performance tests. Then, as suggested by Tidu et al., we consider an approximation of the geographical positions of the entities. The extent of the deterioration of *M*'s results is estimated and discussed, as the gains in computation time it provides. We give evidence that the individual location approximation generates information loss at very small distances, implying a trade-off between the smallest distance at which spatial interactions can be detected and computing performance. The R code used in the article is given for the reproducibility of our results.
 date: "`r format(Sys.time(), '%Y %B %d')`"
 archive: "`r format(Sys.time(), '%Y %B %d')`"
 url: https://EricMarcon.github.io/MLargeDataSets/
@@ -224,7 +215,7 @@ par_scale <-  0.1
 The function code is as follows:
 
 ```{r}
-#| label: XMaternCode
+#| label: XMaternFig
 X_matern <- function(
     points_nb,
     case_ratio = par_case_ratio,
@@ -269,7 +260,7 @@ autoplot(X) +
   scale_size(range = c(0, 3))
 ```
 
-### Space grid
+## Gridding the space
 
 The number of rows and columns is set:
 
@@ -300,7 +291,7 @@ group_points <- function(X, partitions = par_partitions) {
       y_cell = ceiling(y * partitions) / partitions - 1 / 2 / partitions,
       .keep = "unused"
     ) %>%
-    rename(x = x_cell, y = y_cell)  %>%  
+    rename(x = x_cell, y = y_cell) %>% 
     as.wmppp(window = X$window, unitname = X$window$units) %>% 
     rjitter()
 }
@@ -327,11 +318,11 @@ group_points_to_plot <- function(X, partitions = par_partitions) {
 The figure is obtained using the following code:
 
 ```{r}
-#| label: GroupedCode
+#| label: GroupedFig
 X %>% group_points_to_plot() %>% autoplot(alpha = 0.5)
 ```
 
-# Calculation of *M*
+# Computing *M* with the *dbmss* package
 
 The distances at which the *M* function is calculated are chosen from `r`.
 
@@ -349,7 +340,7 @@ We start with an array (data.frame) containing the columns `x`, `y`, `PointType`
 The spatial co-ordinates of the points are given by the `x` and `y` columns.
 
 ```{r}
-#| label: DtableMCode
+#| label: PointsDFCode
 # Extract a dataframe from the point set
 points_df <- with(X, data.frame(x, y, marks))
 head(points_df)
@@ -370,10 +361,14 @@ The `Menvelope()` function is used to calculate the confidence interval of the f
 The global confidence interval [@Duranton2005] is calculated by specifying the argument `Global = TRUE`.
 
 ```{r}
-#| label: MCode
+#| label: MFig
 X %>% 
   MEnvelope(r = r, ReferenceType = "Case", Global = TRUE) %>% 
-  autoplot()
+  autoplot() +
+  theme(
+    legend.position = c(0.7, 0.75), 
+    legend.background = element_blank()
+  )
 ```
 
 ## Distance matrix
@@ -426,7 +421,7 @@ if (exists("d_matrix")) {
 }
 ```
 
-# Performance of M
+# Computational performance
 
 The `X_to_M()` function calculates the $M$ function and returns the vector of its values for each distance.
 It is useful for measuring execution times.
@@ -441,7 +436,7 @@ X_to_M <- function(X) {
 }
 ```
 
-## Calculation time
+## Computing time
 
 The time required for an exact calculation is evaluated for a range of numbers of points specified in `X_sizes`.
 
@@ -453,7 +448,7 @@ X_sizes <- c(1000, 5000, 10000, 50000, 100000)
 The `test_time()` function is used to measure the execution time of an evaluation of the $M$ function.
 
 ```{r}
-#| label: TestTimeCode
+#| label: TestTime
 library("microbenchmark")
 test_time <- function(points_nb) {
   X <- X_csr(points_nb)
@@ -482,7 +477,9 @@ M_time %>%
     geom_point() +
     geom_errorbar(aes(ymin = Time - sd, ymax = Time + sd)) +
     scale_x_log10() +
-    scale_y_log10()
+    scale_y_log10() + 
+    labs(tag = "a") +
+    theme(axis.text.x = element_text(size = 8)) 
 ```
 
 The calculation time is related to the size of the set of points by a power law.
@@ -512,8 +509,9 @@ if (exists("d_matrix")) {
   mb <- microbenchmark(
     Mhat(X, r = r, ReferenceType = "Case", NeighborType = "Control"),
     Mhat(d_matrix, r = r, ReferenceType = "Case", NeighborType = "Control"),
-    times = 4L
+    times = 10L
   )
+  mb
 }
 ```
 
@@ -522,8 +520,7 @@ if (exists("d_matrix")) {
 The memory used is evaluated with the *profmem* package [@Bengtsson2021].
 
 ```{r}
-#| label: TestMemCode
-#| 
+#| label: TestMem
 # RAM
 library("profmem")
 test_ram <- function(points_nb) {
@@ -538,7 +535,9 @@ sapply(X_sizes, FUN = test_ram) %>%
 M_ram %>% 
   ggplot(aes(x = Size, y = RAM)) +
     geom_point() +
-    geom_line()
+    geom_line() + 
+    labs(tag = "b") +
+    theme(axis.text.x = element_text(size = 8)) 
 ```
 
 The memory required (in MB) increases linearly with the number of points.
@@ -549,13 +548,13 @@ The memory required (in MB) increases linearly with the number of points.
 lm(RAM ~ Size, data = M_ram) %>% summary()
 ```
 
-# Effects of approximating the position of the points
+# Effects of approximating the position of points
 
 The number of test repetitions is set by `simulations_n`.
 
 ```{r}
 #| label: ParamsSimsCode
-simulations_n <- 100
+simulations_n <- 20
 ```
 
 ## Case of an aggregated distribution (Matérn)
