@@ -531,24 +531,6 @@ summary(M_time_lm)
 It increases less quickly than the square of the number of points.
 It can be estimated very precisely ($R^2=$ `r format(summary(M_time_lm)$r.squared, digits=2)`) by the relation $t=t_0 (n/n_o)^p$ where $t$ is the average time for $n$ points (e.g.: `r format(as.numeric(M_time[5, 2]), digits=3)` seconds for `r format(as.numeric(M_time[5, 1]), scientific=FALSE, big.mark=",")` points) knowing the time $t_0$ for $n_0$ points and $p$ is the power relation (here: `r format(M_time_lm$coefficients[2], digits=2)`).
 
-```{r}
-#| label: MmbCode
-library("microbenchmark")
-microbenchmark(
-  Mhat(X, r = r, ReferenceType = "Case", NeighborType = "Control"),
-  Mhat(d_matrix, r = r, ReferenceType = "Case", NeighborType = "Control"),
-  times = 4L
-) %>% 
-  summary() %>% 
-  as.data.frame() %>%
-  select(expr, median) %>% 
-  mutate(
-    `Method` = c("Point Pattern", "Distance Matrix"), 
-    `Time` = round(median),
-    .before = expr,
-    .keep = "none" 
-  ) -> Mmb
-```
 
 ## Memory
 
