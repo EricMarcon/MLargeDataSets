@@ -150,7 +150,7 @@ library("tidyverse")
 library("spatstat")
 library("dbmss")
 
-par_points_nb <- 5000
+par_points_nb <- 100000
 par_case_ratio <- 1/20
 par_size_gamma_shape <- 0.95
 par_size_gamma_scale  <- 10
