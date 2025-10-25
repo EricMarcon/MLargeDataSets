@@ -371,6 +371,9 @@ X %>%
   )
 ```
 
+The confidence envelope contains 95% of the simulated values of the M function under the null hypothesis of independence between points.
+It is much smaller in the article because it decreases with the number of points.
+
 ## Distance matrix
 
 The code of this section will not run with datasets over 10,000 points because the required memory to store a distance matrix is 8 bytes times the squared number of plots (i.e. approximately 8 GB for 10,000 points).
@@ -721,7 +724,8 @@ p_departure <- function(
   )
 }
 
-# Parallelize M simulations
+# Parallelize M simulations 
+# (https://ericmarcon.github.io/dbmss/articles/parallel.html)
 library("doFuture")
 plan(multisession)
 departure_csr <- p_departure(X_csr_list)
@@ -745,11 +749,10 @@ departure_csr %>%
 
 ## Correlation between exact and approximated point patterns
 
+@Tidu2023 tested the effect of grouping the points by the correlation between exact and approximated *M* values.
+To allow comparing our results to theirs, the same approach is applied below but it is not retained in the article because all correlations shown below mainly depend on the number of points.
 
 ### Case of an aggregated distribution (Matérn)
-
-@Tidu2023 tested the effect of grouping the points by the correlation between exact and approximated *M* values.
-To allow comparing our results to theirs, the same approach is applied below but it is not retained in the article.
 
 The correlation between the $M$ values estimated by each method is calculated at each distance $r$.
 
@@ -894,18 +897,20 @@ The last code chunk predicts the computation time of large point patterns.
 ```{r}
 #| label: Mtime
 # Time to compute 100000 points, in seconds
-Mtime_1E5_s <- ceiling(M_time$Time[5])
+(Mtime_1E5_s <- ceiling(M_time$Time[5]))
 # 1000 simulations, in minutes
-Mtime_1E5_1000_min <- 1000 * Mtime_1E5_s / 60
+(Mtime_1E5_1000_min <- 1000 * Mtime_1E5_s / 60)
 # 5 million points, in minutes
-Mtime_5E6_min <- exp(
-  predict(
-    M_time_lm, 
-    newdata = data.frame(logSize = log(5E6))
-  )
-) / 60
+(
+  Mtime_5E6_min <- exp(
+    predict(
+      M_time_lm, 
+      newdata = data.frame(logSize = log(5E6))
+    )
+  ) / 60
+)
 # 1000 simulations, in days
-Mtime_5E6_1000_d <- 1000 * Mtime_5E6_min / 60 / 24
+(Mtime_5E6_1000_d <- 1000 * Mtime_5E6_min / 60 / 24)
 ```
 
 # References
