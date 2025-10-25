@@ -81,7 +81,8 @@ Packages <- c(
   "plyr", 
   "GoFKernel", 
   "microbenchmark", 
-  "profmem"
+  "profmem",
+  "gridExtra"
 )
 # Install them
 InstallPackages(Packages)
