@@ -423,7 +423,7 @@ In the *dbmss* package, the data is a set of points or a distance matrix.
 The set of points in figure \@ref(fig:XMaternFig) is used.
 
 ```{r}
-#| label: DtableMCode
+#| label: PointsDFCode
 # Extract a dataframe from the point set
 points_df <- with(X, data.frame(x, y, marks))
 head(points_df)
@@ -459,6 +459,7 @@ X %>%
 
 Matrices can be used to process non-Euclidean distances (transport time, road distance, etc.) which cannot be represented by a set of points.
 The `Mhat()` and `MEnvelope()` functions are the same, and provide the same results whatever the form of the data (point set or distance matrix).
+Details are given in the appendix.
 
 The size of distance matrices is the square of the number of points, i.e. $10^10$ cells for 100,000 points. 
 R does not handle them because it relies on integer values to index them: square matrices can't be larger than 46340 rows and columns, i.e. the square root of the largest supported integer value. 
