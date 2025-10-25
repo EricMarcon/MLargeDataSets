@@ -144,7 +144,7 @@ library("tidyverse")
 library("spatstat")
 library("dbmss")
 
-par_points_nb <- 5000 # 100000 in the article
+par_points_nb <- 5000 # 1E5 in the article
 par_case_ratio <- 1/20
 par_size_gamma_shape <- 0.95
 par_size_gamma_scale  <- 10
@@ -557,61 +557,199 @@ The number of test repetitions is set by `simulations_n`.
 simulations_n <- 20
 ```
 
-## Case of an aggregated distribution (Matérn)
+## Test setting
 
-`X_matern_list` contains `simulations_n` drawn from the set of points.
-`X_matern_grouped_list` contains the same simulations, whose points have been grouped in the grid cells.
+`X_matern_list` and `X_csr_list` contain `simulations_n` drawn from the set of points.
+`X_matern_grouped_list` and `X_csr_grouped_list` contain the same simulations, whose points have been grouped in the grid cells.
+
+The number of points of each point pattern is 100,000 in the article: several hours are necessary to compute the tests.
+In this appendix, it is set to 5000 in the parameter `par_points_comp_nb` to limit computer overhead and allow testing the code.
+It can be set to 100,000 to reproduce the tests of the article.
 
 ```{r}
-#| label: XMaternListCode
-# Simulate X
+#| label: XList
+# Number of points for comparison simulations
+par_points_comp_nb <- 5000 # 1E5 in the article
+# Simulate Matérn point patterns
 X_matern_list <- replicate(
   simulations_n, 
-  expr = X_matern(par_points_nb), 
+  expr = X_matern(par_points_comp_nb), 
   simplify = FALSE
 )
-# Group points and compute M
+# Group points
 X_matern_grouped_list <- lapply(
   X_matern_list, 
   FUN = group_points, 
   partitions = par_partitions
 )
+# Simulate CSR point patterns
+X_csr_list <- replicate(
+  simulations_n, 
+  expr = X_csr(par_points_comp_nb), 
+  simplify = FALSE
+)
+# Group points and compute M
+X_csr_grouped_list <- lapply(
+  X_csr_list, 
+  FUN = group_points, 
+  partitions = par_partitions
+)
 ```
 
-To assess the effect of the position approximation, the exact calculation and the calculation on the grid points are performed on each set of points.
+The M function is computed on each point pattern.
 
 ```{r}
-#| label: MMaternTimeCode
-#| eval: true
+#| label: MCompare
 library("pbapply")
 # Compute M
 M_matern_original <- pbsapply(X_matern_list, FUN = X_to_M)
 M_matern_grouped <- pbsapply(X_matern_grouped_list, FUN = X_to_M)
+M_csr_original <- pbsapply(X_csr_list, FUN = X_to_M)
+M_csr_grouped <- pbsapply(X_csr_grouped_list, FUN = X_to_M)
 ```
 
-The approximate calculation is very fast because it reduces the number of points to the number of cells, provided you take advantage of this in the code used for the calculation.
-This is not the case here: the *dbmss* package does not provide for this approximation.
-The `M_hat()` function is therefore applied to the grouped set of points, but calculated in the same way as with the original set of points.
-
-The mean values of the *M* estimates are shown below.
+The average values of M across simulations are plotted.
 
 ```{r}
-#| label: MapproxMaternCode
-#| eval: true
-tibble(
-  r,
-  Exact = rowMeans(M_matern_original), 
-  Grouped =  rowMeans(M_matern_grouped)
-) %>% 
-  pivot_longer(
-    cols = !r,
-    names_to = "M", 
-    values_to = "value"
+#| label: MapproxFig
+library("gridExtra")
+# Figure: exact and grouped M(r)
+Mapproxfig <- function(M_original, M_grouped, tag) {
+  tibble(
+    r,
+    Exact = rowMeans(M_original), 
+    Grouped =  rowMeans(M_grouped)
   ) %>% 
-  ggplot(aes(x = r, y = value, color = M, shape = M, linetype  = M)) +
-  geom_line() +
-  geom_point()
+    pivot_longer(
+      cols = !r,
+      names_to = "M",
+      values_to = "value"
+    ) %>% 
+    ggplot(aes(x = r, y = value, color = M, shape = M, linetype  = M)) +
+    geom_line() +
+    geom_point() +
+    labs(x = "Distance", y = "M", tag = tag) +
+    theme(
+      legend.position = c(0.75, 0.8),
+      legend.background = element_blank(),
+      legend.text = element_text(size = 10)
+    ) 
+}
+
+# Plot
+grid.arrange(
+  Mapproxfig(M_csr_original, M_csr_grouped, "a") + 
+    theme(legend.position = "none"),
+  Mapproxfig(M_matern_original, M_matern_grouped, "b"),
+  ncol = 2
+)
 ```
+
+## Results
+
+The following code compares the p-values to reject the null hypothesis of random location of points in both CSR and Matérn point patterns at each distance.
+
+```{r}
+#| label: MCompareFig
+
+# Function to calculate the departure of the grouped point pattern M p-value
+# against H0 from that of the real point pattern
+p_departure <- function(
+    X_list,
+    M_simulations = simulations_n,
+    verbose = interactive()
+  ) {
+  # Group the points
+  X_grouped_list <- lapply(
+    X_list,
+    FUN = group_points,
+    partitions = par_partitions
+  )
+  # Prepare arrays to save the results
+  quantiles_exact <-
+    quantiles_grouped <-
+    matrix(NA, nrow = length(r) - 1, ncol = simulations_n)
+  for (pp_i in seq_len(simulations_n)) {
+    # Iterate across the point patterns
+    if (verbose) cat("Point pattern", pp_i, "of", simulations_n,"\n")
+    # Calculate M with simulations
+    envelope_exact <- MEnvelope(
+      X_list[[pp_i]],
+      r = r,
+      NumberOfSimulations = M_simulations,
+      ReferenceType = "Case",
+      parallel = TRUE,
+      verbose = FALSE,
+    )
+    # Individual simulations are in an attribute.
+    # Extract them in a dataframe, delete the first row (distances)
+    # Each column contains M(r) for a simulation
+    sims_exact <- as.data.frame(attr(envelope_exact, "simfuns"))[, -1]
+    # Quantiles of each M(r) in the simulations
+    quantiles_exact[, pp_i] <- sapply(
+      # Remove distance 0
+      seq_along(r)[-1],
+      FUN = function(r_i) {
+        # Quantile function of the simulated M(r)
+        ecdf(as.numeric(sims_exact[r_i, ]))(envelope_exact$obs[r_i])
+      }
+    )
+    # M grouped, idem
+    envelope_grouped <- MEnvelope(
+      X_grouped_list[[pp_i]],
+      r = r,
+      NumberOfSimulations = M_simulations,
+      ReferenceType = "Case",
+      parallel = TRUE,
+      verbose = FALSE,
+    )
+    sims_grouped <- as.data.frame(attr(envelope_grouped, "simfuns"))[, -1]
+    quantiles_grouped[, pp_i] <- sapply(
+      # Remove distance 0
+      seq_along(r)[-1],
+      FUN = function(r_i) {
+        # Quantile function of the simulated M(r)
+        ecdf(as.numeric(sims_grouped[r_i, ]))(envelope_grouped$obs[r_i])
+      }
+    )
+  }
+  return(
+    tibble(
+      Exact = rowMeans(quantiles_exact),
+      Grouped = rowMeans(quantiles_grouped),
+    )
+  )
+}
+
+# Parallelize M simulations
+library("doFuture")
+plan(multisession)
+departure_csr <- p_departure(X_csr_list)
+departure_matern <- p_departure(X_matern_list)
+plan(sequential)
+
+# Plot the p-values
+departure_csr %>% 
+  mutate(Pattern = "CSR", Distance = r[-1]) %>% 
+  bind_rows(
+    departure_matern %>% 
+      mutate(Pattern = "Matérn", Distance = r[-1])
+  ) %>% 
+  pivot_longer(Exact:Grouped) %>% 
+  ggplot() +
+  geom_line(aes(x = Distance, y = value, color = name, linetype = Pattern)) +
+  geom_hline(yintercept = .975, linetype = 2) +
+  labs(color = "Method", y = "p-value")
+```
+
+
+## Correlation between exact and approximated point patterns
+
+
+### Case of an aggregated distribution (Matérn)
+
+@Tidu2023 tested the effect of grouping the points by the correlation between exact and approximated *M* values.
+To allow comparing our results to theirs, the same approach is applied below but it is not retained in the article.
 
 The correlation between the $M$ values estimated by each method is calculated at each distance $r$.
 
@@ -695,54 +833,6 @@ It is small, less than 10%, even at short distances.
 
 ## Case of a completely random distribution (CSR)
 
-`X_csr_list` contains `simulations_n` draws from the set of points.
-
-```{r}
-#| label: XCSRListCode
-# Simulate X
-X_csr_list <- replicate(
-  simulations_n, 
-  expr = X_csr(par_points_nb), 
-  simplify = FALSE
-)
-# Group points and compute M
-X_csr_grouped_list <- lapply(
-  X_csr_list, 
-  FUN = group_points, 
-  partitions = par_partitions
-)
-```
-
-The exact calculation and the calculation on the points of the grid are carried out on each set of points.
-
-```{r}
-#| label: MCSRTimeCode
-#| eval: true
-# Compute M
-system.time(M_csr_original <- pbsapply(X_csr_list, FUN = X_to_M))
-system.time(M_csr_grouped <- sapply(X_csr_grouped_list, FUN = X_to_M))
-```
-
-The average values are shown below.
-
-```{r}
-#| label: MapproxCSRCode
-#| eval: true
-tibble(
-  r,
-  Exact = rowMeans(M_csr_original), 
-  Grouped =  rowMeans(M_csr_grouped)
-) %>% 
-  pivot_longer(
-    cols = !r,
-    names_to = "M", 
-    values_to = "value"
-  ) %>% 
-  ggplot(aes(x = r, y = value, color = M, shape = M, linetype  = M)) +
-  geom_line() +
-  geom_point()
-```
-
 The correlation between the $M$ values calculated by each method is calculated at each distance $r$.
 
 ```{r}
@@ -796,5 +886,26 @@ In the absence of spatial structure, the value of *M* varies much less.
 
 In the presence of a spatial structure, the estimation error is large at short distances.
 It becomes negligible beyond the grid cell.
+
+# Discussion and conclusion
+
+The last code chunk predicts the computation time of large point patterns.
+
+```{r}
+#| label: Mtime
+# Time to compute 100000 points, in seconds
+Mtime_1E5_s <- ceiling(M_time$Time[5])
+# 1000 simulations, in minutes
+Mtime_1E5_1000_min <- 1000 * Mtime_1E5_s / 60
+# 5 million points, in minutes
+Mtime_5E6_min <- exp(
+  predict(
+    M_time_lm, 
+    newdata = data.frame(logSize = log(5E6))
+  )
+) / 60
+# 1000 simulations, in days
+Mtime_5E6_1000_d <- 1000 * Mtime_5E6_min / 60 / 24
+```
 
 # References
