@@ -14,7 +14,7 @@ affiliation:
 corrauthor:
   email: eric.marcon@agroparistech.fr
 abstract: >
- Increasing access to large geo-referenced datasets, coupled with the development of computing power, has encouraged the search for suitable spatial statistic tools. Distance-based methods have been largely developed in many scientific fields to detect spatial concentration, dispersion or independence of entities at any distance and without any bias. In a recent article, @Tidu2023 highlight the qualities of the Marcon and Puech's *M* function, a relative distance-based measure, but also express reservations for the computation times required. In our article, we propose a methodological work that seeks to specify the processing of large spatialised datasets with the *M* function by using R software. We appraise the computational performance of *M* in two ways. At first, a precise evaluation of the computational time and memory requirements for geo-referenced data is carried out using the *dbmss* package in R by means of performance tests. Then, as suggested by Tidu et al., we consider an approximation of the geographical positions of the entities. The extent of the deterioration of *M*'s results is estimated and discussed, as the gains in computation time it provides. We give evidence that the individual location approximation generates information loss at very small distances, implying a trade-off between the smallest distance at which spatial interactions can be detected and computing performance. The R code used in the article is given for the reproducibility of our results.
+ Increasing access to large geo-referenced datasets, coupled with the development of computing power, has encouraged the search for suitable spatial statistic tools. Distance-based methods have been largely developed in many scientific fields to detect spatial concentration, dispersion or independence of entities at any distance and without any bias. In a recent article, @Tidu2023 highlight the qualities of the Marcon and Puech's *M* function, a relative distance-based measure, but also express reservations for the computation times required. In our article, we propose a methodological work that seeks to specify the processing of large spatialized datasets with the *M* function by using R software. We appraise the computational performance of *M* in two ways. At first, a precise evaluation of the computational time and memory requirements for geo-referenced data is carried out using the *dbmss* package in R by means of performance tests. Then, as suggested by Tidu et al., we consider an approximation of the geographical positions of the entities. The extent of the deterioration of *M*'s results is estimated and discussed, as the gains in computation time it provides. We give evidence that the individual location approximation generates information loss at very small distances, implying a trade-off between the smallest distance at which spatial interactions can be detected and computing performance. The R code used in the article is given for the reproducibility of our results.
 keywords: [Distance-based method, M-function, Performance test, R Package dbmss]
 journalinfo: "Preprint"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
@@ -190,13 +190,13 @@ Space heterogeneity is a consistent assumption for studying agglomeration of ind
 
 The definition of the intra-type version of *M* it as follows.
 It compares the relative proportion of entities of interest up to each distance $r$ to the same ratio but defined over the entire territory under study.
-In this article, we only consider the intra-type version of *M*: we study the spatial structure of neighbouring points of the same type (called *points of interest*) as the points at the centres of the disks of radius $r$.
+In this article, we only consider the intra-type version of *M*: we study the spatial structure of neighboring points of the same type (called *points of interest*) as the points at the centres of the disks of radius $r$.
 In a mathematical terms, let us denote:
 
 -   $x^s_i$, the location of point $i$ of the reference type $s$, at the centre of the disk (the point whose neighbourhood is to be analysed),
--   $x^s_j$, the location of a neighbour $j$ of the same type as point $i$,
--   $x_j$, the location of a neighbour $j$ of $i$, whatever its type,
--   $w(.)$, the weight of a given neighbour. In that sense, $w(x_j)$ defines the weight of a neighbour $j$ of $i$.
+-   $x^s_j$, the location of a neighbor $j$ of the same type as point $i$,
+-   $x_j$, the location of a neighbor $j$ of $i$, whatever its type,
+-   $w(.)$, the weight of a given neighbor. In that sense, $w(x_j)$ defines the weight of a neighbor $j$ of $i$.
 -   $W_s$, the total weight of the points $x^s_j$,
 -   $W$, the total weight of all points of the dataset, whatever their type,
 -   ${\mathbf 1} \left( \left\| x^s_i - x_j \right\| \le r \right)$, the indicator function equal to 1 if $x_j$ is in the neighbourhood of $x^s_i$, e.g., the distance between $x^s_i$ and $x_j$ is at most equal to $r$, 0 otherwise.
@@ -220,7 +220,8 @@ A confidence interval can be generated thanks to Monte Carlo simulations followi
 A risk level is chosen (for example 5%) as well as the number of simulations.
 The greater the number of simulations, the longer is the duration of the calculation of *M*.
 Third, the package *dbmss* [@Marcon2014] on the R software [@R] can be used to compute the $M$ function.
-The Euclidean distance is generally preferred for the calculation of *M* but the *dbmss* package can also be used for network distances.
+In the vast majority of studies, the Euclidean distance is preferred for the calculation of *M* but the *dbmss* package can also be used for network distances.
+We discuss that point hereinafter for large datasets.
 
 # Data simulation
 
@@ -434,6 +435,8 @@ head(points_df)
 The `Mhat()` function in the *dbmss* package is used to estimate the *M* function.
 The theoretical reference value for *M* is 1, as this function relates the proportion of Cases up to a distance $r$ to that observed over the entire window.
 The aggregation of Cases will be highlighted by values of *M* greater than 1 (the relative presence of Cases is greater locally than over the whole window) and the dispersion of Cases by values lesser than 1.
+The Euclidean distance is used to estimate the distance between points.
+
 We observe (figure \@ref(fig:MFig)) that *M* detects an agglomeration of Cases, which is in line with the simulation of this type of point (the controls having a completely random location on the window).
 The advantage of a function based on distances is clearly visible: it allows us to detect exactly at which distance(s) the attraction phenomena occur and are the most important (for functions whose values can be compared at different radii, such as *M*).
 In addition to estimating the *M* function, the `Menvelope()` function can be used to calculate its global confidence interval [@Duranton2005] under the null hypothesis of random point location.
@@ -461,7 +464,7 @@ Matrices can be used to process non-Euclidean distances (transport time, road di
 The `Mhat()` and `MEnvelope()` functions are the same, and provide the same results whatever the form of the data (point set or distance matrix).
 Details are given in the appendix.
 
-The size of distance matrices is the square of the number of points, i.e. $10^10$ cells for 100,000 points. 
+The size of distance matrices is the square of the number of points, i.e. 10^10^ cells for 100,000 points. 
 R does not handle them because it relies on integer values to index them: square matrices can't be larger than 46340 rows and columns, i.e. the square root of the largest supported integer value. 
 This does not allow dealing with large datasets so this approach will not be explored further in this paper.
 
@@ -828,7 +831,7 @@ In the case of aggregated patterns, the null hypothesis is rejected correctly wh
 At small scale, below the size of the cells, *M* values are actually that of the size of the cells: the test is correct because the point process we used is aggregated at all scales.
 The point pattern may have been repulsive at small scale, but this information was destroyed by grouping the points: neither *M* values nor their p-values are reliable below the size of the cells.
 
-**If short-distance interactions are suspected, such as information externalities or contagion phenomena, very careful use of location approximation is recommended. The approximation may not be acceptable depending on the grid size chosen, since all information below this size is lost. Above it, the *M* function if not affected by the approximation.**
+**If short-distance interactions are suspected, such as information externalities or contagion phenomena, very careful use of location approximation is recommended. The approximation may not be acceptable depending on the grid size chosen, since all information below this size is lost. Above it, the *M* function is less affected by the approximation and the gap becomes rapidly negligible. **
 
 # Discussion and conclusion
 
