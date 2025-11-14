@@ -280,8 +280,7 @@ X <- X_csr(par_points_nb)
 autoplot(X[X$marks$PointType == "Case"])
 ```
 
-In this example, the drawing of points is completely random (*complete spatial randomness*: CSR), i.e. there is no simulation of attraction or dispersion of points which could generate spatial concentrations of points (aggregates) or, on the contrary, spatial regularities (dispersions).
-Sets of aggregated points can be drawn in a @Matern1960 process.
+In this example, the drawing of Controls points is completely random (*complete spatial randomness*: CSR), i.e. there is no simulation of attraction or dispersion. On the contrary, the spatial distribution of Cases is aggregated, it means that Cases will be spatially concentrated (like clusters). Pratically, sets of aggregated points are be drawn in a @Matern1960 process.
 
 ```{r}
 #| label: ParamsMaternCode
@@ -341,8 +340,12 @@ autoplot(X) +
   scale_size(range = c(0, 3))
 ```
 
-The Cases are shown in figure \@ref(fig:XMaternFig): the aggregates are clearly visible.
-The Controls are distributed completely randomly.
+Cases are shown in figure \@ref(fig:XMaternFig): aggregates are clearly visible.
+Controls are distributed completely randomly.
+A careful analysis of figure \@ref(fig:XMaternFig) shows a very limited number of white tiny spaces on the square window.
+They indicate locations with no points (whatever the type).
+The scarcity of empty spaces is due to the high number of points simulated.
+
 
 ## Gridding the space
 
@@ -411,6 +414,8 @@ X %>% group_points_to_plot() %>% autoplot(alpha = 0.5)
 
 The values of *M* can now be calculated from the original point set or its approximation.
 
+\newpage
+ 
 # Computing *M* with the *dbmss* package
 
 ```{r}
@@ -437,11 +442,12 @@ The theoretical reference value for *M* is 1, as this function relates the prop
 The aggregation of Cases will be highlighted by values of *M* greater than 1 (the relative presence of Cases is greater locally than over the whole window) and the dispersion of Cases by values lesser than 1.
 The Euclidean distance is used to estimate the distance between points.
 
-We observe (figure \@ref(fig:MFig)) that *M* detects an agglomeration of Cases, which is in line with the simulation of this type of point (the controls having a completely random location on the window).
-The advantage of a function based on distances is clearly visible: it allows us to detect exactly at which distance(s) the attraction phenomena occur and are the most important (for functions whose values can be compared at different radii, such as *M*).
+We observe in figure \@ref(fig:MFig) that *M* detects an agglomeration of Cases, which is in line with the simulation of this type of point (the Controls having a completely random location on the window).
+The advantage of a function based on distances is clearly visible: for any distance, the level of sptial concentration is precisely estimated.
+It allows the detection of distance(s) at which the attraction phenomena occur and are the most important (for functions whose values can be compared at different radii, such as *M*).
 In addition to estimating the *M* function, the `Menvelope()` function can be used to calculate its global confidence interval [@Duranton2005] under the null hypothesis of random point location.
-It allows parallelizing the necessary simulations to save time.
-The result is shown in figure \@ref(fig:MFig).
+The confidence interval of the null hypothesis is centered on 1, and is narrow due to the large dataset.
+Lastly, parallelizing the necessary simulations is possible and useful to save time.
 
 (ref:M) Value of *M* as a function of distance from the reference point. The 95% confidence envelope, obtained from 100 simulations, appears in grey and is centered on the value 1.
 
@@ -595,8 +601,8 @@ simulations_n <- 20
 
 ## Two main effects
 
-Unambiguously, approximating the position of the points results in a loss of information: in each grid cell, the distance between all the points is set to zero, and the distance between two points in different cells is approximated by the distance between the centroids of the two cells.
-The first consequence is that **no spatial structure in each cell can be detected because the information is lost.** The merits of any distance-based methods is undoubtedly detecting the exact geographic scale(s) at which any patterns of aggregation, dispersion or independence of points exist.
+Unambiguously, approximating the position of the points generates a loss of information: in each grid cell, the distance between all the points is set to zero, and the distance between two points in different cells is approximated by the distance between the centroids of the two cells.
+The first consequence is that **no spatial structure in each cell can be detected because the information is completely lost.** The merits of any distance-based methods is undoubtedly detecting the exact geographic scale(s) at which any patterns of aggregation, dispersion or independence of points exist.
 Grouping points at the centroid of cells leads to erase any spatial structure under the size grid.
 The same limit under the size grid is faced for distributions with multiple patterns of points (that is a coexistence of attraction and dispersion of points depending on the distance considered).
 @Tidu2023 gather on average 320 points in each 377 municipality of Sardinia: the price to pay is overlooking the very local structure of these points.
@@ -831,7 +837,7 @@ In the case of aggregated patterns, the null hypothesis is rejected correctly wh
 At small scale, below the size of the cells, *M* values are actually that of the size of the cells: the test is correct because the point process we used is aggregated at all scales.
 The point pattern may have been repulsive at small scale, but this information was destroyed by grouping the points: neither *M* values nor their p-values are reliable below the size of the cells.
 
-**If short-distance interactions are suspected, such as information externalities or contagion phenomena, very careful use of location approximation is recommended. The approximation may not be acceptable depending on the grid size chosen, since all information below this size is lost. Above it, the *M* function is less affected by the approximation and the gap becomes rapidly negligible. **
+**Since all information below the grid size is lost, the approximation may or may not be acceptable depending of the research question and the spatial scale at which interactions occur. Above the grid size, the *M* function is less affected by the approximation and the gap becomes rapidly negligible. **
 
 # Discussion and conclusion
 
@@ -877,8 +883,8 @@ In that situation, these uncertain geo-localised entities are placed at the cent
 Arbia et al. showed on a real case (Italian manufacturing firms) that the error measurement was less severe than expected.
 Their explanation rests on the definition *M*, a relative measure: a compensation effect of positional errors is suspected between the local ratio and the global one.
 
-To conclude, **an approximation of the spatial locations may be considered to save computation time, given the strong agreement observed between the values of *M* on exact and approximated data above the size of the grid, but the information about interactions at smaller scales is lost**.
-As we noticed, the choice of the optimal level of the grid is challenging, which calls for a certain degree of wariness in the use of the approximated locations.
+**To conclude, an approximation of the spatial locations may be considered to save computation time, given the strong agreement observed between the values of *M* on exact and approximated data above the size of the grid, but the information about interactions at smaller scales is lost. As we previously noticed, the choice of the optimal level of the grid is challenging, which calls for a certain degree of wariness in the use of the approximated locations.**
+For example, if short-distance interactions are suspected, such as information externalities or contagion phenomena, very careful use of location approximation is recommended.
 Choosing the approximation scale is a trade-off between accuracy, i.e. a small distance threshold above which results are accurate, and speed with a coarse grid.
 
 # Appendix {.unnumbered}
