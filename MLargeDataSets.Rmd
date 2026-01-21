@@ -173,7 +173,7 @@ Similar to any distance-based method, the calculation of *M* is based on distan
 The idea of *M* is simple: it compares two proportions of neighbors of interest, a local one to a global one.
 The local one is defined as the proportion of neighbors of interest within a distance *r*.
 The global one is the same proportion but defined on the entire territory.
-This comparison of ratios anables the detection of:
+This comparison of ratios enables the detection of:
 
 -   spatial concentration (attraction) of entities if the proportion of local neighbors is greater than the one observed on the entire territory,
 -   spatial dispersion (repulsion) of entities if the relative proportion of local neighbors is lower than the one observed all over the territory,
@@ -181,7 +181,7 @@ This comparison of ratios anables the detection of:
 
 This comparison of proportions of neighbors defines *M* strictly as a *relative* distance-based measure [@Marcon2012c].
 The term *topographic* distance-based measures is preferred for those that use the surface area as a benchmark, as the well-known Ripley's *K* function [@Ripley1976; @Ripley1977].
-The *M* function is also defined as a *cumulative* distance-based method because the local environment is appraised within a distance *r* rather than at a distance *r*.
+The *M*~function is also defined as a *cumulative* distance-based method because the local environment is appraised within a distance *r* rather than at a distance *r*.
 The possibility to detect exactly at which distance(s) the spatial concentration or dispersion appears coupled with the interpretation of results opens the way to precisely describe the distribution of entities under study.
 An easy-computation of *M* is possible owing to the *dbmss* R package [@Marcon2014].
 
@@ -360,7 +360,7 @@ The scarcity of empty spaces is because of the high number of simulated points.
 
 ## Gridding the space
 
-The simulation of the Cases obtained by the Matérn process is considered and the window is split into a 20 x 20 square grid.
+The simulation of the Cases obtained by the Matérn process is considered and the window is split into a 20~x~20 square grid.
 This partition simulates the approximation of the position of the points of an administrative unit to the position of its center.
 Moreover, this grid size is consistent with that of @Tidu2023, which facilitates a comparison of our results.
 The choice of the optimal level of the grid remains an open question, as @Arbia2021 noticed (p.109): "*Unfortunately, the choice of the partitioning scheme is usually arbitrary and an optimal criterion to guide this choice is not available*."
