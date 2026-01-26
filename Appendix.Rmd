@@ -749,7 +749,7 @@ departure_csr %>%
   ) %>% 
   pivot_longer(Exact:Grouped) %>% 
   ggplot() +
-  geom_line(aes(x = Distance, y = value, color = name, linetype = Pattern)) +
+  geom_line(aes(x = Distance, y = value, color = Pattern, linetype = name)) +
   geom_hline(yintercept = .975, linetype = 2) +
   labs(color = "Method", y = "p-value")
 ```
