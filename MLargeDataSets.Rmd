@@ -318,8 +318,6 @@ autoplot(X) +
 ```
 
 
-
-
 ## Gridding the space
 
 The simulation of the Cases obtained by the Matérn process is considered and the window is split into a 20 x 20 square grid.
