@@ -1,17 +1,15 @@
 ![stability-wip](https://img.shields.io/badge/stability-work_in_progress-lightgrey.svg)
 
-# On the computation of large spatial datasets with M
+# Computation of Large Spatial Datasets with the M function
 
-  Increasing access to large geo-referenced datasets, coupled with the development of computing power, has encouraged the search for suitable spatial statistic tools. 
-  In this line, distance-based methods have been largely developed in many scientific fields to detect spatial concentration, dispersion or independence of entities at any distance and without bias. 
-  In a recent article, Tidu et al. (2024) highlight the qualities of the *M* function (Marcon and Puech, 2010), a relative distance-based measure, but they also express reservations for the computation times required. 
-  In our article, we propose a methodological work that seeks to specify the processing of large spatialised datasets with the *M* function by using R software. We appraise the computational performance of *M* into two ways. 
-  At first, a precise evaluation of the computational time and memory requirements for geo-referenced data is carried out using the *dbmss* package in R by means of performance tests. 
-  Then, as suggested by Tidu et al. (2024), we consider an approximation of the geographical positions of the entities. 
-  The extent of the deterioration in the estimate of *M* is estimated and discussed, as are gains in computation time. 
-  We give evidence that the individual location approximation generates information loss at small distances, implying a trade-off between the smallest distance at which spatial interactions can be detected and computing performance. 
-  We recommend designing the analysis of large datasets taking it into account. 
-  The R code used in the article is given for the reproducibility of our results
+  Increasing access to large geo-referenced datasets, coupled with the development of computing power, has encouraged the search for suitable spatial statistical tools.
+  Distance-based methods have been extensively developed in several scientific fields to detect spatial concentration, dispersion or independence of entities at any distance and without any bias.
+  Recently, Tidu et al. (2024) highlighted the qualities of Marcon and Puech's *M* function, a relative distance-based measure, and also expressed reservations about the computation time required.
+  Herein, we propose a methodology that specifies the processing of large spatialized datasets with the *M* function using R software.
+  The computational performance of *M* was conducted using two methods: (i) a precise evaluation of the computational time and memory requirements for geo-referenced data was conducted using the *dbmss* package in R via performance tests, and (ii) based on Tidu et al. (2024), we considered an approximation of the geographical positions of the entities.
+  The deterioration extent of the *M* results was estimated and discussed as the gains it provides in computation time.
+  We provided evidence that the individual location approximation generated information loss at substantially small distances, implying a trade-off between the smallest distance at which spatial interactions could be detected and computing performance. 
+  The R code used in the article is given for the reproducibility of our results.
 
 Formats:
 
