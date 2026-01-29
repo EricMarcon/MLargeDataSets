@@ -2,7 +2,7 @@
 title: |
    | **Appendix**
    |
-   | On the Computation of Large Spatial Datasets With the&nbsp;M&nbsp;function
+   | Computation of Large Spatial Datasets with the&nbsp;M&nbsp;function
 author:
   - name: "Eric Marcon"
     authsuperscript: "1*"
@@ -124,7 +124,7 @@ knitr::opts_chunk$set(dev.args = list(bg = "transparent"))
 set.seed(973)
 ```
 
-The code used in the article "On the Computation of Large Spatial Datasets With *M*" is detailed here.
+The code used in the article "Computation of Large Spatial Datasets with the *M* function" is detailed here.
 
 # Data simulation
 
