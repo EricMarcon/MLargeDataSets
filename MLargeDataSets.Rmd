@@ -23,7 +23,7 @@ abstract: >
   We provided evidence that the individual location approximation generated information loss at substantially small distances, implying a trade-off between the smallest distance at which spatial interactions could be detected and computing performance. 
   The R code used in the article is given for the reproducibility of our results.
 keywords: [Distance-based method, M-function, Performance test, R Package dbmss]
-journalinfo: "Preprint"
+journalinfo: "Version: hal-05512154v1"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 archive: "`r format(Sys.time(), '%B %d, %Y')`"
 keywordlabel: Keywords
