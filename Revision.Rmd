@@ -279,7 +279,7 @@ Tirage d'un grand jeu de  points et éclaircie.
 ```{r}
 #| label: XList
 # Number of points
-par_points_comp_nb <- 1E6 # 1E5 in the article
+par_points_comp_nb <- 1E5 # 1E5 in the article
 # Ratio of points to keep during thinning
 thinning <- 1/10
 
