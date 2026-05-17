@@ -921,7 +921,7 @@ R code is available at the following address: <https://ericmarcon.github.io/MLar
 
 # Acknowledgments {.unnumbered}
 
-We thank the editor, and two anonymous referees for helped us improve the article.
+We thank the editor and three anonymous referees for helped us improve the article.
 We also thank participants of the SEW 2025 and especially Vincenzo Nardelli for helpful advice.
 Eric Marcon benefited from an 'Investissement d’Avenir' grant managed by the Agence Nationale de la Recherche (LABEX CEBA, ref. ANR-10-LBX-25) and Florence Puech gratefully acknowledges financial support from INRAE.
 
