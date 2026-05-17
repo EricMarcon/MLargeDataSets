@@ -103,6 +103,31 @@ par_size_gamma_scale  <- 10
 # Statistics
 r <- c((0:9) / 100, (2:10) / 20)
 
+# Draw Poisson ppp
+X_csr <- function(
+    points_nb,
+    case_ratio = par_case_ratio,
+    size_gamma_shape = par_size_gamma_shape,
+    size_gamma_scale = par_size_gamma_scale) {
+  points_nb %>% 
+    runifpoint() %>% 
+    as.wmppp() ->
+    X
+  cases_nb <- round(points_nb *  case_ratio)
+  controls_nb <- points_nb - cases_nb
+  c(rep("Control", controls_nb), rep("Case", cases_nb)) %>% 
+    as.factor() ->
+    X$marks$PointType
+  rgamma(
+    X$n, 
+    shape = size_gamma_shape, 
+    scale = size_gamma_scale
+  ) %>% 
+    ceiling() ->
+    X$marks$PointWeight
+  X
+}
+
 # Draw Matérn ppp
 X_matern <- function(
     points_nb,
@@ -205,6 +230,13 @@ RMSE <- sqrt(Bias^2 + Variance) / env_M_5_3$obs
 ```
 
 Conclusion: la diminution du nombre de points fait exploser la variance.
+La figure montre l'erreur relative en fonction de la distance.
+
+```{r}
+tibble(RMSE, r) %>% 
+  ggplot(aes(x = r, y = RMSE)) +
+  geom_line()
+```
 
 ## Eclaircie de 1E6 à 1E5
 
@@ -234,8 +266,13 @@ Variance <- apply(Sims, MARGIN = 1, FUN = var, na.rm = TRUE)
 RMSE <- sqrt(Bias^2 + Variance) / env_M_6_5$obs
 ```
 
+L'erreur relative est petite.
 
-
+```{r}
+tibble(RMSE, r) %>% 
+  ggplot(aes(x = r, y = RMSE)) +
+  geom_line()
+```
 
 # Eclaircie de Kd
 
@@ -269,12 +306,11 @@ Variance <- apply(Sims, MARGIN = 1, FUN = var, na.rm = TRUE)
 RMSE <- sqrt(Bias^2 + Variance) / env_Kd_6_5$obs
 ```
 
-
 # Approche de l'article
 
 ## Comparaison des courbes
 
-Tirage d'un grand jeu de  points et éclaircie.
+Tirage d'un grand jeu de points et éclaircie.
 
 ```{r}
 #| label: XList
@@ -282,6 +318,8 @@ Tirage d'un grand jeu de  points et éclaircie.
 par_points_comp_nb <- 1E5 # 1E5 in the article
 # Ratio of points to keep during thinning
 thinning <- 1/10
+# Number of simulations
+simulations_n <- 20
 
 # Simulate Matérn point patterns
 X_matern_list <- replicate(
@@ -364,7 +402,6 @@ The following code compares the p-values to reject the null hypothesis of random
 
 ```{r}
 #| label: MCompareFig
-
 # Function to calculate the departure of the thinned point pattern M p-value
 # against H0 from that of the real point pattern
 p_departure <- function(
@@ -456,18 +493,111 @@ departure_csr %>%
   labs(color = "Method", y = "p-value")
 ```
 
+# Comparaison des temps de calcul
 
-# D
+Remplacement du paragraphe Computing Time.
 
-Question : comparer ou pas les temps de calcul de M, Kd et M.
+Paramétrage
 
 ```{r}
-# Number of points
-par_points_comp_nb <- 1E5 # 1E5 in the article
-par_points_comp_nb %>% 
-  X_matern() %>% 
-  Dhat(Cases = "Case") %>% 
-  autoplot()
-  
+#| label: ParamsXSizeCode
+X_sizes <- c(1000, 5000, 10000)
 ```
 
+Fonctions:
+
+```{r}
+#| label: XtoxCode
+# Compute M
+X_to_M <- function(X) {
+  X %>% 
+    Mhat(r = r, ReferenceType = "Case") %>% 
+    pull("M")
+}
+X_to_D <- function(X) {
+  X %>% 
+    Dhat(r = r, Cases = "Case") %>% 
+    pull("iso")
+}
+
+X_to_Kd <- function(X) {
+  X %>% 
+    Kdhat(r = r, ReferenceType = "Case") %>% 
+    pull("Kd")
+}
+```
+
+Test :
+
+```{r}
+#| label: TestTime
+library("microbenchmark")
+test_time <- function(points_nb, FUN_DBM, times = 10L) {
+  X <- X_csr(points_nb)
+  microbenchmark(FUN_DBM(X), times = times) %>% 
+    pull("time")
+}
+
+X_sizes %>% 
+  sapply(FUN = test_time, FUN_DBM = X_to_M) %>% 
+  as_tibble() %>%
+  pivot_longer(cols = everything()) %>% 
+  rename(V = name, M = value) %>% 
+  bind_cols(
+    X_sizes %>%
+    sapply(FUN = test_time, FUN_DBM = X_to_D) %>% 
+    as_tibble() %>%
+    pivot_longer(cols = everything()) %>% 
+    rename(V = name, D = value) %>% 
+    select(-V)
+  ) %>% 
+  bind_cols(
+    X_sizes %>%
+    sapply(FUN = test_time, FUN_DBM = X_to_Kd) %>% 
+    as_tibble() %>%
+    pivot_longer(cols = everything()) %>% 
+    rename(V = name, Kd = value) %>% 
+    select(-V)
+  ) %>%
+  pivot_longer(cols = !V)  %>% 
+  group_by(V, name) %>% 
+  summarise(Time = mean(value) / 1E9, sd = sd(value) / 1E9) %>%
+  rename(Function = name) %>% 
+  inner_join(
+    tibble(
+      V = paste0("V", seq_along(X_sizes)), 
+      Size = X_sizes
+    )
+  ) -> dbm_time
+```
+
+Figure :
+
+```{r}
+dbm_time %>% 
+  ggplot(aes(x = Size, y = Time, color = Function)) +
+    geom_point() +
+    geom_errorbar(aes(ymin = Time - sd, ymax = Time + sd)) +
+    scale_x_log10() +
+    scale_y_log10() + 
+    labs(tag = "a") +
+    theme(axis.text.x = element_text(size = 8))
+```
+
+```{r}
+#| label: TimeModelCode
+# Model
+dbm_time %>% 
+  filter(Function == "M") %>% 
+  mutate(logTime = log(Time), logSize = log(Size)) ->
+  M_time_log
+M_time_lm <- lm(logTime ~ logSize, data = M_time_log) 
+summary(M_time_lm)
+```
+
+# Discussion
+
+1.  D n'est pas une alternative parce que son temps de calcul est 10 à 100 fois supérieur à celui de M. Explication : D nécessite deux calculs de K et surtout des corrections d'effet de bord intensives en calcul. Accessoirement, le calcul de D sur 100000 points génère des pb de mémoire. La figure qui suit l'approche de l'article n'est pas intéressante.
+2.  M comme D est stable à l'éclaircie : la moyenne des estimations de M après éclaircie égale exactement la vraie valeur de M (tirets rouges surperposés à la ligne noire dans tous les exemples).
+3.  Si l'éclaircie est trop brutale (1000 points sur 100000), la variance de l'estimation explose, avec une erreur relative moyenne facilement supérieure à 100%. La technique est très efficace en revanche pour passer d'un million à 100000 points.
+4.  Kd se comporte globalement comme M. Je pensais que ses calculs seraient beaucoup plus rapides mais ce n'est pas le cas. On n'en parle donc pas.
