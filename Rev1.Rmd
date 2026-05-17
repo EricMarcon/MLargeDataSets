@@ -129,18 +129,31 @@ set.seed(973)
 
 # Introduction {.unnumbered}
 
+Agglomeration of people and economic activities is a key topic in economics [@Fujita1999; @Fujita2013; @Glaeser2010].
+Because spatial concentration offers productivity gains due to cost reductions, economists and geographers in regional science have extensively studied clusters of economic activity, their consequences on territories and the importance of the determinants that explain them since @Marshall1890.
+Policymakers are also particularly interested in the agglomeration of activities, since a better understanding of the locations and extent of the agglomeration of activities allows them to develop more effective economic policies addressing regional growth disparities and the measures needed to promote economic convergence or greater territorial cohesion (see for example @Balwin2003).
+
+In regional science, spatial concentration measures are widely employed to evaluate the agglomeration of activities [@Combes2004].
 Increasing access to large spatial datasets and computing power has encouraged the development of statistical analysis tools for processing such data most efficiently [@Baddeley2016].
-Thus, empirical studies at highly detailed geographical levels have been proposed in recent years for large datasets.
-In particular, the detection of spatial structures (attraction, repulsion, and independence) of individual spatialized data using analyses that are no longer based on zoned data but on geo-located data.
-has received increasing attention.
-Such an approach has the advantage of preserving the exact positions of the entities analyzed.
-Any distance-based method (by considering space as continuous) circumvents statistical bias associated with the Modifiable Areal Unit Problem [MAUP: @Openshaw1979; @Arbia1989] owing to discretizing space into separate units.
-Numerous studies have shown the importance of using such a methodology in social sciences [@Arbia1989; @Marcon2003a; @Sweeney2022] or in exact sciences [@Cressie1993; @Lentz2011; @Dray2021].
+Empirical studies at highly detailed geographical levels have been proposed in recent years [see among others worlks of @Daspremont2025 or @Baragwanath2026 based on satellite imagery].
+In particular, the detection of spatial structures (attraction, repulsion, and independence) of individual spatialized data using analyses that are no longer based on zoned data but on geo-located data has received an increasing attention.
+Such an approach has the advantage of preserving the exact positions of the entities analyzed contrarily to data aggregated at a given spatial level (for example regions, counties etc.).
+Since 2000's, a series of spatial concentration measures based on distances between geo-localized entities studied has been proposed (see for example @Marcon2017 for a complete review).
+By considering space as continuous, the advantage of these distance-based methods is to circumvent any statistical bias associated to a discretisation of space into separate units (known as the MAUP-Modifiable Areal Unit Problem, see @Openshaw1979 or @Arbia1989).
+Numerous studies have shown the importance of using such a methodology in social sciences [@Arbia1989; @Marcon2003; @Sweeney2022] or in exact sciences [@Cressie1993; @Lentz2011; @Dray2021].
+For example, @Giuliani2014 published in this review an analysis based on continuous space on the technology manufacturing industry in the metropolitan areas of Milan and Turin in Italy.
+They show all the importance of taking into account the exact geographic position of the plants to provide a complete description of the location patterns of high- and medium-high-technology manufacturing.
+For example, they detect that these firms are spatially aggregated at distances greater than 500~meters in the metropolitan area of Milan.
+This result contributes to very precise developments that explain such agglomeration patterns.
 
-@Tidu2023 highlighted the *M* function, a particular statistical measure proposed by @Marcon2010.
+
+One of the existing distance-based methods has been recently pointed out by @Tidu2023, the *M* function, a particular statistical measure proposed by @Marcon2010.
 This distance-based method, hereafter referred to as *M*, makes it possible to highlight spatial structures within a spatialized distribution (attraction, repulsion, and independence) from a study based on the distances separating the analyzed entities.
-However, while this measure preserves all the richness of individual geo-located data, it requires a longer calculation time than other distance-based measures, as it is a relative measure [@Marcon2012c reviewed the advantages and limitations of a dozen existing distance-based measures].
-
+Various applications of *M* have been proposed.
+For example, @Jensen2011 and @Floch2018 analyze the spatial concentration different facilities in French cities while @Coll-Martinez2019 proposed an application of the *M* function on creative industries at a larger spatial scale, that is in a Spanish metropolitan area.
+The *M* function has also been rapidly applied to other domains as such as the spatial distribution of ethnic groups for example [@Deurloo2008].
+However, while this measure preserves all the richness of individual geo-located data, it requires a longer calculation time than other distance-based measures, as it is a relative measure [@Marcon2017 reviewed the advantages and limitations of a dozen existing distance-based measures].
+This could be a limit of the use of the *M* function if datasets are very large.
 @Tidu2023 proposed decreasing *M* calculation times by introducing a voluntary positioning error for the analyzed entities.
 For example, in their study, industrial establishments in Sardinia (Italy) were not located at their exact addresses but at the centroid of their municipality.
 This repositioning reduces calculation times, as the number of possible distances between establishments is limited to the distances that separate the centroids of the municipalities.
@@ -179,13 +192,13 @@ This comparison of ratios enables the detection of:
 -   spatial dispersion (repulsion) of entities if the relative proportion of local neighbors is lower than the one observed all over the territory,
 -   independence between entities if the local distribution of neighbors does not differ from the global one.
 
-This comparison of proportions of neighbors defines *M* strictly as a *relative* distance-based measure [@Marcon2012c].
-The term *topographic* distance-based measures is preferred for those that use the surface area as a benchmark, as the well-known Ripley's *K* function [@Ripley1976; @Ripley1977].
+This comparison of proportions of neighbors defines *M* strictly as a *relative* distance-based measure [@Marcon2017].
+The term *topographic* distance-based measures is preferred for those that use the surface area as a benchmark, as the well-known Ripley's *K* function or *L* function [@Ripley1976; @Ripley1977; @Besag1977].
 The *M* function is also defined as a *cumulative* distance-based method because the local environment is appraised within a distance *r* rather than at a distance *r*.
 The possibility to detect exactly at which distance(s) the spatial concentration or dispersion appears coupled with the interpretation of results opens the way to precisely describe the distribution of entities under study.
 An easy-computation of *M* is possible owing to the *dbmss* R package [@Marcon2014].
 
-*M* was first introduced in the field of economics.
+*M* was first introduced in the field of economics and geography.
 @Marcon2010 proved that this function satisfies all the requirements of @Duranton2005 for the evaluation of the spatial distribution of industries.
 Since its introduction, various studies have described the spatial locations of industries by using *M*; for example, @Jensen2011 studied the location of shops at an urban level, @Coll-Martinez2019 analyzed creative industries at a metropolitan level.
 This methodology has also been rapidly applied in other domains including biology [@Fernandez-Gonzalez2005], geography [@Deurloo2008], ecology [@Marcon2012], and seismology [@Nissi2013].
@@ -193,8 +206,8 @@ The *M* function is now included in general textbooks of spatial statistics suc
 
 ## Definition
 
-The $M$ function is based on the point process theory [@Moller2004; @Baddeley2016].
-This distance-based method was developed to analyze interactions among entities in a heterogeneous space.
+The $M$ function is based on the point process theory, in line with the distance-based method proposed by Ripley and Besag distance-based method [@Ripley1976; @Ripley1977; @Besag1977].
+The $M$ function was developed to analyze interactions among entities in a heterogeneous space.
 In other words, within this statistical framework, we consider that any entity analyzed does not have the same probability to locate everywhere on the territory (the *first-order property of the point pattern* is its intensity).
 Subsequently, upon controlling for space heterogeneity, we can identify interactions and detect spatial concentration or dispersion (the *second-order property of the point pattern*).
 Space heterogeneity is a consistent assumption for studying the agglomeration of industries [refer to the discussion of @Duranton2005 on that subject].
@@ -908,7 +921,8 @@ R code is available at the following address: <https://ericmarcon.github.io/MLar
 
 # Acknowledgments {.unnumbered}
 
+We thank the editor, and two anonymous referees for helped us improve the article.
+We also thank participants of the SEW 2025 and especially Vincenzo Nardelli for helpful advice.
 Eric Marcon benefited from an 'Investissement d’Avenir' grant managed by the Agence Nationale de la Recherche (LABEX CEBA, ref. ANR-10-LBX-25) and Florence Puech gratefully acknowledges financial support from INRAE.
-The authors thank participants of the SEW 2025 and especially Nardelli Vincenzo for helpful advice.
 
 `r if (!knitr::is_latex_output()) '# References {-}'`
