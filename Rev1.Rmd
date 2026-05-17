@@ -135,7 +135,7 @@ Policymakers are also particularly interested in the agglomeration of activities
 
 In regional science, spatial concentration measures are widely employed to evaluate the agglomeration of activities [@Combes2004].
 Increasing access to large spatial datasets and computing power has encouraged the development of statistical analysis tools for processing such data most efficiently [@Baddeley2016].
-Empirical studies at highly detailed geographical levels have been proposed in recent years [see among others worlks of @Daspremont2025 or @Baragwanath2026 based on satellite imagery].
+Empirical studies at highly detailed geographical levels have been proposed in recent years [see for example @Daspremont2025 or @Baragwanath2026 based on satellite imagery].
 In particular, the detection of spatial structures (attraction, repulsion, and independence) of individual spatialized data using analyses that are no longer based on zoned data but on geo-located data has received an increasing attention.
 Such an approach has the advantage of preserving the exact positions of the entities analyzed contrarily to data aggregated at a given spatial level (for example regions, counties etc.).
 Since 2000's, a series of spatial concentration measures based on distances between geo-localized entities studied has been proposed (see for example @Marcon2017 for a complete review).
