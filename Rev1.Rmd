@@ -130,27 +130,28 @@ set.seed(973)
 # Introduction {.unnumbered}
 
 Agglomeration of people and economic activities is a key topic in economics [@Fujita1999; @Fujita2013; @Glaeser2010].
-Because spatial concentration offers productivity gains due to cost reductions, economists and geographers in regional science have extensively studied clusters of economic activity, their consequences on territories and the importance of the determinants that explain them since @Marshall1890.
+Because spatial concentration offers productivity gains due to cost reductions, economists and geographers in regional science have extensively studied clusters of economic activity, their consequences on territories and the importance of the determinants that explain them [@Marshall1890; @Duranton2004].
 Policymakers are also particularly interested in the agglomeration of activities, since a better understanding of the locations and extent of the agglomeration of activities allows them to develop more effective economic policies addressing regional growth disparities and the measures needed to promote economic convergence or greater territorial cohesion (see for example @Balwin2003).
 
-In regional science, spatial concentration measures are widely employed to evaluate the agglomeration of activities [@Combes2004].
+Since industrial agglomeration is a core question in regional science, spatial concentration measures are widely employed to evaluate the agglomeration of activities [@Combes2004].
 Increasing access to large spatial datasets and computing power has encouraged the development of statistical analysis tools for processing such data most efficiently [@Baddeley2016].
 Empirical studies at highly detailed geographical levels have been proposed in recent years [see for example @Daspremont2025 or @Baragwanath2026 based on satellite imagery].
 In particular, the detection of spatial structures (attraction, repulsion, and independence) of individual spatialized data using analyses that are no longer based on zoned data but on geo-located data has received an increasing attention.
 Such an approach has the advantage of preserving the exact positions of the entities analyzed contrarily to data aggregated at a given spatial level (for example regions, counties etc.).
 Since 2000's, a series of spatial concentration measures based on distances between geo-localized entities studied has been proposed (see for example @Marcon2017 for a complete review).
-By considering space as continuous, the advantage of these distance-based methods is to circumvent any statistical bias associated to a discretisation of space into separate units (known as the MAUP-Modifiable Areal Unit Problem, see @Openshaw1979 or @Arbia1989).
+By considering space as continuous, the advantage of these distance-based methods is to circumvent any statistical bias associated to a discretization of space into separate units (known as the MAUP-Modifiable Areal Unit Problem, see @Openshaw1979 or @Arbia1989).
 Numerous studies have shown the importance of using such a methodology in social sciences [@Arbia1989; @Marcon2003; @Sweeney2022] or in exact sciences [@Cressie1993; @Lentz2011; @Dray2021].
 For example, @Giuliani2014 published in this review an analysis based on continuous space on the technology manufacturing industry in the metropolitan areas of Milan and Turin in Italy.
 They show all the importance of taking into account the exact geographic position of the plants to provide a complete description of the location patterns of high- and medium-high-technology manufacturing.
 For example, they detect that these firms are spatially aggregated at distances greater than 500~meters in the metropolitan area of Milan.
-This result contributes to very precise developments that explain such agglomeration patterns.
+This result encourages very precise developments that explain such agglomeration patterns.
 
 
 One of the existing distance-based methods has been recently pointed out by @Tidu2023, the *M* function, a particular statistical measure proposed by @Marcon2010.
 This distance-based method, hereafter referred to as *M*, makes it possible to highlight spatial structures within a spatialized distribution (attraction, repulsion, and independence) from a study based on the distances separating the analyzed entities.
-Various applications of *M* have been proposed.
-For example, @Jensen2011 and @Floch2018 analyze the spatial concentration different facilities in French cities while @Coll-Martinez2019 proposed an application of the *M* function on creative industries at a larger spatial scale, that is in a Spanish metropolitan area.
+Various applications of *M* have been proposed for detecting industrial agglomeration.
+For example, @Jensen2011 and @Floch2018 analyze the spatial concentration different facilities in French cities.
+At a regional level, @Coll-Martinez2019 proposed an application of the *M* function on creative industries on a Spanish metropolitan area while more recently, @Canello2025 employed in particular *M* to characterize the location patterns of footwear subcontractors in Italy.
 The *M* function has also been rapidly applied to other domains as such as the spatial distribution of ethnic groups for example [@Deurloo2008].
 However, while this measure preserves all the richness of individual geo-located data, it requires a longer calculation time than other distance-based measures, as it is a relative measure [@Marcon2017 reviewed the advantages and limitations of a dozen existing distance-based measures].
 This could be a limit of the use of the *M* function if datasets are very large.
@@ -163,14 +164,16 @@ The method of @Scholl2013, implemented in the *dbmss* package [@Marcon2014] for 
 However, the information loss owing to the approximation of the location of objects should imply a loss of accuracy in the estimation of their interactions at the same scale, which needs to be assessed.
 
 **Herein, we propose testing the effectiveness of @Tidu2023's method and help researchers choose the appropriate method to characterize the spatial structure of substantially large datasets**.
+The article provides three main contributions to the literature.
 First, we show the advantages of estimating *M* on datasets with an order of magnitude of 100,000 points or less.
 The computation times become excessive beyond that, using a personal computer.
-We studied the effect of the geographical approximation of the locations of the analyzed entities.
+Second, we study the effect of the geographical approximation of the locations of the analyzed entities.
 This methodological study, based on a deliberately limited number of entity locations, quantified the extent of the deterioration in information that this approach created.
+Third, we test another approach  
 These performance tests precisely provided the computational advantages and limitations of the *M* function as a function of the of the dataset size.
 
 The layout of the article is mentioned here.
-The first two sections present the *M* function and the necessary data generated for the tests.
+The next two sections present the *M* function and the necessary data generated for the tests.
 Large point sets (in the order of several tens of thousands of points) that are either completely random or geographically concentrated are considered.
 The third section details the use of the *dbmss* package to calculate *M* and its confidence interval from a table that gives the position and characteristics of the points or a matrix of distances between them.
 The fourth section measures the performance of *dbmss* as a function of the size of the set of points, in terms of computing time and memory requirements.
