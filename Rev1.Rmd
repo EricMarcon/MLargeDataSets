@@ -935,6 +935,91 @@ Knowing *a priori* the optimal grid size is not easy but one thing is certain: m
 
 ## Thinning
 
+(ref:Mthin) (a) Confidence envelope of the estimation of the M function after thinning a 1-million point pattern to 10% of its size and (b) relative Root Mean Squared Error of the estimation due to thinning.
+
+```{r}
+#| label: MthinFig
+#| include: true
+#| fig.asp: 0.5
+#| fig.cap: "(ref:Mthin)"
+#| fig.env: "figure*"
+#| out.extra: ""
+
+# Function to compute a confidence envelope after thinning
+Envelope_thinning <- function(X, r, FUN = Mhat, thinning = 1/10, nsim = 100) {
+  # Repeat thinning (code from dbmss::MEnvelope)
+  the_envelope <- spatstat.explore::envelope(
+    X,
+    fun = FUN,
+    nsim = nsim,
+    nrank = 1,
+    r = r,
+    ReferenceType = "Case",
+    CheckArguments = FALSE,
+    simulate = expression(rthin(X, P = thinning)),
+    verbose = interactive(),
+    savefuns = TRUE
+  )
+  attr(the_envelope, "einfo")$H0 <- "Thinned"
+  # Calculate confidence intervals
+  Envelope <- dbmss::FillEnvelope(the_envelope, Alpha = 0.05, Global = TRUE)
+  # No edge effect correction
+  attr(the_envelope, "einfo")$valname <- NULL
+  # Return
+  return(the_envelope)
+}
+
+# Draw the original point pattern: 1 million points
+pp_original_Matern <- X_matern(1E6)
+# Repeat thinning (code from dbmss::MEnvelope)
+env_M_6_5 <- Envelope_thinning(
+  # Original point pattern
+  pp_original_Matern,
+  # Distances
+  r = r,
+  # Function to compute
+  FUN = Mhat,
+  # Thinning ratio
+  thinning = 1/10,
+  # Number of simulations to build the confidence envelope
+  nsim = 100
+)
+# Sims contains simulated values (one line per simulation)
+Sims <- as.data.frame(attr(env_M_6_5, "simfuns"))[, -1]
+Bias <- abs(rowMeans(Sims, na.rm = TRUE) - env_M_6_5$obs)
+Variance <- apply(Sims, MARGIN = 1, FUN = var, na.rm = TRUE)
+RMSE <- sqrt(Bias^2 + Variance) / env_M_6_5$obs
+
+autoplot(env_M_6_5) +
+  theme(legend.position = "none)") -> 
+  MthinFiga
+tibble(RMSE, r) %>% 
+  ggplot(aes(x = r, y = RMSE)) +
+  geom_line() ->
+  MthinFigb
+grid.arrange(MthinFiga, MthinFigb, ncol = 2)
+```
+
+Random thinning consists of reducing the number of points by applying the same probability of being kept to each point.
+The resulting dataset is thus a representative sample of the actual one.
+
+@Sweeney2005 showed that the K function, hence the D function, is invariant under random thinning.
+So is the M function: relative DBMs are obtained by dividing a number of neighbors of interest by a total number of neighbors.
+Both terms are reduced in the same proportion by random thinning, keeping the ratio unchanged.
+
+Compared to approximating the position of points, random thinning does not degrade the information of each point but reduces the amount of data.
+The acceptability of the method can be tested rigorously by simulating randomly thinned point patterns and comparing the distribution of their M function to that of the original pattern.
+
+A million-point pattern is drawn from a Matérn process and thinned 1000 times.
+The M values of the original and thinned patterns are compared.
+Figure \@ref(fig:MthinFig)a shows the confidence envelope of the thinned patterns.
+The relative Root Mean Squared Error (RMSE), that is the expectation of the error caused by thinning, is shown on Figure \@ref(fig:MthinFig)b.
+It is very small, around 2%, at short distances and negligible at large distances.
+
+As @Sweeney2005 already noted for the K function, the variance of the estimation of M increases when the number of points decreases.
+Thinning a 100,000-point dataset to 1000 points results in a very fast and unbiased estimation of the M function but RMSE is well over 100% at short distance (Figure in supplementary material).
+Thinning is an efficient method to reduce huge, untractable datasets to large, computable ones, but is not a solution to drastically reduce computing time by thinning large datasets to small ones.
+
 # Discussion and conclusions
 
 ```{r}
