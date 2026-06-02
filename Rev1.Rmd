@@ -972,29 +972,40 @@ Envelope_thinning <- function(X, r, FUN = Mhat, thinning = 1/10, nsim = 100) {
   return(the_envelope)
 }
 
-# Draw the original point pattern: 1 million points
-pp_original_Matern <- X_matern(1E6)
-# Repeat thinning (code from dbmss::MEnvelope)
-env_M_6_5 <- Envelope_thinning(
-  # Original point pattern
-  pp_original_Matern,
-  # Distances
-  r = r,
-  # Function to compute
-  FUN = Mhat,
-  # Thinning ratio
-  thinning = 1/10,
-  # Number of simulations to build the confidence envelope
-  nsim = 100
-)
-# Sims contains simulated values (one line per simulation)
-Sims <- as.data.frame(attr(env_M_6_5, "simfuns"))[, -1]
-Bias <- abs(rowMeans(Sims, na.rm = TRUE) - env_M_6_5$obs)
-Variance <- apply(Sims, MARGIN = 1, FUN = var, na.rm = TRUE)
-RMSE <- sqrt(Bias^2 + Variance) / env_M_6_5$obs
-
+# Run the test if the results have not been saved
+if (file.exists("data/MThin.RData")) {
+  # Do not compute if it has been saved before
+  load("data/MThin.RData")
+} else {
+  # Draw the original point pattern: 1 million points
+  pp_original_Matern <- X_matern(1E6)
+  # Repeat thinning (code from dbmss::MEnvelope)
+  env_M_6_5 <- Envelope_thinning(
+    # Original point pattern
+    pp_original_Matern,
+    # Distances
+    r = r,
+    # Function to compute
+    FUN = Mhat,
+    # Thinning ratio
+    thinning = 1/10,
+    # Number of simulations to build the confidence envelope
+    nsim = 100
+  )
+  # Sims contains simulated values (one line per simulation)
+  Sims <- as.data.frame(attr(env_M_6_5, "simfuns"))[, -1]
+  Bias <- abs(rowMeans(Sims, na.rm = TRUE) - env_M_6_5$obs)
+  Variance <- apply(Sims, MARGIN = 1, FUN = var, na.rm = TRUE)
+  RMSE <- sqrt(Bias^2 + Variance) / env_M_6_5$obs
+  # Save the results
+  save(
+    env_M_6_5, RMSE,
+    file = "data/MThin.RData"
+  )
+}
+# Figure
 autoplot(env_M_6_5) +
-  theme(legend.position = "none)") -> 
+  theme(legend.position = "none") -> 
   MthinFiga
 tibble(RMSE, r) %>% 
   ggplot(aes(x = r, y = RMSE)) +
