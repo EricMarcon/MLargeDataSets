@@ -595,6 +595,11 @@ M_time_lm <- lm(logTime ~ logSize, data = M_time_log)
 summary(M_time_lm)
 ```
 
+**Présentation de la fonction: différence entre K, utilisée par Sweeney & Feser. Topographique.**
+
+The computing time of the D function is actually around 100 longer than that of the M function because topographic DBMs require correcting edge effects that appear when the neighborhood of a point, i.e. the circle of radius $r$ around it, leaves the window. These correction are extremely computer intensive compared to simply counting the number of number of neighbors of each point or summing their weight.
+Relative DBM's such as M do not face edge effects. The D function is thus not a realistic alternative for very large datasets
+
 # Discussion
 
 1.  D n'est pas une alternative parce que son temps de calcul est 10 à 100 fois supérieur à celui de M. Explication : D nécessite deux calculs de K et surtout des corrections d'effet de bord intensives en calcul. Accessoirement, le calcul de D sur 100000 points génère des pb de mémoire. La figure qui suit l'approche de l'article n'est pas intéressante.
