@@ -143,9 +143,8 @@ By considering space as continuous, the advantage of these distance-based method
 Numerous studies have shown the importance of using such a methodology in social sciences [@Arbia1989; @Marcon2003; @Sweeney2022] or in exact sciences [@Cressie1993; @Lentz2011; @Dray2021].
 For example, @Giuliani2014 published in this review an analysis based on continuous space on the technology manufacturing industry in the metropolitan areas of Milan and Turin in Italy.
 They show all the importance of taking into account the exact geographic position of the plants to provide a complete description of the location patterns of high- and medium-high-technology manufacturing.
-For example, they detect that these firms are spatially aggregated at distances greater than 500~meters in the metropolitan area of Milan.
+For example, they detect that these firms are spatially aggregated at distances greater than 500\~meters in the metropolitan area of Milan.
 This result encourages very precise developments that explain such agglomeration patterns.
-
 
 One of the existing distance-based methods has been recently pointed out by @Tidu2023, the *M* function, a particular statistical measure proposed by @Marcon2010.
 This distance-based method, hereafter referred to as *M*, makes it possible to highlight spatial structures within a spatialized distribution (attraction, repulsion, and independence) from a study based on the distances separating the analyzed entities.
@@ -169,7 +168,7 @@ First, we show the advantages of estimating *M* on datasets with an order of mag
 The computation times become excessive beyond that, using a personal computer.
 Second, we study the effect of the geographical approximation of the locations of the analyzed entities.
 This methodological study, based on a deliberately limited number of entity locations, quantified the extent of the deterioration in information that this approach created.
-Third, we test another approach  
+Third, we test another approach\
 These performance tests precisely provided the computational advantages and limitations of the *M* function as a function of the of the dataset size.
 
 The layout of the article is mentioned here.
@@ -179,6 +178,53 @@ The third section details the use of the *dbmss* package to calculate *M* and i
 The fourth section measures the performance of *dbmss* as a function of the size of the set of points, in terms of computing time and memory requirements.
 The fifth section tests the spatial approximation which involves grouping them at the center of the cells of a grid, following the approach of @Tidu2023, which positions them at the center of the administrative units of their location.
 In the last section, we conclude and discuss the advantages and the limits of an approximation of the locations on the accuracy of the results and the computing time.
+
+# Spatial concentration measures in regional science
+
+## Spatial concentration measures and regional science
+
+In regional science, spatial concentration measures are widely employed to evaluate the agglomeration of activities [@Combes2004].
+These statistical measures provide a simple way to describe the geographic distribution of industrial activities across regions.
+Industrial agglomeration generates productivity gains for firms and benefits for households [@Fujita1999; @Glaeser2010; @Fujita2013] and thus provokes growth disparities between territories.
+Regional economic inequalities can be easily detected and quantified with spatial concentration measures.
+In that way, a lot of researchers have employed spatial concentration measures for a better description and understanding of industrial clusters [see @Feser2000; @Giuliani2014; @Kerr2015 among others].
+Moreover, since spatial concentration measures are proven to be a relevant technique to describe agglomeration across territories, some studies rely on these spatial concentration estimates to explain the mechanisms that generate the industrial clustering.
+The pioneer explanation of the agglomeration forces is due to @Marshall1890 who identifies three main determinants of the industrial spatial concentration: a specialized labor pooling, the proximity of producers of intermediate goods (input sharing), and the opportunity to benefit from technological externalities (knowledge spillovers).
+These factors explain why firms concentrate their activities in a limited number of specific geographic areas: to reduce their costs and risks associated to their production.
+These three determinants are still widely accepted today, even though the modern view proposed by @Duranton2004 of these economic mechanisms is approached by a better matching, a better sharing, and a better learning for firms and households.
+A series of articles have empirically evaluated the importance of the determinants of agglomeration by regressing estimates of spatial concentration measures on the main factors that generate agglomeration.
+This technique constitutes a very simple way to quantify the importance of all of the determinants of industrial agglomeration (see for example the empirical studies of @Rosenthal2001; @Ellison2010 or the article of @Rosenthal2004 for a review).
+Since spatial concentration of activities is observed, it means that the strength of agglomeration forces is greater than the dispersion forces.
+Thus, estimating at best the importance of all forces at work is straightforward, notably for policymakers that provide effective economic policies in order to foster regional growth and to attenuate disparities between regions.
+## Recent developments concerning the measurement of the spatial concentration Based on the importance of the industrial geographic concentration, a lot of attention has been made in economics and in geography to develop statistical measures that are able to describe the spatial concentration precisely and without any statical bias [@Arbia2021].
+Today, many indices coexist in the literature but two distinct groups are clearly identified depending both on the nature of the data used and on their statistical treatment.
+The first group of measures divides space into a given number of exclusive zones, for example data are aggregated at the county level or the regional one.
+The well-known and widely used location quotient [@Florence1972], @Gini1912 index or @Ellison1997 index belong to that group.
+It is out of the scope of this article to present in details these indices but a discussion of these spatial concentration measures is given in [@Sweeney2004; @Bickenbach2008 or @Combes2008].
+Entropy measures also belong to that first group, even if they are less employed in spatial economics or in quantitative geography (see for example the article @Brulhart2005 for an evaluation of spatial concentration of activities across regions with the @Theil1967 index).
+The common advantage of all of these measures is the simplest way to compute them: they need low-intensive calculations, data are spatially aggregated so they are easy to find and compute.
+For example, @Marcon2019 employed European data (available at <https://ec.europa.eu/eurostat/web/regions-and-cities>) to measure industrial employment disparities across European regions.
+The shared limit of all of the previous indices presented is that they rest on a pre-defined zoning of space.
+As a consequence, all the information lower than the zoning delimitation is simply lost.
+This is far from being ideal for example for researchers that they want to study the very localized interactions between firms, the face-to-face contacts between individuals etc.
+In addition, a series of studies put in light that all indices based on a discrete space are exposed to some statistical bias known as the Modifiable Areal Unit Problem-MAUP [@Openshaw1979; @Arbia1989].
+For example, it has been proven that the position of the frontiers of the zones or the geographical scale chosen for the analysis alter the findings on the spatial concentration levels [@Arbia2001].
+This is important at both for the precision of the agglomeration levels but also to find the “right” scale to analyze agglomeration factors [@Rosenthal2020].
+An answer to the limit the MAUP issue was proposed by the development of a second group of measures that not divide space into a given number of zones.
+This second group encompasses all “distance-based measures” (DBM) based on the point pattern analysis.
+In that case, the exact geographic position of firms is preserved and the spatial concentration levels of agglomeration is calculated on the distances between the geo-localized firms studied.
+By preserving the exact positions of the firms analyzed, the DBM circumvent any statistical bias associated to a discretization of space into separate units.
+DBM evaluate the spatial concentration for all possible distances: by considering space as continuous, one of the great advantages of all distance-based methods is to detect the exact distance at which spatial concentration (in case of attraction) or dispersion (in case of repulsion) occur.
+In the last decades, many developments have been proposed in geography and in economics to be able to grasp any definition of the spatial concentration analyzed (different benchmarks distributions, weighting or not the plants by their number of employees etc.).
+A series of spatial concentration measures based on distances have been proposed; @Marcon2017 proposed a typology of around a dozen of existing DBM.
+Among the first applications of distance-based methods, the works of @Barff1987 or @Sweeeney1998 are interesting to underline.
+They investigated the relationship between the agglomeration of manufacturing activities and the characteristics of the plants (capital intensity, plants’ etc.).
+@Sweeeney1998 notably gave support to an existing inverted U-shaped relation between the spatial manufacturing concentration and the size of plants in North Carolina (USA).
+Today, DBM face a great challenge: to face the huge amount of micro-geographic data that are more and more at the disposal of researchers [@Piacentino2021].
+Dealing with satellite data for example [@Bachtrogleunger2023, @Daspremont2025, @Baragwanath2026] is a great opportunity to provide detailed locational analysis of the economic activities.
+This also opens new research questions both on the computational capacity to manage very large datasets containing billions of data and also on the possible reductions of computing-time calculations.
+In a recent paper @Tidu2023 focus their attention on one of the existing distance-based methods, the *M* function [@Marcon2010], that present many advantages but it requires a quite long calculation time in comparison to other distance-based measures.
+In the next sections, we shall discuss the computing performances of the *M* function and we also try to appreciate its capacity to deal with very large datasets.
 
 # The *M* function
 
@@ -191,9 +237,9 @@ The local one is defined as the proportion of neighbors of interest within a dis
 The global one is the same proportion but defined on the entire territory.
 This comparison of ratios enables the detection of:
 
--   spatial concentration (attraction) of entities if the proportion of local neighbors is greater than the one observed on the entire territory,
--   spatial dispersion (repulsion) of entities if the relative proportion of local neighbors is lower than the one observed all over the territory,
--   independence between entities if the local distribution of neighbors does not differ from the global one.
+- spatial concentration (attraction) of entities if the proportion of local neighbors is greater than the one observed on the entire territory,
+- spatial dispersion (repulsion) of entities if the relative proportion of local neighbors is lower than the one observed all over the territory,
+- independence between entities if the local distribution of neighbors does not differ from the global one.
 
 This comparison of proportions of neighbors defines *M* strictly as a *relative* distance-based measure [@Marcon2017].
 The term *topographic* distance-based measures is preferred for those that use the surface area as a benchmark, as the well-known Ripley's *K* function or *L* function [@Ripley1976; @Ripley1977; @Besag1977].
@@ -220,13 +266,13 @@ It compares the relative proportion of entities of interest up to each distance�
 In this article, we only consider the intra-type version of *M*: we study the spatial structure of neighboring points of the same type (called *points of interest*) as the points at the centers of the disks of radius $r$.
 In mathematical terms, we denote the terms mentioned below:
 
--   $x^s_i$, the location of point $i$ of the reference type $s$, at the center of the disk (the point whose neighborhood is to be analyzed).
--   $x^s_j$, the location of a neighbor $j$ of the same type as point $i$.
--   $x_j$, the location of a neighbor $j$ of $i$, regardless of its type.
--   $w(.)$, the weight of a given neighbor. In that sense, $w(x_j)$ defines the weight of a neighbor $j$ of $i$.
--   $W_s$, the total weight of the points $x^s_j$.
--   $W$, the total weight of all points of the dataset, regardless of their type.
--   ${\mathbf 1} \left( \left\| x^s_i - x_j \right\| \le r \right)$, the indicator function is equal to one if $x_j$ is in the neighborhood of $x^s_i$, e.g., the distance between $x^s_i$ and $x_j$ is at most equal to $r$, zero otherwise.
+- $x^s_i$, the location of point $i$ of the reference type $s$, at the center of the disk (the point whose neighborhood is to be analyzed).
+- $x^s_j$, the location of a neighbor $j$ of the same type as point $i$.
+- $x_j$, the location of a neighbor $j$ of $i$, regardless of its type.
+- $w(.)$, the weight of a given neighbor. In that sense, $w(x_j)$ defines the weight of a neighbor $j$ of $i$.
+- $W_s$, the total weight of the points $x^s_j$.
+- $W$, the total weight of all points of the dataset, regardless of their type.
+- ${\mathbf 1} \left( \left\| x^s_i - x_j \right\| \le r \right)$, the indicator function is equal to one if $x_j$ is in the neighborhood of $x^s_i$, e.g., the distance between $x^s_i$ and $x_j$ is at most equal to $r$, zero otherwise.
 
 The intra-type $M$ function is defined as \@ref(eq:M).
 
@@ -239,8 +285,8 @@ Several remarks must be made.
 The first remark is that the benchmark value of *M* is equal to one, regardless of the distance considered.
 It means that for any radius *r*:
 
--   If the estimated $M$ result is above one, the local value of the ratio is greater than the global one: a spatial concentration of entities of type $s$ within that radius is thus detected.
--   If the estimated $M$ result is under one, the local value of the ratio is lower than the global one: a spatial dispersion of entities of type $s$ within that radius is thus detected.
+- If the estimated $M$ result is above one, the local value of the ratio is greater than the global one: a spatial concentration of entities of type $s$ within that radius is thus detected.
+- If the estimated $M$ result is under one, the local value of the ratio is lower than the global one: a spatial dispersion of entities of type $s$ within that radius is thus detected.
 
 The second remark concerns the significance of the results.
 A confidence interval can be generated using Monte Carlo simulations following @Marcon2010.
