@@ -1,7 +1,7 @@
 on:
   push:
    branches:
-     - none
+     - master
 
 name: rmarkdown
 
@@ -27,7 +27,7 @@ jobs:
         shell: Rscript {0}
       - name: Render Rmarkdown files
         run: |
-          lapply(list.files(pattern="*.Rmd"), function(file) rmarkdown::render(file, "all"))
+          rmarkdown::render("Rev1.Rmd", "all")
           memoiR::build_githubpages()
         shell: Rscript {0}
       - name: GH Pages Theme
