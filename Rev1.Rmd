@@ -613,8 +613,6 @@ summary(M_time_lm)
 It increases less rapidly than the square of the number of points.
 It can be estimated precisely ($R^2=$ `r format(summary(M_time_lm)$r.squared, digits=2)`) using the mentioned relation: $t=t_0 (n/n_o)^p$, where $t$ denotes the average time for $n$ points (e.g., `r format(as.numeric(M_time[5, 2]), digits=3)` seconds for `r format(as.numeric(M_time[5, 1]), scientific=FALSE, big.mark=",")` points), knowing the time $t_0$ for $n_0$ points, and $p$ is the power relation (here: `r format(M_time_lm$coefficients[2], digits=2)`).
 
-### Memory
-
 ```{r}
 #| label: TestMem
 # RAM
@@ -631,7 +629,7 @@ sapply(X_sizes, FUN = test_ram) %>%
   M_ram
 ```
 
-(ref:TestMemTime) (a) Calculation time (seconds) and (b) memory required (MB) to estimate *M* as a function of the size of the set of points. The measures were repeated 10 times. The bars represent the $\pm 1$ standard deviation interval.
+(ref:TestMemTime) (a) Calculation time (seconds) and (b) memory required (MB) to estimate *M* as a function of the size of the set of points. The measures were repeated 10 times. The bars represent the +/- 1 standard deviation interval.
 
 ```{r}
 #| label: TestTimeMemFig
@@ -660,6 +658,8 @@ M_ram %>%
   TestTimeMemFigb
 grid.arrange(TestTimeMemFiga, TestTimeMemFigb, ncol = 2)
 ```
+
+### Memory
 
 The memory used is evaluated for the same data sizes (Figure \@ref(fig:TestTimeMemFig)b).
 **The memory required increases linearly with the number of points and is never critical for point set sizes that can be processed within reasonable times**.
