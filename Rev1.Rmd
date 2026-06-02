@@ -666,6 +666,8 @@ This highlights @Tidu2023's conclusion regarding the power and computation time 
 
 # A guide to dealing with large datasets
 
+<!--# To write: 2 solutions, gridding or thinning -->
+
 ## Effects of approximating the position of points
 
 ```{r}
@@ -915,6 +917,8 @@ At small scale, below the size of the cells, *M* values are actually that of the
 The point pattern might have been repulsive at the small scale, but this information is destroyed by grouping the points: *M* and their p-values are not reliable below the size of the cells.
 
 **Since all information below the grid size is lost, the approximation might or might not be acceptable depending on the research question and the spatial scale at which interactions occur. Above the grid size, the *M* function is less affected by the approximation and the gap becomes rapidly negligible**.
+
+We can easily understand that applying a grid is an attractive technique to save calculation time, but the risk is missing the geographic scale at which the spatial phenomenon occurs. Let us come back to a core question in regional sciences given in section 1, the industrial clustering, to illustrate the challenge of finding the optimal grid size. Knowing the real extent of agglomeration economies is not an easy task but it has been proven that they decay rapidly as the distance increases [@Rosenthal2003; @Rosenthal2020]. Empirical studies do not always conclude on the same geographic scale on which plants agglomerate. Many factors influence the findings: the industry considered, the distance-based measure employed, the area considered, etc. To give some examples, @Giuliani2014 found that plants in high- and medium-high-technology manufacturing sectors are spatially aggregated at distances greater than 500~meters in the metropolitan area of Milan while no significant pattern is observed in the same industry in the metropolitan area of Turin. In a pioneer study, @Sweeney2004 detected for Los Angeles that the highest level of spatial concentration of establishments in electronics appears within a distance of 1km while for textiles plants the agglomeration is the greatest within a distance of 4km. In their seminal article, @Duranton2005 showed that location patterns may be very different from an industry to another by taking four *ad hoc* industries in the United Kingdom (basic pharmaceuticals, pharmaceutical preparations, other agricultural and forestry machinery, and machinery for textile, apparel and leather production). These results are perfectly in line with @Feser2002’s findings for the United States. The latest proposed a very detailed analysis for a large number of industries in fourteen American metropolitan areas (see tables on pages 245-246 of their article). The discrepancies in the location patterns at both within and between industries are appreciable. In sum, spatial proximity is a multiscale problem. Knowing *a priori* the optimal grid size is not easy but one thing is certain: missing the geographical scale at which agglomeration economies is very embarrassing while DBM are available and perfectly preserve the richness of the spatial information of geolocated datasets.
 
 ## Thinning
 
