@@ -13,5 +13,5 @@
 
 Formats:
 
-- [HTML](https://EricMarcon.github.io/MLargeDataSets/MLargeDataSets.html) with [appendix](https://EricMarcon.github.io/MLargeDataSets/Appendix.html) 
-- [PDF](https://EricMarcon.github.io/MLargeDataSets/MLargeDataSets.pdf) with [appendix](https://EricMarcon.github.io/MLargeDataSets/Appendix.pdf) 
+- [HTML](https://EricMarcon.github.io/MLargeDataSets/Rev1.html) with [appendix](https://EricMarcon.github.io/MLargeDataSets/Appendix.html) 
+- [PDF](https://EricMarcon.github.io/MLargeDataSets/Rev1.pdf) with [appendix](https://EricMarcon.github.io/MLargeDataSets/Appendix.pdf) 
