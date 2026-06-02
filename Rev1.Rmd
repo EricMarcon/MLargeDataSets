@@ -193,11 +193,10 @@ The pioneer explanation of the agglomeration forces is due to @Marshall1890 who 
 These factors explain why firms concentrate their activities in a limited number of specific geographic areas: to reduce their costs and risks associated to their production.
 These three determinants are still widely accepted today, even though the modern view proposed by @Duranton2004 of these economic mechanisms is approached by a better matching, a better sharing, and a better learning for firms and households.
 A series of articles have empirically evaluated the importance of the determinants of agglomeration by regressing estimates of spatial concentration measures on the main factors that generate agglomeration.
-This technique constitutes a very simple way to quantify the importance of all of the determinants of industrial agglomeration (see for example the empirical studies of @Rosenthal2001; @Ellison2010 or the article of @Rosenthal2004 for a review).
-Since spatial concentration of activities is observed, it means that the strength of agglomeration forces is greater than the dispersion forces.
-Thus, estimating at best the importance of all forces at work is straightforward, notably for policymakers that provide effective economic policies in order to foster regional growth and to attenuate disparities between regions.
+This technique constitutes a very simple way to quantify the importance of all of the determinants of industrial agglomeration (see for example the empirical studies of @Rosenthal2001; @Ellison1999 or the article of @Rosenthal2004 for a review).
+Estimating at best the importance of all factors at work is straightforward, notably for policymakers that provide effective economic policies in order to foster regional growth and to attenuate disparities between regions.
 ## Recent developments concerning the measurement of the spatial concentration Based on the importance of the industrial geographic concentration, a lot of attention has been made in economics and in geography to develop statistical measures that are able to describe the spatial concentration precisely and without any statical bias [@Arbia2021].
-Today, many indices coexist in the literature but two distinct groups are clearly identified depending both on the nature of the data used and on their statistical treatment.
+Today, many indices coexist in the literature but two distinct groups are [F1.1]clearly identified depending both on the nature of the data used and on their statistical treatment.
 The first group of measures divides space into a given number of exclusive zones, for example data are aggregated at the county level or the regional one.
 The well-known and widely used location quotient [@Florence1972], @Gini1912 index or @Ellison1997 index belong to that group.
 It is out of the scope of this article to present in details these indices but a discussion of these spatial concentration measures is given in [@Sweeney2004; @Bickenbach2008 or @Combes2008].
@@ -206,24 +205,24 @@ The common advantage of all of these measures is the simplest way to compute the
 For example, @Marcon2019 employed European data (available at <https://ec.europa.eu/eurostat/web/regions-and-cities>) to measure industrial employment disparities across European regions.
 The shared limit of all of the previous indices presented is that they rest on a pre-defined zoning of space.
 As a consequence, all the information lower than the zoning delimitation is simply lost.
-This is far from being ideal for example for researchers that they want to study the very localized interactions between firms, the face-to-face contacts between individuals etc.
+This is far from being ideal for example for researchers that want to study the very localized interactions between firms, the face-to-face contacts between individuals etc[F2.1].
 In addition, a series of studies put in light that all indices based on a discrete space are exposed to some statistical bias known as the Modifiable Areal Unit Problem-MAUP [@Openshaw1979; @Arbia1989].
 For example, it has been proven that the position of the frontiers of the zones or the geographical scale chosen for the analysis alter the findings on the spatial concentration levels [@Arbia2001].
 This is important at both for the precision of the agglomeration levels but also to find the “right” scale to analyze agglomeration factors [@Rosenthal2020].
-An answer to the limit the MAUP issue was proposed by the development of a second group of measures that not divide space into a given number of zones.
-This second group encompasses all “distance-based measures” (DBM) based on the point pattern analysis.
+An answer the MAUP issues was proposed by the development of a second group of measures that not divide space into a given number of zones.
+This second group encompasses all “distance-based measures” (DBM) based on point pattern analysis [@Marcon2017\@].
 In that case, the exact geographic position of firms is preserved and the spatial concentration levels of agglomeration is calculated on the distances between the geo-localized firms studied.
-By preserving the exact positions of the firms analyzed, the DBM circumvent any statistical bias associated to a discretization of space into separate units.
-DBM evaluate the spatial concentration for all possible distances: by considering space as continuous, one of the great advantages of all distance-based methods is to detect the exact distance at which spatial concentration (in case of attraction) or dispersion (in case of repulsion) occur.
+By preserving the exact positions of the firms analyzed, the DBM circumvent all statistical bias associated to a discretization of space into separate units.
+By considering space as continuous, DBM evaluate the spatial concentration for all possible distances.
+One of the great advantages of all distance-based methods is to detect the exact distance at which spatial concentration (in case of attraction) or dispersion (in case of repulsion) occur.
 In the last decades, many developments have been proposed in geography and in economics to be able to grasp any definition of the spatial concentration analyzed (different benchmarks distributions, weighting or not the plants by their number of employees etc.).
-A series of spatial concentration measures based on distances have been proposed; @Marcon2017 proposed a typology of around a dozen of existing DBM.
-Among the first applications of distance-based methods, the works of @Barff1987 or @Sweeeney1998 are interesting to underline.
+A series of spatial concentration measures based on distances have been proposed (@Marcon2017 proposed a typology of around a dozen of existing DBM).
+Among the first applications of distance-based methods, the works of @Barff1987 or @Sweeeney1998 are of interest.
 They investigated the relationship between the agglomeration of manufacturing activities and the characteristics of the plants (capital intensity, plants’ etc.).
-@Sweeeney1998 notably gave support to an existing inverted U-shaped relation between the spatial manufacturing concentration and the size of plants in North Carolina (USA).
-Today, DBM face a great challenge: to face the huge amount of micro-geographic data that are more and more at the disposal of researchers [@Piacentino2021].
-Dealing with satellite data for example [@Bachtrogleunger2023, @Daspremont2025, @Baragwanath2026] is a great opportunity to provide detailed locational analysis of the economic activities.
+@Sweeeney1998 notably gave support to an existing inverted U-shaped relation between the spatial manufacturing concentration and the size of plants in North Carolina (USA).[F3.1] Today, DBM face a great challenge: they must able to face the huge amount of micro-geographic data that are increasingly available for researchers [@Piacentino2021].
+Dealing with satellite data for example [@Bachtrogleunger2023, @Daspremont2025, @Baragwanath2026] is an opportunity to provide detailed locational analysis of the economic activities.
 This also opens new research questions both on the computational capacity to manage very large datasets containing billions of data and also on the possible reductions of computing-time calculations.
-In a recent paper @Tidu2023 focus their attention on one of the existing distance-based methods, the *M* function [@Marcon2010], that present many advantages but it requires a quite long calculation time in comparison to other distance-based measures.
+In a recent paper @Tidu2023 focus their attention on one of the existing distance-based methods, the *M* function [@Marcon2010], that presents many advantages for analyzing the location of industries but requires a greater calculation time compared to other distance-based measures.
 In the next sections, we shall discuss the computing performances of the *M* function and we also try to appreciate its capacity to deal with very large datasets.
 
 # The *M* function
