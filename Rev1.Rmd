@@ -667,7 +667,10 @@ This highlights @Tidu2023's conclusion regarding the power and computation time 
 
 # A guide to dealing with large datasets
 
-<!--# To write: 2 solutions, gridding or thinning -->
+Computation time becomes critical when very large datasets are considered, i.e. above 100,000 points as shown in the previous section.
+The M function is often used to test a point pattern against a null hypothesis, requiring simulations of a null point pattern and the same computing time for each of them.
+
+We explore here three possible ways to reduce the computational burden: using the D function instead of M, approximating the position of points, and thinning the point pattern.
 
 ## Effects of approximating the position of points
 
