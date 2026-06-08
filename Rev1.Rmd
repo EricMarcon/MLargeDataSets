@@ -204,7 +204,7 @@ Estimating at best the importance of all factors at work is straightforward, not
 ## Recent developments
 <!--# Sous-titre modifié, plus court -->
 Based on the importance of the industrial geographic concentration, a great deal of attention has been paid in economics and in geography to develop statistical measures that are able to describe the spatial concentration precisely and without any statistical bias [@Arbia2021].
-Today, many indices coexist in the literature but two distinct groups are [F1.1] <!--# ? -->clearly identified depending both on the nature of the data used and on their statistical treatment.
+Today, many indices coexist in the literature but two distinct groups are clearly identified depending both on the nature of the data used and on their statistical treatment.
 
 The first group of measures divides space into a given number of exclusive zones, for example data are aggregated at the county level or the regional one.
 The well-known and widely used location quotient [@Florence1972], the @Gini1912 index or the @Ellison1997 index belong to that group.
@@ -519,7 +519,7 @@ head(points_df)
 
 The `Mhat()` function in the *dbmss* package is used to estimate the *M* function.
 The theoretical reference value for *M* is one, as this function relates the proportion of Cases up to a distance $r$ to that observed across the entire window.
-The aggregation of Cases will be highlighted by values of *M* \> 1 (the relative presence of Cases is greater locally than across the entire window) and the dispersion of Cases by values \< 1.
+The aggregation of Cases will be highlighted by values of *M* \> 1 (the relative presence of Cases is greater locally than across the entire window) and the dispersion of Cases by values \< 1.
 The Euclidean distance is used to estimate the distance between points.
 
 Figure \@ref(fig:MFig) shows that *M* detects an agglomeration of Cases, which is in line with the simulation of this type of point (Controls having a completely random location on the window).
@@ -704,7 +704,7 @@ Accordingly, 1,000 simulations would take around `r round(Mtime_5E6_1000_d)` day
 [^2]: The results presented here were obtained on a GitHub-hosted Mac OS runner with a virtual `r benchmarkme::get_cpu()$no_of_cores`-core `r benchmarkme::get_cpu()$model_name`, similar to a fast laptop computer.
 
 Owing to parallelization, a calculation server would drastically increase performance, but at the cost of the complexity of implementation that limits its use.
-If we limit ourselves to the computing power of a personal computer, **exact calculation is fully justified for data of the order of 100,000 points**: less than an hour is sufficient to calculate confidence intervals.
+**If we limit ourselves to the computing power of a personal computer, exact calculation is fully justified for data of the order of 100,000 points**: less than an hour is sufficient to calculate confidence intervals.
 Since parallelizing the simulations is offered with no effort by the *dbmss* package, this time can be reduced by a considerable factor based on the available hardware, e.g., by a factor of 2 to 6 using modern multicore central processing units.
 Beyond that, approximating the location reduces the size of the set of points to the number of locations selected.
 It may be up to 100,000 locations to keep the computing time acceptable, regardless of the size of the original dataset.
@@ -979,7 +979,8 @@ Their explanation rests on the definition *M*, a relative measure: a compensatio
 
 ### Discussion
 
-**We can easily understand that applying a grid is an attractive technique to save calculation time, but the risk is missing the geographic scale at which the spatial phenomenon occurs. Since all information below the grid size is lost, the approximation might or might not be acceptable depending on the research question and the spatial scale at which interactions occur. Above the grid size, the *M* function is less affected by the approximation and the gap becomes rapidly negligible**.
+We can easily understand that applying a grid is an attractive technique to save calculation time, but the risk is missing the geographic scale at which the spatial phenomenon occurs.
+**Since all information below the grid size is lost, the approximation might or might not be acceptable depending on the research question and the spatial scale at which interactions occur. Above the grid size, the *M* function is less affected by the approximation and the gap becomes rapidly negligible**.
 Let us come back to a core question in regional science given in section 1, the industrial clustering, to illustrate the challenge of finding the optimal grid size.
 Knowing the real extent of agglomeration economies is not an easy task but it has been proven that they decay rapidly as the distance increases [@Rosenthal2003; @Rosenthal2020].
 A careful use of location approximation is thus at first recommended if short-distance interactions are suspected, such as information externalities or contagion phenomena.
@@ -1112,11 +1113,11 @@ Their empirical application on manufacturing firms located in Trento (Italy) pro
 
 # Conclusion
 
-Studying 100,000 locations or less keep the *M* computing time acceptable, regardless of the size of the original dataset.
+Studying 100,000 locations or less keeps the *M* computing time acceptable, regardless of the size of the original dataset.
 In all other cases, the location approximation or the random thinning can be considered.
 Regarding the errors generated in the estimates of *M* when the approximation of location is used, our findings support those of @Tidu2023, which mentions strong correlations between *M* values computed from exact and approximated Italian company location data.
 The spatial approximation problem originates from the loss of information regarding possible interactions at distances smaller than the size of the grid.
-The random thinning can thus be a good option to deal with very large datasets, avoiding any statistical bias.
+The random thinning can thus be a good option to deal with very large datasets, avoiding any severe statistical bias.
 
 <!--# PARAGRAPHE SUIVANT A SUPPRIMER CAR DEPLACE PLUS HAUT ?
 Moreover, @Arbia2017 investigated applying distance-based methods to spatial datasets that include positional errors.
@@ -1129,7 +1130,7 @@ Their explanation rests on the definition *M*, a relative measure: a compensatio
 For example, careful use of location approximation is recommended if short-distance interactions are suspected, such as information externalities or contagion phenomena.
 Choosing the approximation scale is a trade-off between accuracy, i.e., a small distance threshold above which results are accurate, and speed with a coarse grid.-->
 
-<!--# Dire un mot sur l'existence d'autres DBM, mais seulement M est traité ici. D est trop lent (test possible en annexe). Kd est une pdf/ pb de mémoire traité par Scholl et Brenner mais sans effet sur le temps de calcul, comparable à M. Stable par éclaircie. A traiter ici plutôt que dans l'intro. -->
+<!--# Dire un mot sur l'existence d'autres DBM, mais seulement M est traité ici. D est trop lent (test possible en annexe). Kd est une pdf/ pb de mémoire traité par Scholl et Brenner mais sans effet sur le temps de calcul, comparable à M. Stable par éclaircie. A traiter ici plutôt que dans l'intro. => PAS FAIT CAR AUTRE PROPOSITION DANS LE TEXTE -->
 
 # Appendix {.unnumbered}
 
