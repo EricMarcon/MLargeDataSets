@@ -738,7 +738,7 @@ This effect due to approximation must be studied with care.
 => J'AI PRESENTE AUTREMENT. IS IT GOOD FOR YOU?-->
 
 
-### Test setting
+### Test setting and results
 
 The effect of the location approximation is tested on a set of aggregated points, similar to the real @Tidu2023 data, and on a completely random point pattern.
 Both comprise 100,000 points such that groups include 250 points (100,000 points divided by 400 groups) on average.
@@ -836,8 +836,6 @@ grid.arrange(
   ncol = 2
 )
 ```
-
-### Results
 
 The mean values of the estimates of *M* are presented in Figure \@ref(fig:MapproxFig).
 The size of the grid cells is equal to `r 1/par_partitions`.
