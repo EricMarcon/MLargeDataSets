@@ -28,6 +28,7 @@ jobs:
       - name: Render Rmarkdown files
         run: |
           rmarkdown::render("Rev1.Rmd", "all")
+          rmarkdown::render("Appendix.Rmd", "all")
           memoiR::build_githubpages()
         shell: Rscript {0}
       - name: GH Pages Theme
