@@ -1111,7 +1111,8 @@ Our recommendations about thinning apply to all of them.
 
 # Appendix {.unnumbered}
 
-R code is available at the following address: <https://ericmarcon.github.io/MLargeDataSets/Appendix.pdf>
+R code is available at the following address:
+`r if (knitr::is_latex_output()) '<https://ericmarcon.github.io/MLargeDataSets/Appendix.pdf>' else  '<https://ericmarcon.github.io/MLargeDataSets/Appendix.html>'`
 
 # Acknowledgments {.unnumbered}
 
