@@ -20,10 +20,10 @@ abstract: >
   Distance-based methods have been extensively developed in several scientific fields to detect spatial concentration, dispersion or independence of entities at any distance and without any bias.
   Recently, @Tidu2023 highlighted the qualities of Marcon and Puech's *M* function, a relative distance-based measure, and also expressed reservations about the computation time required.
   Herein, we propose a methodology that specifies the processing of large spatialized datasets with the *M* function using R software.
-  The computational performance of *M* was conducted using two methods: (i) a precise evaluation of the computational time and memory requirements for geo-referenced data was conducted using the *dbmss* package in R via performance tests, and (ii) based on @Tidu2023, we considered an approximation of the geographical positions of the entities.
   The deterioration extent of the *M* results was estimated and discussed as the gains it provides in computation time.
   We provided evidence that the individual location approximation generated information loss at substantially small distances, implying a trade-off between the smallest distance at which spatial interactions could be detected and computing performance. 
   The R code used in the article is given for the reproducibility of our results.
+  The computational performance of *M* was conducted using two methods: (i) a precise evaluation of the computational time and memory requirements for geo-referenced data was conducted using the *dbmss* package in R via performance tests, and (ii) based on @Tidu2023, we considered an approximation of the geographical positions of the entities.
 date: "`r format(Sys.time(), '%Y %B %d')`"
 archive: "`r format(Sys.time(), '%Y %B %d')`"
 url: https://EricMarcon.github.io/MLargeDataSets/
@@ -39,15 +39,15 @@ always_allow_html: yes
 preamble: >
   \usepackage[letterpaper]{geometry}
 output:
+  rmdformats::downcute:
+    use_bookdown: yes
+    lightbox: yes
+    toc_depth: 3
   bookdown::pdf_book:
     template: latex/template_apd.tex
     citation_package: natbib
     latex_engine: xelatex
     keep_tex: no
-  rmdformats::downcute:
-    use_bookdown: yes
-    lightbox: yes
-    toc_depth: 3
 ---
 
 ```{r DoNotModify, include=FALSE}
@@ -119,16 +119,15 @@ theme_update(
   plot.background = element_rect(fill = "transparent", colour = NA)
 )
 knitr::opts_chunk$set(dev.args = list(bg = "transparent"))
-
-# Random seed
-set.seed(973)
 ```
 
 The code used in the article "Computation of Large Spatial Datasets with the *M* function" is detailed here.
 
-# Data simulation
+# The M function
 
-## Drawing the points
+## Data simulation
+
+### Drawing the points
 
 ```{r}
 #| label: seed
@@ -139,9 +138,9 @@ set.seed(973)
 
 A set of points is drawn at random with the following parameters:
 
--   the number of points,
--   the proportion of controls,
--   the shape and scale of the gamma distribution.
+- the number of points,
+- the proportion of controls,
+- the shape and scale of the gamma distribution.
 
 In this appendix, the number of points of the examples is reduced to 5000 to limit computing overhead.
 The parameter `par_points_nb` can be set to 100,000 to reproduce the exact figures of the article.
@@ -209,8 +208,8 @@ hist(
 The `X_matern()` function is used to draw a semiset of points whose Cases are concentrated by a @Matern1960 process.
 The parameters are
 
--   $\kappa$: the expected number of clusters,
--   `scale`: their radius.
+- $\kappa$: the expected number of clusters,
+- `scale`: their radius.
 
 ```{r}
 #| label: ParamsMaternCode
@@ -268,7 +267,7 @@ autoplot(X) +
   scale_size(range = c(0, 3))
 ```
 
-## Gridding the space
+### Gridding the space
 
 The number of rows and columns is set:
 
@@ -330,7 +329,7 @@ The figure is obtained using the following code:
 X %>% group_points_to_plot() %>% autoplot(alpha = 0.5)
 ```
 
-# Computing *M* with the *dbmss* package
+## Computing *M* with the *dbmss* package
 
 The distances at which the *M* function is calculated are chosen from `r`.
 
@@ -338,8 +337,6 @@ The distances at which the *M* function is calculated are chosen from `r`.
 #| label: ParamsrCode
 r <- c((0:9) / 100, (2:10) / 20)
 ```
-
-## Necessary data
 
 In the *dbmss* package [@Marcon2014], the function applies to a set of points, object of class `wmppp`, or to a matrix of distances, object of class `Dtable`.
 
@@ -354,7 +351,7 @@ points_df <- with(X, data.frame(x, y, marks))
 head(points_df)
 ```
 
-## Set of points
+### Point pattern
 
 The `Mhat()` function is used to estimate the value of the *M* function.
 
@@ -382,7 +379,7 @@ X %>%
 The confidence envelope contains 95% of the simulated values of the M function under the null hypothesis of independence between points.
 It is much smaller in the article because it decreases with the number of points.
 
-## Distance matrix
+### Distance matrix
 
 The code of this section will not run with datasets over 10,000 points because the required memory to store a distance matrix is 8 bytes times the squared number of plots (i.e. approximately 8 GB for 10,000 points).
 The maximum size of vectors, that is also that of the number of cells in a matrix, in R is `r .Machine$integer.max`.
@@ -401,7 +398,6 @@ It can also be created from a distance matrix obtained in another way, containin
 
 ```{r}
 #| label: Dtable2
-#| eval: true
 # A Dtable containing two points
 Dmatrix <- matrix(c(0, 1, 1, 0), nrow = 2)
 PointType <- c("Type1", "Type2")
@@ -413,7 +409,6 @@ The `Mhat()` and `MEnvelope()` functions are the same as for point sets.
 
 ```{r}
 #| label: Mid
-#| eval: true
 if (exists("d_matrix")) {
   identical(
     Mhat(X, r = r, ReferenceType = "Case", NeighborType = "Control"),
@@ -424,7 +419,6 @@ if (exists("d_matrix")) {
 
 ```{r}
 #| label: MEnvelopeid
-#| eval: true
 if (exists("d_matrix")) {
   d_matrix %>% 
     MEnvelope(r = r, ReferenceType = "Case", Global = TRUE) %>% 
@@ -432,7 +426,7 @@ if (exists("d_matrix")) {
 }
 ```
 
-# Computational performance
+## Computational performance
 
 The `X_to_M()` function calculates the $M$ function and returns the vector of its values for each distance.
 It is useful for measuring execution times.
@@ -447,13 +441,18 @@ X_to_M <- function(X) {
 }
 ```
 
-## Computing time
+### Computing time
 
 The time required for an exact calculation is evaluated for a range of numbers of points specified in `X_sizes`.
 
+The sizes are limited to 10,000 points here to save time.
+To reproduce the results of the article, uncomment the full vector.
+
 ```{r}
 #| label: ParamsXSizeCode
-X_sizes <- c(1000, 5000, 10000, 50000, 100000)
+X_sizes <- c(1000, 5000, 10000)
+# Uncomment to test the full range of sizes
+# X_sizes <- c(1000, 5000, 10000, 50000, 100000)
 ```
 
 The `test_time()` function is used to measure the execution time of an evaluation of the $M$ function.
@@ -461,9 +460,9 @@ The `test_time()` function is used to measure the execution time of an evaluatio
 ```{r}
 #| label: TestTime
 library("microbenchmark")
-test_time <- function(points_nb) {
+test_time <- function(points_nb, FUN_DBM = X_to_M, times = 10L) {
   X <- X_csr(points_nb)
-  microbenchmark(X_to_M(X), times = 10L) %>% 
+  microbenchmark(FUN_DBM(X), times = times) %>% 
     pull("time")
 }
 
@@ -514,7 +513,6 @@ Distance matrices are thus useful only in relatively small datasets (less than `
 
 ```{r}
 #| label: MmbCode
-#| eval: true
 library("microbenchmark")
 if (exists("d_matrix")) {
   mb <- microbenchmark(
@@ -526,7 +524,7 @@ if (exists("d_matrix")) {
 }
 ```
 
-## Memory
+### Memory
 
 The memory used is evaluated with the *profmem* package [@Bengtsson2021].
 
@@ -534,9 +532,9 @@ The memory used is evaluated with the *profmem* package [@Bengtsson2021].
 #| label: TestMem
 # RAM
 library("profmem")
-test_ram <- function(points_nb) {
+test_ram <- function(points_nb, FUN_DBM = X_to_M) {
   X <- X_csr(points_nb)
-  profmem(X_to_M(X)) %>% 
+  profmem(FUN_DBM(X)) %>% 
     pull("bytes") %>% 
     sum(na.rm = TRUE)
 }
@@ -559,7 +557,32 @@ The memory required (in MB) increases linearly with the number of points.
 lm(RAM ~ Size, data = M_ram) %>% summary()
 ```
 
-# Effects of approximating the position of points
+### Discussion: technical limit of computing M
+
+This code chunk predicts the computation time of large point patterns.
+
+```{r}
+#| label: Mtime
+# Time to compute 100000 points, in seconds
+Mtime_1E5_s <- ceiling(M_time$Time[5])
+# 1000 simulations, in minutes
+Mtime_1E5_1000_min <- 1000 * Mtime_1E5_s / 60
+# 5 million points, in minutes
+Mtime_5E6_min <- exp(
+  predict(
+    M_time_lm, 
+    newdata = data.frame(logSize = log(5E6))
+  )
+) / 60
+# 1000 simulations, in days
+Mtime_5E6_1000_d <- 1000 * Mtime_5E6_min / 60 / 24
+```
+
+# A guide to dealing with large datasets
+
+## First strategy: Approximating the position of points
+
+### Test setting
 
 The number of test repetitions is set by `simulations_n`.
 
@@ -567,8 +590,6 @@ The number of test repetitions is set by `simulations_n`.
 #| label: ParamsSimsCode
 simulations_n <- 20
 ```
-
-## Test setting
 
 `X_matern_list` and `X_csr_list` contain `simulations_n` drawn from the set of points.
 `X_matern_grouped_list` and `X_csr_grouped_list` contain the same simulations, whose points have been grouped in the grid cells.
@@ -656,7 +677,7 @@ grid.arrange(
 )
 ```
 
-## Results
+### Results
 
 The following code compares the p-values to reject the null hypothesis of random location of points in both CSR and Matérn point patterns at each distance.
 
@@ -754,19 +775,17 @@ departure_csr %>%
   labs(color = "Method", y = "p-value")
 ```
 
-
-## Correlation between exact and approximated point patterns
+### Correlation between exact and approximated point patterns
 
 @Tidu2023 tested the effect of grouping the points by the correlation between exact and approximated *M* values.
 To allow comparing our results to theirs, the same approach is applied below but it is not retained in the article because all correlations shown below mainly depend on the number of points.
 
-### Case of an aggregated distribution (Matérn)
+#### Case of an aggregated distribution (Matérn)
 
 The correlation between the $M$ values estimated by each method is calculated at each distance $r$.
 
 ```{r}
 #| label: CorMaternCode
-#| eval: true
 # Correlation
 M_cor <- function(r_value, M_original, M_grouped) {
   r_index <- which(r == r_value)
@@ -797,7 +816,6 @@ The values are then compared.
 
 ```{r}
 #| label: CompMaternCode
-#| eval: true
 # Compare values
 M_bias <- function(r_value, M_original, M_grouped) {
   r_index <- which(r == r_value)
@@ -842,13 +860,12 @@ As *M* is a cumulative function, it stabilises as distance increases.
 The average relative error (to the exact value of $M$), due to the approximation of the position of the points, is shown in black, with its standard deviation normalised by the exact value of $M$.
 It is small, less than 10%, even at short distances.
 
-## Case of a completely random distribution (CSR)
+#### Case of a completely random distribution (CSR)
 
 The correlation between the $M$ values calculated by each method is calculated at each distance $r$.
 
 ```{r}
 #| label: CorCSRCode
-#| eval: true
 # Correlation
 sapply(
   r, 
@@ -870,7 +887,6 @@ The values are compared.
 
 ```{r}
 #| label: CompCSRCode
-#| eval: true
 # Compare values
 sapply(
   r, FUN = M_bias, 
@@ -898,27 +914,232 @@ In the absence of spatial structure, the value of *M* varies much less.
 In the presence of a spatial structure, the estimation error is large at short distances.
 It becomes negligible beyond the grid cell.
 
-# Discussion and conclusion
+## Second strategy: Random thinning
 
-The last code chunk predicts the computation time of large point patterns.
+The following code reproduces the figure in the article.
 
 ```{r}
-#| label: Mtime
-# Time to compute 100000 points, in seconds
-(Mtime_1E5_s <- ceiling(M_time$Time[5]))
-# 1000 simulations, in minutes
-(Mtime_1E5_1000_min <- 1000 * Mtime_1E5_s / 60)
-# 5 million points, in minutes
-(
-  Mtime_5E6_min <- exp(
-    predict(
-      M_time_lm, 
-      newdata = data.frame(logSize = log(5E6))
-    )
-  ) / 60
+#| label: MthinFig
+
+# Function to compute a confidence envelope after thinning
+Envelope_thinning <- function(X, r, FUN = Mhat, thinning = 1/10, nsim = 100) {
+  # Repeat thinning (code from dbmss::MEnvelope)
+  the_envelope <- spatstat.explore::envelope(
+    X,
+    fun = FUN,
+    nsim = nsim,
+    nrank = 1,
+    r = r,
+    ReferenceType = "Case",
+    CheckArguments = FALSE,
+    simulate = expression(rthin(X, P = thinning)),
+    verbose = interactive(),
+    savefuns = TRUE
+  )
+  attr(the_envelope, "einfo")$H0 <- "Thinned"
+  # Calculate confidence intervals
+  Envelope <- dbmss::FillEnvelope(the_envelope, Alpha = 0.05, Global = TRUE)
+  # No edge effect correction
+  attr(the_envelope, "einfo")$valname <- NULL
+  # Return
+  return(the_envelope)
+}
+
+# Run the test if the results have not been saved
+if (file.exists("data/MThin.RData")) {
+  # Do not compute if it has been saved before
+  load("data/MThin.RData")
+} else {
+  # Draw the original point pattern: 1 million points
+  pp_original_Matern <- X_matern(1E6)
+  # Repeat thinning (code from dbmss::MEnvelope)
+  env_M_6_5 <- Envelope_thinning(
+    # Original point pattern
+    pp_original_Matern,
+    # Distances
+    r = r,
+    # Function to compute
+    FUN = Mhat,
+    # Thinning ratio
+    thinning = 1/10,
+    # Number of simulations to build the confidence envelope
+    nsim = 100
+  )
+  # Sims contains simulated values (one line per simulation)
+  Sims <- as.data.frame(attr(env_M_6_5, "simfuns"))[, -1]
+  Bias <- abs(rowMeans(Sims, na.rm = TRUE) - env_M_6_5$obs)
+  Variance <- apply(Sims, MARGIN = 1, FUN = var, na.rm = TRUE)
+  RMSE <- sqrt(Bias^2 + Variance) / env_M_6_5$obs
+  # Save the results
+  save(
+    env_M_6_5, RMSE,
+    file = "data/MThin.RData"
+  )
+}
+# Figure
+autoplot(env_M_6_5) +
+  theme(legend.position = "none") -> 
+  MthinFiga
+tibble(RMSE, r) %>% 
+  ggplot(aes(x = r, y = RMSE)) +
+  geom_line() +
+  labs(x = "Distance") ->
+  MthinFigb
+grid.arrange(MthinFiga, MthinFigb, ncol = 2)
+```
+
+Thinning a point pattern down to a small size results in excessive variance.
+The previous figure is recomputed with a 100,000-point dataset thinned down to 10,000 points.
+
+```{r}
+#| label: MthinFigSmall
+# Draw the original point pattern: 100,000 points
+pp_original_Matern <- X_matern(1E5)
+# Repeat thinning (code from dbmss::MEnvelope)
+env_M_5_3 <- Envelope_thinning(
+  # Original point pattern
+  pp_original_Matern,
+  # Distances
+  r = r,
+  # Function to compute
+  FUN = Mhat,
+  # Thinning ratio
+  thinning = 1/100,
+  # Number of simulations to build the confidence envelope
+  nsim = 100
 )
-# 1000 simulations, in days
-(Mtime_5E6_1000_d <- 1000 * Mtime_5E6_min / 60 / 24)
+# Sims contains simulated values (one line per simulation)
+Sims <- as.data.frame(attr(env_M_5_3, "simfuns"))[, -1]
+Bias <- abs(rowMeans(Sims, na.rm = TRUE) - env_M_5_3$obs)
+Variance <- apply(Sims, MARGIN = 1, FUN = var, na.rm = TRUE)
+RMSE <- sqrt(Bias^2 + Variance) / env_M_5_3$obs
+
+# Figure
+autoplot(env_M_5_3) +
+  theme(legend.position = "none") -> 
+  MthinFiga
+tibble(RMSE, r) %>% 
+  ggplot(aes(x = r, y = RMSE)) +
+  geom_line() +
+  labs(x = "Distance") ->
+  MthinFigb
+grid.arrange(MthinFiga, MthinFigb, ncol = 2)
+```
+
+
+# Discussion and conclusion
+
+Computing time of the *K~d~* , *D* and *M* functions.
+
+Necessary functions:
+
+```{r}
+#| label: XtoxCode
+# Compute D
+X_to_D <- function(X) {
+  X %>% 
+    Dhat(r = r, Cases = "Case") %>% 
+    pull("iso")
+}
+# Compute Kd
+X_to_Kd <- function(X) {
+  X %>% 
+    Kdhat(r = r, ReferenceType = "Case") %>% 
+    pull("Kd")
+}
+```
+
+Test:
+
+```{r}
+#| label: TestTimeMDKd
+X_sizes %>% 
+  sapply(FUN = test_time, FUN_DBM = X_to_M) %>% 
+  as_tibble() %>%
+  pivot_longer(cols = everything()) %>% 
+  rename(V = name, M = value) %>% 
+  bind_cols(
+    X_sizes %>%
+    sapply(FUN = test_time, FUN_DBM = X_to_D) %>% 
+    as_tibble() %>%
+    pivot_longer(cols = everything()) %>% 
+    rename(V = name, D = value) %>% 
+    select(-V)
+  ) %>% 
+  bind_cols(
+    X_sizes %>%
+    sapply(FUN = test_time, FUN_DBM = X_to_Kd) %>% 
+    as_tibble() %>%
+    pivot_longer(cols = everything()) %>% 
+    rename(V = name, Kd = value) %>% 
+    select(-V)
+  ) %>%
+  pivot_longer(cols = !V)  %>% 
+  group_by(V, name) %>% 
+  summarise(Time = mean(value) / 1E9, sd = sd(value) / 1E9) %>%
+  rename(Function = name) %>% 
+  inner_join(
+    tibble(
+      V = paste0("V", seq_along(X_sizes)), 
+      Size = X_sizes
+    )
+  ) -> dbm_time
+```
+
+Figure:
+
+```{r}
+#| TestTime MDKd
+dbm_time %>% 
+  ggplot(aes(x = Size, y = Time, color = Function)) +
+    geom_point() +
+    geom_errorbar(aes(ymin = Time - sd, ymax = Time + sd)) +
+    scale_x_log10() +
+    scale_y_log10() + 
+    labs(tag = "a") +
+    theme(axis.text.x = element_text(size = 8))
+```
+
+The performances of *K~d~* and *M* are similar.
+The memory required by *K~d~* decreases at 10,000 points because the approximation method by @Scholl2013 is activated.
+The *D* function is around two orders of magnitude slower.
+
+```{r}
+#| label: TestMemMDKd
+# RAM
+X_sizes %>% 
+  as_tibble() %>% 
+  rename(Size = value) %>% 
+  bind_cols(
+    X_sizes %>% 
+    sapply(FUN = test_ram, FUN_DBM = X_to_M) %>% 
+    as_tibble() %>% 
+    rename(M = value)
+  ) %>% 
+  bind_cols(
+    X_sizes %>%
+    sapply(FUN = test_ram, FUN_DBM = X_to_D) %>% 
+    as_tibble() %>%
+    rename(D = value)
+  ) %>% 
+  bind_cols(
+    X_sizes %>%
+    sapply(FUN = test_ram, FUN_DBM = X_to_Kd) %>% 
+    as_tibble() %>%
+    rename(Kd = value)
+  ) %>% 
+  pivot_longer(cols = !Size) %>% 
+  # Convert RAM to MB
+  mutate(value = value / 2^20) ->
+  M_ram
+
+M_ram %>% 
+  ggplot(aes(x = Size, y = value, color = name)) +
+    geom_point() +
+    geom_line() +
+    scale_y_log10() + 
+    labs(tag = "a") +
+    labs(y = "RAM (MB)", color = "Function")
 ```
 
 # References

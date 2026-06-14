@@ -1083,7 +1083,7 @@ So is the *M* function: it is obtained by dividing a number of neighbors of int
 Both terms are reduced in the same proportion by random thinning, keeping the ratio unchanged.
 All DBMs considered here actually have this property: the *K~d~* function is simply the unnormalized probability density to find a neighbor at distance $r$; as such, it does not change when some points, thus some distances, are deleted uniformly.
 As @Sweeney2005 already noted for the *K* function, the variance of the estimation of *M* increases when the number of points decreases.
-Thinning a 100,000-point dataset to 1000 points results in a very fast and unbiased estimation of the *M* function but its RMSE is well over 100% at short distance (Figure in supplementary material).
+Thinning a 100,000-point dataset to 1000 points results in a very fast and unbiased estimation of the *M* function but its RMSE is close to 100% at short distance (Figure in supplementary material).
 Finally, our results provided on large datasets confirm previous findings of @Arbia2017.
 They investigated the consequences of missing clustered data on the *M* function.
 In their study, data were not degraded homogeneously but some data were locally missing.
