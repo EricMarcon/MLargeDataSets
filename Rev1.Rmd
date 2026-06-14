@@ -22,7 +22,7 @@ abstract: >
   In both cases, the deterioration extent of the *M* results is estimated and discussed as the gains it provides in computation time, using the R software.
   We also discuss implications of these findings in the field of regional science.
   We notably provide evidence that the individual location approximation generates information loss at substantially small distances, implying a trade-off between the smallest distance at which spatial interactions could be detected and computing performance.
-  We also give support that thinning is an efficient method to reduce large datasets even if the reduction of computing time is quite small.
+  We also give support that thinning is an efficient method to analyze large datasets with very good accuracy.
   The R code used in the article is given for the reproducibility of our results.
 keywords: [Distance-based method, M-function, Performance test, R Package dbmss]
 journalinfo: "Version: 2026-06 R&R"
