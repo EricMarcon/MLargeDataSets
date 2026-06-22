@@ -1145,13 +1145,13 @@ M_ram %>%
 ```
 
 
-In sum, general conclusions can be drawn.
+To sum up, general conclusions can be drawn.
 Whatever the function and the software, memory issues might appear to store the distances between points, whose number increases as the square of the number of points.
 Only the *K~d~* function requires to store such a distance matrix.
 @Scholl2013 proposed approximating the distances between pairs of entities by grouping them into classes.
 This method, implemented in the *dbmss* package, provides a considerable gain in memory use with minor loss of accuracy, but no gain in computing time since all distances must be calculated before being grouped.
 Commuting time is thus the most general issue.
-The computing time of the *K~d~* function is similar to that of *M* while the *D* function is far slower (figure in the appendix): topographic DBMs require correcting edge effects [@Marcon2017], which rely on complex calculation.
+The computing time of the *K~d~* function is similar to that of *M* while the *D* function is far slower: topographic DBMs require correcting edge effects [@Marcon2017], which rely on complex calculation.
 Our recommendations about thinning apply to all of them.
 
 # References
