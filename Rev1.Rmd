@@ -705,7 +705,7 @@ Since parallelizing the simulations is offered with no effort by the *dbmss* pac
 Beyond that, approximating the location reduces the size of the set of points to the number of locations selected.
 It may be up to 100,000 locations to keep the computing time acceptable, regardless of the size of the original dataset.
 
-# User guide for large datasets
+# A guide to dealing with large datasets
 
 Computation time becomes critical when very large datasets are considered, as shown in the previous section.
 The *M* function is often used to test a point pattern against a null hypothesis, requiring simulations of a null point pattern and the same computation for each of them, hence multiplying the computing time.
