@@ -148,7 +148,7 @@ In particular, the detection of spatial structures (attraction, repulsion, and i
 Such an approach has the advantage of preserving the exact positions of the entities analyzed contrarily to data aggregated at a given spatial level (for example regions, counties etc.).
 Since the 2000s, a series of spatial concentration measures based on distances between geo-localized entities studied has been proposed [see @Marcon2017 for a complete review].
 By considering space as continuous, the advantage of these distance-based methods is to circumvent any statistical bias associated to a discretization of space into separate units, known as the MAUP-Modifiable Areal Unit Problem [@Openshaw1979; @Arbia1989].
-Numerous studies have shown the importance of using such a methodology in social sciences [@Arbia1989; @Marcon2003; @Sweeney2022] or in exact sciences [@Cressie1993; @Lentz2011; @Dray2021].
+Numerous studies have shown the importance of using such a methodology in social sciences [@Arbia1989; @Marcon2003; @Sweeney2022] or in natural and physical sciences [@Cressie1993; @Lentz2011; @Dray2021].
 For example, @Giuliani2014 published in their review an analysis based on continuous space on the technology manufacturing industry in the metropolitan areas of Milan and Turin in Italy.
 They showed all the importance of taking into account the exact geographic position of the plants to provide a complete description of the location patterns of high- and medium-high-technology manufacturing.
 Notably, they detected that establishments were spatially aggregated at distances greater than 500 meters in the metropolitan area of Milan.
