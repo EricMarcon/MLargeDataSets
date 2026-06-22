@@ -1095,7 +1095,7 @@ Their empirical application on manufacturing firms located in Trento (Italy) pro
 
 In this article, we provide some answers to a new recent challenge faced by all DBMs: the huge amount of micro-geographic data that are increasingly available for researchers.
 We focus on one particular DBM, the *M* function of @Marcon2010, a DBM recently pointed out by @Tidu2023.
-We think that our results will be useful for researchers in regional science who work with geolocalized data, notably for studying the industrial clustering.
+We think that our results will be useful for researchers in regional science who work with geo-localized data, notably for studying the industrial clustering.
 
  
 Our study highlighted several important points.
