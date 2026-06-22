@@ -977,7 +977,7 @@ In a pioneer study, @Sweeney2004 detected that, in Los Angeles, the highest leve
 In their seminal article, @Duranton2005 showed that location patterns were very different from an industry to another by taking four *ad hoc* industries in the United Kingdom (basic pharmaceuticals, pharmaceutical preparations, other agricultural and forestry machinery, and machinery for textile, apparel and leather production).
 These results are perfectly in line with @Feser2002’s findings for the United States who provided a very detailed analysis for a large number of industries in fourteen American metropolitan areas (see tables on pages 245-246 of their article).
 
-**In sum, there is no general rule to decide an appropriate grid size. Grouping the points for computing performance may result in missing the geographical scale at which agglomeration economies occur. The interest of DBMs is actually to avoid this issue by preserving the information contained in the location of points.**
+**In sum, there is no general rule to decide an appropriate grid size. Grouping the points for computing performance may result in missing the geographical scale at which agglomeration economies occur: this a classical MAUP's issue. The interest of DBMs is actually to avoid this issue by preserving the information contained in the location of points.**
 
 ## Second strategy: Random thinning
 
