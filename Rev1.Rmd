@@ -207,7 +207,7 @@ The first group of measures divides space into a given number of exclusive zones
 The well-known and widely used location quotient [@Florence1972], the @Gini1912 index or the @Ellison1997 index belong to that group.
 It is out of the scope of this article to present them in details but a discussion of these spatial concentration measures is given in @Sweeney2004, @Bickenbach2008 or @Combes2008.
 Entropy measures also belong to that first group, even if they are less employed in spatial economics or in quantitative geography: see for example @Brulhart2005 for an evaluation of spatial concentration of activities across regions with the @Theil1967 index.
-The common advantage of all of these measures is their ease of computation: they do not need intensive calculations, data are spatially aggregated so they are easy to find and process [^2].
+The common advantage of all of these measures is their ease of computation: they do not need intensive calculations, data are spatially aggregated so they are easy to find and process[^2].
 
 [^2]: For example, @Marcon2019 employed European data (easily available at the following address:  <https://ec.europa.eu/eurostat/web/regions-and-cities>) to measure industrial employment disparities across European regions.
 
@@ -705,7 +705,7 @@ Since parallelizing the simulations is offered with no effort by the *dbmss* pac
 Beyond that, approximating the location reduces the size of the set of points to the number of locations selected.
 It may be up to 100,000 locations to keep the computing time acceptable, regardless of the size of the original dataset.
 
-# A guide to dealing with large datasets
+# User guide for large datasets
 
 Computation time becomes critical when very large datasets are considered, as shown in the previous section.
 The *M* function is often used to test a point pattern against a null hypothesis, requiring simulations of a null point pattern and the same computation for each of them, hence multiplying the computing time.
@@ -1093,20 +1093,19 @@ Their empirical application on manufacturing firms located in Trento (Italy) pro
 
 # Conclusion
 
-In this article, we provide some answers to a new recent challenge for DBMs: the huge amount of micro-geographic data that are increasingly available for researchers.
+In this article, we provide some answers to a new recent challenge faced by all DBMs: the huge amount of micro-geographic data that are increasingly available for researchers.
+We focus on one particular DBM, the *M* function of @Marcon2010, a DBM recently pointed out by @Tidu2023.
 We think that our results will be useful for researchers in regional science who work with geolocalized data, notably for studying the industrial clustering.
 
-In our article, we focus on one particular DBM, the *M* function proposed by @Marcon2010.
-We investigate two techniques to reduce the computational burden associated to large datasets: approximating the position of points, and thinning the point pattern.
-
+ 
+Our study highlighted several important points.
 We support that studying 100,000 locations or less keeps the *M* computing time acceptable, regardless of the size of the original dataset.
 In all other cases, the location approximation or the random thinning can be considered.
 Regarding the errors generated in the estimates of *M* when the approximation of location is used, our findings support those of @Tidu2023, which mentions strong correlations between *M* values computed from exact and approximated Italian company location data.
 The spatial approximation problem originates from the loss of information regarding possible interactions at distances smaller than the size of the grid.
 Random thinning is thus the good option to deal with very large datasets, avoiding any statistical bias but suffering from excessive variance if the resulting point pattern is small.
 It is thus recommended to thin very large point patterns down to the largest tractable size possible, typically 100,000 points considering the performance of current personal computers.
-
-It was out of the scope of this study to test the performance of other DBMs, but we provide also detailed comparisons between the widely used DBMs in the appendix (*M*, *D* and *K~d~* of @Duranton2005).
+Even if it was out of the scope of this study to test the performance of other DBMs, we provide also detailed comparisons between widely used DBMs in the appendix: the precited *M* function, the *D* function of @Diggle1991 and the *K~d~* function of @Duranton2005.
 
 # Appendix {.unnumbered}
 
