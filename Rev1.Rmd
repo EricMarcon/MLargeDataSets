@@ -24,6 +24,7 @@ abstract: >
   We notably provide evidence that the individual location approximation generates information loss at substantially small distances, implying a trade-off between the smallest distance at which spatial interactions could be detected and computing performance.
   We also give support that thinning is an efficient method to analyze large datasets with very good accuracy.
   The R code used in the article is given for the reproducibility of our results.
+  
 keywords: [Distance-based method, M-function, Performance test, R Package dbmss]
 journalinfo: "Version: 2026-06 R&R"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
@@ -42,13 +43,13 @@ urlcolor: blue
 always_allow_html: yes
 csquotes: true
 output:
+  bookdown::word_document2:
+     reference_docx: "images/template.docx"
+     number_sections: false
   rmdformats::downcute:
     use_bookdown: yes
     lightbox: yes
     toc_depth: 3
-  bookdown::word_document2:
-     reference_docx: "images/template.docx"
-     number_sections: false
   bookdown::pdf_book:
     template: latex/template.tex
     citation_package: natbib
