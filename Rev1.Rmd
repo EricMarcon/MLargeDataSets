@@ -13,21 +13,21 @@ affiliation:
     dptuniv: "Université Paris-Saclay, INRAE, AgroParisTech, Paris-Saclay Applied Economics, F-91120 Palaiseau, France."
 corrauthor:
   email: eric.marcon@agroparistech.fr
-  url: https://ericmarcon.github.io/
 abstract: >
   Since agglomeration is a core question in regional science, spatial concentration measures are widely employed in that field to evaluate the spatial distribution of activities.
   Increasing access to large geo-referenced datasets, coupled with the development of computing power, has encouraged the search for suitable spatial statistical tools.
   Distance-based methods have been extensively developed to detect spatial concentration, dispersion or independence of entities at any distance and without any bias.
   Recently, @Tidu2023 highlighted the qualities of Marcon and Puech's *M* function, a relative distance-based measure, and also expressed reservations about the computation time required.
+  Herein, we explore two possible ways to reduce the computation burden of large geo-located datasets: approximating the position of points and thinning the point pattern.
   In both cases, the deterioration extent of the *M* results is estimated and discussed as the gains it provides in computation time, using the R software.
   We also discuss implications of these findings in the field of regional science.
   We notably provide evidence that the individual location approximation generates information loss at substantially small distances, implying a trade-off between the smallest distance at which spatial interactions could be detected and computing performance.
   We also give support that thinning is an efficient method to analyze large datasets with very good accuracy.
   The R code used in the article is given for the reproducibility of our results.
-  Herein, we explore two possible ways to reduce the computation burden of large geo-located datasets: approximating the position of points and thinning the point pattern.
+
   
 keywords: [Distance-based method, M-function, Performance test, R Package dbmss]
-journalinfo: "Version: 2026-06 R&R"
+journalinfo: "Hal-05512154v2"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 archive: "`r format(Sys.time(), '%B %d, %Y')`"
 keywordlabel: Keywords
@@ -44,13 +44,13 @@ urlcolor: blue
 always_allow_html: yes
 csquotes: true
 output:
+  bookdown::word_document2:
+     reference_docx: "images/template.docx"
+     number_sections: false
   rmdformats::downcute:
     use_bookdown: yes
     lightbox: yes
     toc_depth: 3
-  bookdown::word_document2:
-     reference_docx: "images/template.docx"
-     number_sections: false
   bookdown::pdf_book:
     template: latex/template.tex
     citation_package: natbib
@@ -180,6 +180,9 @@ In this section, we also discuss the performance of *dbmss* with respect to the 
 The third section positions our approach by defining two strategies to reduce the computation burden of large geo-located datasets: approximating the position of points (grouping them at the center of the cells of a grid, following the approach of @Tidu2023) and thinning the point pattern.
 We discuss the advantages and the limits of both approaches.
 The last section concludes.
+
+\newpage
+
 
 # Spatial concentration measures and regional science
 
