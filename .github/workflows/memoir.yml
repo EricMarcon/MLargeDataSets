@@ -19,7 +19,7 @@ jobs:
         env:
           GITHUB_PAT: ${{ secrets.GH_PAT }}
         run: |
-          # options(pkgType = "binary")
+          options(pkgType = "binary")
           options(install.packages.check.source = "no")
           install.packages(c("distill", "downlit", "memoiR", "rmdformats", "tinytex"))
           tinytex::install_tinytex(bundle = "TinyTeX")
