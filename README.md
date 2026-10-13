@@ -1,5 +1,3 @@
-![stability-wip](https://img.shields.io/badge/stability-work_in_progress-lightgrey.svg)
-
 # Computation of Large Spatial Datasets with the M function
 
   Since agglomeration is a core question in regional science, spatial concentration measures are widely employed in that field to evaluate the spatial distribution of activities.
